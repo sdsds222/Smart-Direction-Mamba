@@ -1,4 +1,6 @@
-Smart Direction Mamba (SDM) Architecture Principles
+Smart Direction Mamba (SDM)
+
+
 The core objective of Smart Direction Mamba (SDM) is to dynamically resolve the fixed causality inherent in the Mamba/SSM architecture when processing natural language, while strictly controlling computational complexity.
 Traditional Mamba boasts excellent linear time complexity O(N), but its fixed unidirectional scan limits its ability to effectively handle non-causal dependencies that require "future information." While the Transformer can handle non-causality, its O(N^2) complexity makes it inefficient for long sequences.
 The Goal of SDM: To leverage the powerful local discriminative ability of the Transformer to guide the Mamba scan, achieving O(N) efficiency with non-causal modeling capability.
