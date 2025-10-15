@@ -28,6 +28,8 @@ SDM relies on the Gumbel-Softmax trick to enable end-to-end training:
 2. Mamba's final output is the weighted average of the scan results from these three directions.
 3. This allows the gradient to flow smoothly back to the DE's weights, enabling the entire hybrid architecture to be jointly trained.
 
+ imagination: This concept aims for a design that can expand the block size to improve context utilization when the text structure is stable, and conversely, shrink the block size when the structure is complex and the flow of influence is inconsistent, ensuring the directional flow of information within the block remains uniform.
+
 
 Smart Direction Mamba (SDM) 架构核心原理
 Smart Direction Mamba (SDM) 的核心目标是动态解决 Mamba/SSM 架构在处理自然语言时面临的固定因果性问题，同时严格控制计算复杂度。
@@ -56,3 +58,6 @@ SDM 依赖 Gumbel-Softmax 技巧实现端到端训练：
 1. DE 的 Logits 被转化为一个可微分的概率分布（左、右、双向）。
 2. Mamba 的最终输出是这三个方向扫描结果的加权平均。
 3. 这使得梯度可以顺利地流回 DE 的权重，从而使得整个混合架构可以联合训练。
+
+设想：能够在文本结构稳定时扩大块大小，提高上下文利用率；而在结构复杂，影响流向方向不一致时，缩小块大小，以确保块内信息影响流向一致
+给出上面这段文本的英文翻译
