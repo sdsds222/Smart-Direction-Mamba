@@ -1,8 +1,16 @@
-好的，非常抱歉！我理解您的要求，所有数学符号必须使用 ASCII 字符，不使用 LaTeX（美元符号 $ 或双美元符号 $$）。
-以下是您提供的 Smart Direction Mamba (SDM) 架构核心原理的英文翻译，已严格遵守 ASCII 数学符号 的要求。
+Smart Direction Mamba (SDM)
+
 Smart Direction Mamba (SDM) Architecture Core Principles
 The core objective of the Smart Direction Mamba (SDM) architecture is to dynamically resolve the fixed causality problem faced by the Mamba/SSM architecture when processing natural language, while strictly controlling computational complexity. Traditional Mamba has a linear time complexity of O(N), but its fixed, unidirectional scan cannot effectively handle non-causal dependencies that require "future information." While the Transformer can handle non-causality, its O(N^2) complexity is inefficient for long sequences.
-SDM's Goal: Utilize the powerful local discrimination ability of Mamba states or Transformer to guide the Mamba scan, achieving both O(N) efficiency and non-causal modeling capabilities.
+Background: Why Dynamic Directionality is Necessary
+Traditional Mamba has a linear time complexity of O(N), but its fixed, unidirectional scan is fundamentally constrained. This conflicts with the nature of human language: Language is non-causal within local segments (like a phrase or sentence), where understanding may require looking ahead (non-causal dependency); yet, the overall flow of information and narrative structure remains sequential (causal).
+While standard Bidirectional Mamba (Bi-Mamba) can address non-causality through two scans (forward + reverse), it falls short as an efficient solution due to two main drawbacks:
+1. Computational Redundancy: Bi-Mamba mandatorily performs double the computation for all text, even in sections that are highly causal.
+2. Semantic Ambiguity: Forcing bidirectional scanning often introduces unnecessary directional noise, potentially diluting the core semantic meaning.
+SDM's Core Advantage: SDM is designed to perfectly fit the "locally non-causal, globally causal" nature of human language. It uses intelligent, on-demand local direction decisions to capture small-segment non-causality while maintaining macro-level causality through Mamba's sequential state propagation. This intelligent approach avoids the computational redundancy inherent in Bi-Mamba, leading to a better balance of efficiency and performance.
+
+
+SDM's Goal: Utilize the powerful local discrimination ability of Mamba states or Transformer to guide the Mamba scan, achieving both O(N) efficiency and non-causal modeling capabilities. Utilize the powerful local discrimination ability of Mamba states or Transformer to guide the Mamba scan, achieving O(N) efficiency and non-causal modeling capabilities that align with human language processing.
 Complexity and Efficiency Control
 SDM avoids global quadratic complexity by chunking the computation and restricting the Direction Estimator (DE) calculation to small blocks of length L. The discrimination calculation for the flow direction within all blocks can be executed in parallel.
 Complexity Maintenance:
@@ -46,7 +54,14 @@ Future Scopes:
 
 Smart Direction Mamba (SDM) 架构核心原理
 Smart Direction Mamba (SDM) 的核心目标是动态解决 Mamba/SSM 架构在处理自然语言时面临的固定因果性问题，同时严格控制计算复杂度。 传统 Mamba 具有线性时间复杂度 O(N)，但其固定的单向扫描无法有效处理需要“未来信息”的非因果依赖。Transformer 虽然能处理非因果性，但其 O(N^2) 的复杂度在长序列上效率低下。
-SDM 的目标： 利用 Mamba 状态或 Transformer 强大的局部判别力来指导 Mamba 的扫描，实现 O(N) 的效率和非因果的建模能力。
+SDM 的目标： 利用 Mamba 状态或 Transformer 强大的局部判别力来指导 Mamba 的扫描，实现 O(N) 的效率和非因果的建模能力。利用 Mamba 状态或 Transformer 强大的局部判别力来指导 Mamba 的扫描，实现 O(N) 的效率和符合人类语言处理习惯的非因果建模能力。
+背景：动态方向控制
+传统 Mamba 具有线性时间复杂度 O(N)，但其固定的单向扫描存在根本性约束。这与人类语言的特征不符：人类语言在局部小段落内（例如一个短语或句子）是非顺序的，理解信息可能需要查看后续内容（非因果依赖）；但在宏观上，信息流动的整体逻辑和叙事结构是顺序的（因果依赖，即从历史到未来）。
+虽然标准双向 Mamba (Bi-Mamba) 可以通过两次扫描来处理非因果性，但它存在两大缺点，使其不适合作为高效的替代方案：
+1. 计算冗余： Bi-Mamba 对所有文本都强制执行双倍计算，即使在高度因果的段落中也是如此。
+2. 语义模糊： 强制的双向扫描，在大部分情况下会引入不必要的方向性噪声，反而可能稀释核心语义。
+SDM 的核心优势： SDM 的设计正是为了完美契合人类语言的“局部非顺序，总体顺序”特征。它通过动态、按需的局部方向决策来捕捉小段落的非因果性，同时通过保持 Mamba 状态的单向传递来维护宏观的因果性。这种智能决策避免了 Bi-Mamba 固有的计算冗余，实现了效率和性能的最佳平衡。
+
 复杂度与效率
 SDM 通过对计算进行分块，将 方向判别器 (DE) 的计算限制在长度为 L 的小块内，所有块内的影响流向的判别计算都能够并行执行：
 复杂度保持：
