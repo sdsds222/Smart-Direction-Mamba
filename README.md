@@ -34,11 +34,13 @@ The Mamba scan switches based on the DE's decision, but its global state propaga
  1.Leftward (L): Mamba performs the standard forward scan to capture causal relationships.
  2.Rightward (R): Mamba performs the reverse scan to capture non-causal relationships (i.e., local future context).
  3.Bidirectional (B): Mamba performs two independent scans (forward and reverse) and then fuses their outputs to capture the most complex local dependencies.
-3.2 State Propagation Mechanism
+3.2 Skip Estimator (SE)
+In addition to the Direction Estimator (DE), the SDM architecture can incorporate a Skip Estimator (SE) to decide whether to skip the current block by calculating an information increment signal. The core process is as follows: first, the Token embeddings of the current block are Mean Pooled to derive a vector representing the Local Semantic Core; next, this local vector is compared against the previous block's final state, H_end_{t-1} (the Historical Semantic State), to calculate their difference or similarity. If the similarity is high, the block is deemed highly redundant with the historical information, and the SE executes a skip operation, bypassing the computation for the current block.
+3.3 State Propagation Mechanism
 Regardless of the scan direction used internally by block t, its final state H_end_t is defined as the starting state H_start_{t+1} for the next block t+1. This ensures:
  1.Global History: Even if block t performs a reverse scan internally, it still inherits all historical context by starting with the H_end of block t-1.
  2.Unified Interface: For bidirectional scans, the model designs a fusion layer that merges the final forward and reverse states into a single, unified H_end vector for propagation.
-Parallelization Concept: Synchronous Global Direction Discrimination
+3.4 Parallelization Concept: Synchronous Global Direction Discrimination
 Whether using the Mamba DE or the Transformer DE, SDM leverages the independence of the direction discrimination computation to achieve large-scale parallelization:
  1.Independent Computation: The Direction Estimator (DE) for each block depends only on the current block's input Tokens and does not depend on the Mamba state H_end_{t-1} propagated from the previous block.
  2.Synchronous Execution: Therefore, for the entire sequence N, the direction decision for all N/L blocks can be run simultaneously and independently.
@@ -85,7 +87,9 @@ Mamba 扫描根据 DE 的决策进行切换，但其全局状态传递 (H) 保�
 • 左向（L）： Mamba 执行标准的前向扫描，用于捕获因果关系。
 • 右向（R）： Mamba 执行反向扫描，用于捕获非因果关系（即局部未来上下文）。
 • 双向（B）： Mamba 执行两次独立的扫描（正向和反向），然后融合它们的输出，以捕获最复杂的局部依赖。
-3.2 状态传递机制
+3.2 跳过判别器（SE）
+SDM 架构中除了可以使用DE，还可以引入跳过判别器（SE），通过计算信息增量信号来决定是否跳过当前块。该过程的核心是：首先，对当前块的 Token 嵌入进行 平均池化，得到一个局部语义核心向量；随后，计算这个局部向量与前一个块的最终状态 H_end_{t-1}（即历史语义状态）之间的差异度或相似度。如果相似度高，则代表当前块与历史信息高度冗余，SE 会执行跳过操作，无需计算当前块。
+3.3 状态传递机制
 无论块 t 内部采用何种扫描方向，其最终状态 H_end_t 都被定义为下一个块 t+1 的起始状态 H_start_t+1。这保证了：
 • 全局历史： 即使块 t 内部是反向扫描，它仍然以 t-1 块的 H_end 作为起点，继承了所有历史上下文。
 • 统一接口： 针对双向扫描，模型会设计一个融合层，将正向和反向的最终状态合成为一个统一的 H_end 向量进行传递。
