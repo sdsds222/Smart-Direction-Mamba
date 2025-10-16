@@ -25,24 +25,26 @@ Complexity and Efficiency Control
 SDM avoids global quadratic complexity by chunking the computation and restricting the Direction Estimator (DE) calculation to small blocks of length L. The discrimination calculation for the flow direction within all blocks can be executed in parallel.
 
 Complexity Maintenance:
- 1.Mamba DE (Option 1) Complexity: If the Direction Estimator uses Mamba/SSM state comparison, its computational complexity is O(L). The overall complexity of the architecture remains approximately O(N * L), maintaining linear efficiency with lower total work.
- 2.Transformer DE (Option 2) Complexity: The Transformer's attention computation is strictly limited within the block, with complexity O(L^2). Since L is a preset small constant, the overall complexity of the architecture is still approximately O(N * L^2); the total work is higher, but the time cost is hidden through parallel computation.
+ 1. Mamba DE (Option 1) Complexity: If the Direction Estimator uses Mamba/SSM state comparison, its computational complexity is O(L). The overall complexity of the architecture remains approximately O(N * L), maintaining linear efficiency with lower total work.
+ 2. Transformer DE (Option 2) Complexity: The Transformer's attention computation is strictly limited within the block, with complexity O(L^2). Since L is a preset small constant, the overall complexity of the architecture is still approximately O(N * L^2); the total work is higher, but the time cost is hidden through parallel computation.
 
 Core Mechanism: Direction Estimator (DE)
 
 The DE's role is to determine the optimal scanning direction for each data block.
 
 Option 1: Mamba DE (O(L) Complexity)
+
 The Mamba DE utilizes the linear state compression ability of Mamba/SSM itself for direction judgment and can scan each small block in parallel.
- 1.Input and Computation: The DEs for all data blocks simultaneously receive the current block's Token embeddings and execute two independent minimal Mamba scans (Forward H_F and Backward H_B) in parallel.
- 2.Feature Extraction: The estimator identifies the dominant information flow trend by comparing the final states of H_F and H_B. This keeps the total computational load linear.
+ 1. Input and Computation: The DEs for all data blocks simultaneously receive the current block's Token embeddings and execute two independent minimal Mamba scans (Forward H_F and Backward H_B) in parallel.
+ 2. Feature Extraction: The estimator identifies the dominant information flow trend by comparing the final states of H_F and H_B. This keeps the total computational load linear.
 
 Option 2: Transformer DE (O(L^2) Complexity)
 The Transformer DE is a minimalist micro-Transformer.
- 1.Input and Computation: The DEs for all datasets receive the current block's Token embeddings and calculate their attention matrix A = QK^T in parallel.
- 2.Feature Extraction: The estimator analyzes the A matrix, comparing the sum of weights in the upper triangular region (Tokens relying on the future) and the lower triangular region (Tokens relying on history) to identify the dominant information flow trend.
+ 1. Input and Computation: The DEs for all datasets receive the current block's Token embeddings and calculate their attention matrix A = QK^T in parallel.
+ 2. Feature Extraction: The estimator analyzes the A matrix, comparing the sum of weights in the upper triangular region (Tokens relying on the future) and the lower triangular region (Tokens relying on history) to identify the dominant information flow trend.
 
 Decision Output:
+
 A lightweight MLP head converts these features into three Logits (raw scores): Leftward, Rightward, and Bidirectional.
 
 Dynamic Mamba Scan and State Propagation
@@ -50,36 +52,37 @@ Dynamic Mamba Scan and State Propagation
 The Mamba scan switches based on the DE's decision, but its global state propagation (H) remains unidirectionally coherent to ensure continuity across long sequences.
 
 3.1 Dynamic Scan Modes
- 1.Leftward (L): Mamba performs the standard forward scan to capture causal relationships.
- 2.Rightward (R): Mamba performs the reverse scan to capture non-causal relationships (i.e., local future context).
- 3.Bidirectional (B): Mamba performs two independent scans (forward and reverse) and then fuses their outputs to capture the most complex local dependencies.
+ 1. Leftward (L): Mamba performs the standard forward scan to capture causal relationships.
+ 2. Rightward (R): Mamba performs the reverse scan to capture non-causal relationships (i.e., local future context).
+ 3. Bidirectional (B): Mamba performs two independent scans (forward and reverse) and then fuses their outputs to capture the most complex local dependencies.
 
 3.2 Skip Estimator (SE)
+
 In addition to the Direction Estimator (DE), the SDM architecture can incorporate a Skip Estimator (SE) to decide whether to skip the current block by calculating an information increment signal. The core process is as follows: first, the Token embeddings of the current block are Mean Pooled to derive a vector representing the Local Semantic Core; next, this local vector is compared against the previous block's final state, H_end_{t-1} (the Historical Semantic State), to calculate their difference or similarity. If the similarity is high, the block is deemed highly redundant with the historical information, and the SE executes a skip operation, bypassing the computation for the current block.
 
 3.3 State Propagation Mechanism
 
 Regardless of the scan direction used internally by block t, its final state H_end_t is defined as the starting state H_start_{t+1} for the next block t+1. This ensures:
- 1.Global History: Even if block t performs a reverse scan internally, it still inherits all historical context by starting with the H_end of block t-1.
- 2.Unified Interface: For bidirectional scans, the model designs a fusion layer that merges the final forward and reverse states into a single, unified H_end vector for propagation.
+ 1. Global History: Even if block t performs a reverse scan internally, it still inherits all historical context by starting with the H_end of block t-1.
+ 2. Unified Interface: For bidirectional scans, the model designs a fusion layer that merges the final forward and reverse states into a single, unified H_end vector for propagation.
 
 3.4 Parallelization Concept: Synchronous Global Direction Discrimination
 
 Whether using the Mamba DE or the Transformer DE, SDM leverages the independence of the direction discrimination computation to achieve large-scale parallelization:
- 1.Independent Computation: The Direction Estimator (DE) for each block depends only on the current block's input Tokens and does not depend on the Mamba state H_end_{t-1} propagated from the previous block.
- 2.Synchronous Execution: Therefore, for the entire sequence N, the direction decision for all N/L blocks can be run simultaneously and independently.
- 3.Efficiency Guarantee: This ensures that the time cost of the O(N * L) or O(N * L^2) discrimination computation is greatly compressed and hidden by the O(N) sequential Mamba state propagation time. This guarantees that SDM's actual running speed remains dominated by the O(N) serial Mamba scan.
+ 1. Independent Computation: The Direction Estimator (DE) for each block depends only on the current block's input Tokens and does not depend on the Mamba state H_end_{t-1} propagated from the previous block.
+ 2. Synchronous Execution: Therefore, for the entire sequence N, the direction decision for all N/L blocks can be run simultaneously and independently.
+ 3. Efficiency Guarantee: This ensures that the time cost of the O(N * L) or O(N * L^2) discrimination computation is greatly compressed and hidden by the O(N) sequential Mamba state propagation time. This guarantees that SDM's actual running speed remains dominated by the O(N) serial Mamba scan.
 
 Training Feasibility
 
 SDM relies on the Gumbel-Softmax trick for end-to-end training:
- 1.The DE's Logits are converted into a differentiable probability distribution (Leftward, Rightward, Bidirectional).
- 2.The Mamba's final output is the weighted average of the scan results from these three directions.
- 3.This allows gradients to flow smoothly back to the weights of the Mamba DE or Transformer DE, enabling the entire hybrid architecture to be trained jointly.
+ 1. The DE's Logits are converted into a differentiable probability distribution (Leftward, Rightward, Bidirectional).
+ 2. The Mamba's final output is the weighted average of the scan results from these three directions.
+ 3. This allows gradients to flow smoothly back to the weights of the Mamba DE or Transformer DE, enabling the entire hybrid architecture to be trained jointly.
 
 Future Scopes:
- 1.The ability to dynamically adjust block size (L), expanding L when the text structure is stable to increase context utilization, and shrinking L when the structure is complex and flow direction is inconsistent to ensure coherence within the block.
- 2.The possibility of designing mechanisms to detect redundant sequence blocks and skip the scan operation, passing the historical record from the previous block directly to the subsequent block to continue the scan.
+ 1. The ability to dynamically adjust block size (L), expanding L when the text structure is stable to increase context utilization, and shrinking L when the structure is complex and flow direction is inconsistent to ensure coherence within the block.
+ 2. The possibility of designing mechanisms to detect redundant sequence blocks and skip the scan operation, passing the historical record from the previous block directly to the subsequent block to continue the scan.
 
 Smart Direction Mamba (SDM) 架构核心原理
 
@@ -88,51 +91,75 @@ Smart Direction Mamba (SDM) 的核心目标是动态解决 Mamba/SSM 架构在�
 SDM 的目标： 利用 Mamba 状态或 Transformer 强大的局部判别力来指导 Mamba 的扫描，实现 O(N) 的效率和非因果的建模能力。利用 Mamba 状态或 Transformer 强大的局部判别力来指导 Mamba 的扫描，实现 O(N) 的效率和符合人类语言处理习惯的非因果建模能力。
 
 背景：动态方向控制
+
 传统 Mamba 具有线性时间复杂度 O(N)，但其固定的单向扫描存在根本性约束。这与人类语言的特征不符：人类语言在局部小段落内（例如一个短语或句子）是非顺序的，理解信息可能需要查看后续内容（非因果依赖）；但在宏观上，信息流动的整体逻辑和叙事结构是顺序的（因果依赖，即从历史到未来）。
+
 虽然标准双向 Mamba (Bi-Mamba) 可以通过两次扫描来处理非因果性，但它存在两大缺点，使其不适合作为高效的替代方案：
 1. 计算冗余： Bi-Mamba 对所有文本都强制执行双倍计算，即使在高度因果的段落中也是如此。
 2. 语义模糊： 强制的双向扫描，在大部分情况下会引入不必要的方向性噪声，反而可能稀释核心语义。
 SDM 的核心优势： SDM 的设计正是为了完美契合人类语言的“局部非顺序，总体顺序”特征。它通过动态、按需的局部方向决策来捕捉小段落的非因果性，同时通过保持 Mamba 状态的单向传递来维护宏观的因果性。这种智能决策避免了 Bi-Mamba 固有的计算冗余，实现了效率和性能的最佳平衡。
 
 复杂度与效率
+
 SDM 通过对计算进行分块，将 方向判别器 (DE) 的计算限制在长度为 L 的小块内，所有块内的影响流向的判别计算都能够并行执行：
+
 复杂度保持：
-• Mamba DE (可选方案一) 复杂度： 若方向判别器采用 Mamba/SSM 状态比较，其计算复杂度为 O(L)。架构的总体复杂度仍近似为 O(N * L)，保持了线性效率，且总工作量更低。
-• Transformer DE (可选方案二) 复杂度： Transformer 的注意力计算被严格限制在块内，复杂度为 O(L^2)。由于 L 是一个预设的小常数，架构的总体复杂度仍近似为 O(N * L^2)，总工作量更高，但通过并行计算隐藏了时间成本。
+
+1. Mamba DE (可选方案一) 复杂度： 若方向判别器采用 Mamba/SSM 状态比较，其计算复杂度为 O(L)。架构的总体复杂度仍近似为 O(N * L)，保持了线性效率，且总工作量更低。
+2. Transformer DE (可选方案二) 复杂度： Transformer 的注意力计算被严格限制在块内，复杂度为 O(L^2)。由于 L 是一个预设的小常数，架构的总体复杂度仍近似为 O(N * L^2)，总工作量更高，但通过并行计算隐藏了时间成本。
+
 核心机制：方向判别器 (Direction Estimator, DE)
+
 DE 的作用是为一个数据块决定最优的扫描方向。
+
 可选方案一：Mamba DE (O(L) 复杂度)
+
 Mamba DE 利用 Mamba/SSM 自身的线性状态压缩能力进行方向判断，并且能够并行扫描每个小块。
-• 输入与计算： 所有数据块的DE 同时接收当前数据块的 Token 嵌入，并行执行两次独立的最小 Mamba 扫描（正向 H_F 和反向 H_B）。
-• 特征提取： 判别器通过比较 H_F 和 H_B 的最终状态，识别信息流的主导趋势。这使得 总计算量保持线性。
+1.输入与计算： 所有数据块的DE 同时接收当前数据块的 Token 嵌入，并行执行两次独立的最小 Mamba 扫描（正向 H_F 和反向 H_B）。
+2.特征提取： 判别器通过比较 H_F 和 H_B 的最终状态，识别信息流的主导趋势。这使得 总计算量保持线性。
+
 可选方案二：Transformer DE (O(L^2) 复杂度)
+
 Transformer DE 是一个极简的微型 Transformer。
-• 输入与计算： 所有数据集DE 接收当前数据块的 Token 嵌入，并行计算其注意力矩阵 A = QK^T。
-• 特征提取： 判别器分析 A 矩阵，比较上三角区域（Token 依赖未来）和下三角区域（Token 依赖历史）的权重之和，从而识别信息流的主导趋势。
+1.输入与计算： 所有数据集DE 接收当前数据块的 Token 嵌入，并行计算其注意力矩阵 A = QK^T。
+2.特征提取： 判别器分析 A 矩阵，比较上三角区域（Token 依赖未来）和下三角区域（Token 依赖历史）的权重之和，从而识别信息流的主导趋势。
+
 决策输出：
+
 一个轻量的 MLP 决策头将这些特征转化为三个 Logits（原始分数）：左向、右向、双向。
 动态 Mamba 扫描与状态传递
+
 Mamba 扫描根据 DE 的决策进行切换，但其全局状态传递 (H) 保持单向连贯，以确保长序列的连续性。
+
 3.1 动态扫描模式
-• 左向（L）： Mamba 执行标准的前向扫描，用于捕获因果关系。
-• 右向（R）： Mamba 执行反向扫描，用于捕获非因果关系（即局部未来上下文）。
-• 双向（B）： Mamba 执行两次独立的扫描（正向和反向），然后融合它们的输出，以捕获最复杂的局部依赖。
+1. 左向（L）： Mamba 执行标准的前向扫描，用于捕获因果关系。
+2. 右向（R）： Mamba 执行反向扫描，用于捕获非因果关系（即局部未来上下文）。
+3. 双向（B）： Mamba 执行两次独立的扫描（正向和反向），然后融合它们的输出，以捕获最复杂的局部依赖。
+ 
 3.2 跳过判别器（SE）
+
 SDM 架构中除了可以使用DE，还可以引入跳过判别器（SE），通过计算信息增量信号来决定是否跳过当前块。该过程的核心是：首先，对当前块的 Token 嵌入进行 平均池化，得到一个局部语义核心向量；随后，计算这个局部向量与前一个块的最终状态 H_end_{t-1}（即历史语义状态）之间的差异度或相似度。如果相似度高，则代表当前块与历史信息高度冗余，SE 会执行跳过操作，无需计算当前块。
+
 3.3 状态传递机制
+
 无论块 t 内部采用何种扫描方向，其最终状态 H_end_t 都被定义为下一个块 t+1 的起始状态 H_start_t+1。这保证了：
-• 全局历史： 即使块 t 内部是反向扫描，它仍然以 t-1 块的 H_end 作为起点，继承了所有历史上下文。
-• 统一接口： 针对双向扫描，模型会设计一个融合层，将正向和反向的最终状态合成为一个统一的 H_end 向量进行传递。
+1. 全局历史： 即使块 t 内部是反向扫描，它仍然以 t-1 块的 H_end 作为起点，继承了所有历史上下文。
+2. 统一接口： 针对双向扫描，模型会设计一个融合层，将正向和反向的最终状态合成为一个统一的 H_end 向量进行传递。
+
 并行化理念：同步进行全局方向判别
+
 无论是采用 Mamba DE 还是 Transformer DE，SDM 都利用了方向判别计算的独立性来实现大规模并行化：
-• 独立计算： 每个块的方向判别器 (DE) 仅依赖于当前块的输入 Token，而不依赖于前一个块传递过来的 Mamba 状态 H_end_{t-1}。
-• 同步执行： 因此，对于整个序列 N，所有 N/L 个块的方向决策可以同时独立运行。
-• 效率保障： 这使得 O(N * L) 或 O(N * L^2) 的方向判别计算时间被极大地压缩，并被 O(N) 的 Mamba 状态串行传递时间所隐藏。这保证了 SDM 的实际运行速度仍由 O(N) 的串行 Mamba 扫描主导。
+1. 独立计算： 每个块的方向判别器 (DE) 仅依赖于当前块的输入 Token，而不依赖于前一个块传递过来的 Mamba 状态 H_end_{t-1}。
+2. 同步执行： 因此，对于整个序列 N，所有 N/L 个块的方向决策可以同时独立运行。
+3. 效率保障： 这使得 O(N * L) 或 O(N * L^2) 的方向判别计算时间被极大地压缩，并被 O(N) 的 Mamba 状态串行传递时间所隐藏。这保证了 SDM 的实际运行速度仍由 O(N) 的串行 Mamba 扫描主导。
+
 训练的可行性
-SDM 依赖 Gumbel-Softmax 技巧实现端到端训练：
-• DE 的 Logits 被转化为一个可微分的概率分布（左、右、双向）。
-• Mamba 的最终输出 是这三个方向扫描结果的加权平均。
-• 这使得梯度可以顺利地流回 Mamba DE 或 Transformer DE 的权重，从而使得整个混合架构可以联合训练。
+
+SDM 依赖 Gumbel-Softmax 技巧实现训练：
+1. DE 的 Logits 被转化为一个可微分的概率分布（左、右、双向）。
+2.Mamba 的最终输出 是这三个方向扫描结果的加权平均。
+3. 这使得梯度可以顺利地流回 Mamba DE 或 Transformer DE 的权重，从而使得整个混合架构可以联合训练。
+
 设想：
 1. 能够在文本结构稳定时扩大块大小，提高上下文利用率；而在结构复杂，影响流向方向不一致时，缩小块大小，动态调整块的大小以确保块内信息影响流向一致。
 2. 可以设计一些机制检测无用序列小块，不执行扫描操作，将前一个块的历史记录直接给到后一个块继续扫描，即跳过。
