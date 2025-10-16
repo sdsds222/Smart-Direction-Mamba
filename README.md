@@ -81,7 +81,7 @@ SDM relies on the Gumbel-Softmax trick for end-to-end training:
  3. This allows gradients to flow smoothly back to the weights of the Mamba DE or Transformer DE, enabling the entire hybrid architecture to be trained jointly.
 
 Future Scopes:
- 1. The ability to dynamically adjust block size (L), expanding L when the text structure is stable to increase context utilization, and shrinking L when the structure is complex and flow direction is inconsistent to ensure coherence within the block.
+ 1. It could be introduced a Attention Mechanism for Textual Influence Flow, by which the ability to dynamically adjust block size (L), expanding L when the text structure is stable to increase context utilization, and shrinking L when the structure is complex and flow direction is inconsistent to ensure coherence within the block.
  2. The possibility of designing mechanisms to detect redundant sequence blocks and skip the scan operation, passing the historical record from the previous block directly to the subsequent block to continue the scan.
 
 # Smart Direction Mamba (SDM) 架构核心原理
@@ -161,6 +161,6 @@ SDM 依赖 Gumbel-Softmax 技巧实现训练：
 3. 这使得梯度可以顺利地流回 Mamba DE 或 Transformer DE 的权重，从而使得整个混合架构可以联合训练。
 
 设想：
-1. 能够在文本结构稳定时扩大块大小，提高上下文利用率；而在结构复杂，影响流向方向不一致时，缩小块大小，动态调整块的大小以确保块内信息影响流向一致。
+1. 通过引入一种关于文本影响流向的注意力机制能够在文本结构稳定时扩大块大小，提高上下文利用率；而在结构复杂，影响流向方向不一致时，缩小块大小，动态调整块的大小以确保块内信息影响流向一致。
 2. 可以设计一些机制检测无用序列小块，不执行扫描操作，将前一个块的历史记录直接给到后一个块继续扫描，即跳过。
 
