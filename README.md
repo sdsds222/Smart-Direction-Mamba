@@ -1,12 +1,17 @@
 Smart Direction Mamba (SDM)
 
 Smart Direction Mamba (SDM) Architecture Core Principles
+
 The core objective of the Smart Direction Mamba (SDM) architecture is to dynamically resolve the fixed causality problem faced by the Mamba/SSM architecture when processing natural language, while strictly controlling computational complexity. Traditional Mamba has a linear time complexity of O(N), but its fixed, unidirectional scan cannot effectively handle non-causal dependencies that require "future information." While the Transformer can handle non-causality, its O(N^2) complexity is inefficient for long sequences.
+
 Background: Why Dynamic Directionality is Necessary
+
 Traditional Mamba has a linear time complexity of O(N), but its fixed, unidirectional scan is fundamentally constrained. This conflicts with the nature of human language: Language is non-causal within local segments (like a phrase or sentence), where understanding may require looking ahead (non-causal dependency); yet, the overall flow of information and narrative structure remains sequential (causal).
+
 While standard Bidirectional Mamba (Bi-Mamba) can address non-causality through two scans (forward + reverse), it falls short as an efficient solution due to two main drawbacks:
 1. Computational Redundancy: Bi-Mamba mandatorily performs double the computation for all text, even in sections that are highly causal.
 2. Semantic Ambiguity: Forcing bidirectional scanning often introduces unnecessary directional noise, potentially diluting the core semantic meaning.
+
 SDM's Core Advantage: SDM is designed to perfectly fit the "locally non-causal, globally causal" nature of human language. It uses intelligent, on-demand local direction decisions to capture small-segment non-causality while maintaining macro-level causality through Mamba's sequential state propagation. This intelligent approach avoids the computational redundancy inherent in Bi-Mamba, leading to a better balance of efficiency and performance.
 
 
