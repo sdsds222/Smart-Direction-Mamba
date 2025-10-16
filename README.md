@@ -11,6 +11,7 @@ Background: Why Dynamic Directionality is Necessary
 Traditional Mamba has a linear time complexity of O(N), but its fixed, unidirectional scan is fundamentally constrained. This conflicts with the nature of human language: Language is non-causal within local segments (like a phrase or sentence), where understanding may require looking ahead (non-causal dependency); yet, the overall flow of information and narrative structure remains sequential (causal).
 
 While standard Bidirectional Mamba (Bi-Mamba) can address non-causality through two scans (forward + reverse), it falls short as an efficient solution due to two main drawbacks:
+
 1. Computational Redundancy: Bi-Mamba mandatorily performs double the computation for all text, even in sections that are highly causal.
 2. Semantic Ambiguity: Forcing bidirectional scanning often introduces unnecessary directional noise, potentially diluting the core semantic meaning.
 
