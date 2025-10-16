@@ -1,6 +1,6 @@
-Smart Direction Mamba (SDM)
+#Smart Direction Mamba (SDM)
 
-Smart Direction Mamba (SDM) Architecture Core Principles
+##Smart Direction Mamba (SDM) Architecture Core Principles
 
 The core objective of the Smart Direction Mamba (SDM) architecture is to dynamically resolve the fixed causality problem faced by the Mamba/SSM architecture when processing natural language, while strictly controlling computational complexity. 
 
@@ -84,9 +84,9 @@ Future Scopes:
  1. The ability to dynamically adjust block size (L), expanding L when the text structure is stable to increase context utilization, and shrinking L when the structure is complex and flow direction is inconsistent to ensure coherence within the block.
  2. The possibility of designing mechanisms to detect redundant sequence blocks and skip the scan operation, passing the historical record from the previous block directly to the subsequent block to continue the scan.
 
-Smart Direction Mamba (SDM) 架构核心原理
+#Smart Direction Mamba (SDM) 架构核心原理
 
-Smart Direction Mamba (SDM) 的核心目标是动态解决 Mamba/SSM 架构在处理自然语言时面临的固定因果性问题，同时严格控制计算复杂度。 传统 Mamba 具有线性时间复杂度 O(N)，但其固定的单向扫描无法有效处理需要“未来信息”的非因果依赖。Transformer 虽然能处理非因果性，但其 O(N^2) 的复杂度在长序列上效率低下。
+##Smart Direction Mamba (SDM) 的核心目标是动态解决 Mamba/SSM 架构在处理自然语言时面临的固定因果性问题，同时严格控制计算复杂度。 传统 Mamba 具有线性时间复杂度 O(N)，但其固定的单向扫描无法有效处理需要“未来信息”的非因果依赖。Transformer 虽然能处理非因果性，但其 O(N^2) 的复杂度在长序列上效率低下。
 
 SDM 的目标： 利用 Mamba 状态或 Transformer 强大的局部判别力来指导 Mamba 的扫描，实现 O(N) 的效率和非因果的建模能力。利用 Mamba 状态或 Transformer 强大的局部判别力来指导 Mamba 的扫描，实现 O(N) 的效率和符合人类语言处理习惯的非因果建模能力。
 
