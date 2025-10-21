@@ -84,6 +84,120 @@ Future Scopes:
  1. It could be introduced a Attention Mechanism for Textual Influence Flow, by which the ability to dynamically adjust block size (L), expanding L when the text structure is stable to increase context utilization, and shrinking L when the structure is complex and flow direction is inconsistent to ensure coherence within the block.
  2. The possibility of designing mechanisms to detect redundant sequence blocks and skip the scan operation, passing the historical record from the previous block directly to the subsequent block to continue the scan.
 
+## Mamba DE Demo User Manual:
+
+## Mamba Direction Estimator Script Usage Instructions
+
+The following are usage instructions for the three core scripts in the project: train.py (from scratch training), train_add.py (incremental training), and predict.py (prediction/evaluation). Each script supports interactive mode (guides input when run without parameters), and uses CSV files as input (must have 'text' column, training/evaluation requires additional 'direction' column with labels left/right/bidirectional). All scripts output models to the checkpoints/ directory and prediction results to CSV files in the current directory.
+
+train.py - From Scratch Training Script
+
+This script is used to train the model from scratch, supporting automatic merging of single or multiple CSV datasets. Suitable for initial training or retraining when data changes significantly.
+
+### Basic Usage:
+
+Interactive: python train.py (the system will ask for files and parameters step by step).
+
+```bash
+Command Line: python train.py -i training_data.csv --auto (quick training with default configuration).
+```
+
+### Example:
+
+Assume you have training_data.csv (100 samples), want to train for 50 epochs, batch size 32, learning rate 0.0005, save as my_model:
+```bash
+python train.py -i training_data.csv --batch-size 32 --epochs 50 --lr 0.0005 --model-name my_model
+```
+Output: checkpoints/my_model.pth (model file) and merged_dataset.csv (if multiple files were merged).
+
+### Parameter Description:
+
+-i, --input: Input CSV file path, can be multiple (e.g., -i data1.csv data2.csv), default interactive selection, required.
+
+--batch-size: Batch size, default 16, example 32 (larger makes training more stable, but requires more memory).
+
+--epochs: Number of training epochs, default 30, example 50 (too many may lead to overfitting).
+
+--lr: Learning rate, default 0.001, example 0.0005 (too high may cause oscillation, too low slows convergence).
+
+--model-name: Model save name, default best_model, example my_model.
+
+--auto: Use default configuration to skip interaction, default no.
+
+## train_add.py - Incremental Training Script
+
+This script fine-tunes on an existing model, continuing training with new data, with learning rate automatically reduced to 10% of original to prevent forgetting old knowledge. Suitable for optimizing with small amounts of new data.
+
+### Basic Usage:
+```
+Interactive: python train_add.py -i new_data.csv (guides selection of model and new data).
+
+Command Line: python train_add.py -m checkpoints/best_model.pth -i new_data.csv --epochs 10.
+```
+### Example:
+
+Assume you have checkpoints/v1.pth, use new_data.csv (20 new samples) to fine-tune for 10 epochs, batch 16, save as v2:
+```
+python train_add.py -m checkpoints/v1.pth -i new_data.csv --batch-size 16 --epochs 10 --model-name v2
+```
+Output: checkpoints/v2.pth (fine-tuned model) and console report (shows accuracy improvement, e.g., +5%).
+
+### Parameter Description:
+
+-m, --model: Base model path, default interactive selection, required, example checkpoints/v1.pth.
+
+-i, --input: New data CSV path, default interactive selection, required, example new_data.csv.
+
+--batch-size: Batch size, default 16, example 32.
+
+--epochs: Number of training epochs, default 10, example 15 (recommended fewer than full training to avoid overfitting).
+
+--lr: Learning rate, default 0.001 (automatically *0.1), example 0.001 (actual 0.0001).
+
+--model-name: Save name, default fine_tuned_model, example v2.
+
+## predict.py - Prediction/Evaluation Script
+
+This script is used to test the model (calculates accuracy with labeled data) or predict new data (outputs direction and confidence without labels). Supports interactive single-text testing.
+
+### Basic Usage:
+```
+Interactive: python predict.py (guides selection of model and file).
+
+Command Line: python predict.py -m checkpoints/best_model.pth -i test_data.csv (evaluate with labels).
+```
+### Example:
+
+Assume using checkpoints/my_model.pth to predict test_data.csv (no labels), output to results/:
+```
+python predict.py -m checkpoints/my_model.pth -i test_data.csv -o results/ --interactive (interactive mode allows single-text input testing).
+```
+Output: test_predicted.csv (columns: text, pred_label, pred_label_cn, confidence, prob_left, prob_right, prob_bidirectional; with labels adds true_label, correct).
+
+### Parameter Description:
+
+-m, --model: Model path, default interactive selection, required, example checkpoints/best_model.pth.
+
+-i, --input: Input CSV path, can be multiple, default interactive selection, required, example test_data.csv.
+
+-o, --output-dir: Output directory, default current directory, example results/.
+
+-t, --text-col: Text column name, default text, example content.
+
+-l, --label-col: Label column name, default direction, example label (ignored without labels).
+
+--interactive: Enable interactive single-text prediction, default no.
+
+### Quick Workflow Example:
+
+Training: python train.py -i training_data.csv --model-name v1
+
+Incremental: python train_add.py -m checkpoints/v1.pth -i new_data.csv --model-name v2
+
+Prediction: python predict.py -m checkpoints/v2.pth -i test.csv
+
+Note: Ensure PyTorch/GPU environment, data UTF-8 encoding. If accuracy is low, check data balance or add epochs.
+
 # Smart Direction Mamba (SDM) 架构核心原理
 
 ## Smart Direction Mamba (SDM) 的核心目标是动态解决 Mamba/SSM 架构在处理自然语言时面临的固定因果性问题，同时严格控制计算复杂度。 传统 Mamba 具有线性时间复杂度 O(N)，但其固定的单向扫描无法有效处理需要“未来信息”的非因果依赖。Transformer 虽然能处理非因果性，但其 O(N^2) 的复杂度在长序列上效率低下。
@@ -164,3 +278,118 @@ SDM 依赖 Gumbel-Softmax 技巧实现训练：
 1. 通过引入一种关于文本影响流向的注意力机制能够在文本结构稳定时扩大块大小，提高上下文利用率；而在结构复杂，影响流向方向不一致时，缩小块大小，动态调整块的大小以确保块内信息影响流向一致。
 2. 可以设计一些机制检测无用序列小块，不执行扫描操作，将前一个块的历史记录直接给到后一个块继续扫描，即跳过。
 
+
+## Mamba DE Demo使用手册：
+
+## Mamba Direction Estimator 脚本使用说明
+
+以下是项目中三个核心脚本的使用说明：train.py（从头训练）、train_add.py（增量训练）和predict.py（预测/评估）。每个脚本都支持交互模式（不加参数运行时会引导输入），并使用CSV文件作为输入（必须有'text'列，训练/评估需额
+外'direction'列，标签为left/right/bidirectional）。所有脚本输出模型到checkpoints/目录，预测结果到当前目录的CSV文件。
+
+train.py - 从头训练脚本
+
+这个脚本用于从零开始训练模型，支持单个或多个CSV数据集自动合并。适合首次训练或数据大变时重训。
+
+### 基础用法：
+
+交互式：python train.py（系统会一步步问文件、参数）。
+
+```bash
+命令行：python train.py -i training_data.csv --auto（使用默认配置快速训练）。
+```
+
+### 案例：
+
+假设你有training_data.csv（100条数据），想训练50轮，batch大小32，学习率0.0005，保存为my_model：
+```bash
+python train.py -i training_data.csv --batch-size 32 --epochs 50 --lr 0.0005 --model-name my_model
+```
+输出：checkpoints/my_model.pth（模型文件）和merged_dataset.csv（如果合并了多个文件）。
+
+### 参数说明：
+
+-i, --input：输入CSV文件路径，可多个（如 -i data1.csv data2.csv），默认交互选择，必填。
+
+--batch-size：批次大小，默认16，示例32（越大训练越稳，但显存需求高）。
+
+--epochs：训练轮数，默认30，示例50（太多易过拟合）。
+
+--lr：学习率，默认0.001，示例0.0005（太高易震荡，太低收敛慢）。
+
+--model-name：模型保存名称，默认best_model，示例my_model。
+
+--auto：使用默认配置跳过交互，默认否。
+
+## train_add.py - 增量训练脚本
+
+这个脚本在现有模型基础上微调，使用新数据继续训练，学习率自动缩小到原10%以防遗忘旧知识。适合小量新数据优化。
+
+### 基础用法：
+```
+交互式：python train_add.py -i new_data.csv（引导选模型和新数据）。
+
+命令行：python train_add.py -m checkpoints/best_model.pth -i new_data.csv --epochs 10。
+```
+### 案例：
+
+假设已有checkpoints/v1.pth，用new_data.csv（20条新数据）微调10轮，batch16，保存为v2：
+```
+python train_add.py -m checkpoints/v1.pth -i new_data.csv --batch-size 16 --epochs 10 --model-name v2
+```
+输出：checkpoints/v2.pth（微调模型）和控制台报告（显示准确率提升，如+5%）。
+
+### 参数说明：
+
+-m, --model：基础模型路径，默认交互选择，必填，示例checkpoints/v1.pth。
+
+-i, --input：新数据CSV路径，默认交互选择，必填，示例new_data.csv。
+
+--batch-size：批次大小，默认16，示例32。
+
+--epochs：训练轮数，默认10，示例15（建议少于重训，避免过拟合）。
+
+--lr：学习率，默认0.001（自动*0.1），示例0.001（实际用0.0001）。
+
+--model-name：保存名称，默认fine_tuned_model，示例v2。
+
+## predict.py - 预测/评估脚本
+
+这个脚本用于测试模型（有标签数据计算准确率）或预测新数据（无标签输出方向和置信度）。支持交互单文本测试。
+
+### 基础用法：
+```
+交互式：python predict.py（引导选模型和文件）。
+
+命令行：python predict.py -m checkpoints/best_model.pth -i test_data.csv（评估有标签）。
+```
+### 案例：
+
+假设用checkpoints/my_model.pth预测test_data.csv（无标签），输出到results/：
+```
+python predict.py -m checkpoints/my_model.pth -i test_data.csv -o results/ --interactive（交互模式可单条输入文本测试）。
+```
+输出：test_predicted.csv（列：text, pred_label, pred_label_cn, confidence, prob_left, prob_right, prob_bidirectional；有标签时加true_label, correct）。
+
+### 参数说明：
+
+-m, --model：模型路径，默认交互选择，必填，示例checkpoints/best_model.pth。
+
+-i, --input：输入CSV路径，可多个，默认交互选择，必填，示例test_data.csv。
+
+-o, --output-dir：输出目录，默认当前目录，示例results/。
+
+-t, --text-col：文本列名，默认text，示例content。
+
+-l, --label-col：标签列名，默认direction，示例label（无标签时忽略）。
+
+--interactive：启用交互单文本预测，默认否。
+
+### 快速工作流案例：
+
+训练：python train.py -i training_data.csv --model-name v1
+
+增量：python train_add.py -m checkpoints/v1.pth -i new_data.csv --model-name v2
+
+预测：python predict.py -m checkpoints/v2.pth -i test.csv
+
+注意：确保PyTorch/GPU环境，数据UTF-8编码。如果准确率低，检查数据平衡或加epochs。
