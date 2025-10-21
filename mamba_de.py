@@ -204,7 +204,7 @@ def train_mamba_de(model, train_loader, val_loader, num_epochs=20, lr=1e-3, devi
     print(f"\n✓ 使用设备: {device}\n")
     
     model = model.to(device)
-    optimizer = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=0.01)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=0.1)
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=num_epochs)
     criterion = nn.CrossEntropyLoss()
     
@@ -349,7 +349,7 @@ def main():
         vocab_size=dataset.vocab_size,
         d_model=D_MODEL,
         d_state=D_STATE,
-        dropout=0.1
+        dropout=0.5
     )
     
     num_params = sum(p.numel() for p in model.parameters())
