@@ -1,0 +1,289 @@
+text,direction,true_label_idx,true_label_cn,pred_label,pred_label_cn,pred_idx,confidence,prob_left,prob_right,prob_bidirectional,correct,result
+I finished the experiment and then started writing the report.,left,0,左向(因果),right,右向(反因果),1,0.7096467018127441,0.27836093306541443,0.7096467018127441,0.011992345564067364,False,✗ 错误
+"The server capacity was upgraded, leading to faster website performance.",left,0,左向(因果),left,左向(因果),0,0.6163365840911865,0.6163365840911865,0.3740314841270447,0.009631953202188015,True,✓ 正确
+"After the rain stopped, a beautiful rainbow appeared in the sky.",left,0,左向(因果),bidirectional,双向,2,0.37442007660865784,0.3232375979423523,0.3023422956466675,0.37442007660865784,False,✗ 错误
+He followed the recipe step-by-step and baked a delicious cake.,left,0,左向(因果),right,右向(反因果),1,0.6237336993217468,0.08129097521305084,0.6237336993217468,0.29497531056404114,False,✗ 错误
+"The company implemented a new policy, and employee morale improved.",left,0,左向(因果),left,左向(因果),0,0.8797675967216492,0.8797675967216492,0.11469466984272003,0.005537673365324736,True,✓ 正确
+She heard the news and immediately called her family.,left,0,左向(因果),left,左向(因果),0,0.4973934292793274,0.4973934292793274,0.49027884006500244,0.012327701784670353,True,✓ 正确
+"The alarm went off, so I got out of bed.",left,0,左向(因果),right,右向(反因果),1,0.7171520590782166,0.28150227665901184,0.7171520590782166,0.0013456562301144004,False,✗ 错误
+He saved enough money over the year to buy a new car.,left,0,左向(因果),bidirectional,双向,2,0.9103246331214905,0.03176623955368996,0.057909075170755386,0.9103246331214905,False,✗ 错误
+"The seeds were planted in spring, and the flowers bloomed in summer.",left,0,左向(因果),left,左向(因果),0,0.9338761568069458,0.9338761568069458,0.06588651239871979,0.00023736317234579474,True,✓ 正确
+"Upon receiving the user feedback, the team began to iterate on the product design.",left,0,左向(因果),bidirectional,双向,2,0.4229198694229126,0.3259156346321106,0.2511644959449768,0.4229198694229126,False,✗ 错误
+"The battery was fully charged, allowing the drone to fly for an hour.",left,0,左向(因果),right,右向(反因果),1,0.8832950592041016,0.09632644057273865,0.8832950592041016,0.02037854865193367,False,✗ 错误
+The historian analyzed the primary sources before drawing any conclusions.,left,0,左向(因果),right,右向(反因果),1,0.9903914928436279,0.008266949094831944,0.9903914928436279,0.0013415844878181815,False,✗ 错误
+He felt a deep sense of calm after his morning meditation session.,left,0,左向(因果),left,左向(因果),0,0.9916790127754211,0.9916790127754211,0.008245393633842468,7.554511830676347e-05,True,✓ 正确
+The invention of the internet fundamentally changed global communication.,left,0,左向(因果),left,左向(因果),0,0.4642674922943115,0.4642674922943115,0.3823445439338684,0.15338802337646484,True,✓ 正确
+"She studied the market trends carefully, then made her investment.",left,0,左向(因果),right,右向(反因果),1,0.652696430683136,0.3188404440879822,0.652696430683136,0.02846311777830124,False,✗ 错误
+"The code passed all the unit tests, so it was merged into the main branch.",left,0,左向(因果),left,左向(因果),0,0.9237866401672363,0.9237866401672363,0.07567067444324493,0.0005426625139079988,True,✓ 正确
+He noticed the dark clouds gathering and decided to bring an umbrella.,left,0,左向(因果),right,右向(反因果),1,0.9732059240341187,0.02061561308801174,0.9732059240341187,0.006178387440741062,False,✗ 错误
+The government's investment in infrastructure boosted the local economy.,left,0,左向(因果),left,左向(因果),0,0.9893667101860046,0.9893667101860046,0.010408082976937294,0.00022519350750371814,True,✓ 正确
+She took a deep breath to steady her nerves before the presentation.,left,0,左向(因果),right,右向(反因果),1,0.5054805874824524,0.45383521914482117,0.5054805874824524,0.040684182196855545,False,✗ 错误
+"The evidence was presented to the jury, which then reached a verdict.",left,0,左向(因果),right,右向(反因果),1,0.9616817831993103,0.03177499771118164,0.9616817831993103,0.006543224677443504,False,✗ 错误
+"The temperature dropped below freezing, and the pond froze over.",left,0,左向(因果),left,左向(因果),0,0.9732235670089722,0.9732235670089722,0.02631760574877262,0.0004588673764374107,True,✓ 正确
+"He lost his keys, so he had to call a locksmith.",left,0,左向(因果),right,右向(反因果),1,0.6707844138145447,0.3275279104709625,0.6707844138145447,0.001687678974121809,False,✗ 错误
+"The team practiced relentlessly, which resulted in their championship win.",left,0,左向(因果),right,右向(反因果),1,0.6436708569526672,0.017710885033011436,0.6436708569526672,0.33861833810806274,False,✗ 错误
+"She watered the plants regularly, and they grew healthy and strong.",left,0,左向(因果),left,左向(因果),0,0.5928183197975159,0.5928183197975159,0.40650618076324463,0.0006754896021448076,True,✓ 正确
+The algorithm sorts the data first to optimize the search speed.,left,0,左向(因果),left,左向(因果),0,0.7727954983711243,0.7727954983711243,0.22635240852832794,0.0008520534029230475,True,✓ 正确
+The fall of the Berlin Wall marked the end of an era.,left,0,左向(因果),right,右向(反因果),1,0.9565602540969849,0.03612362965941429,0.9565602540969849,0.00731612229719758,False,✗ 错误
+He felt a surge of gratitude for his friend's unexpected help.,left,0,左向(因果),left,左向(因果),0,0.9917210340499878,0.9917210340499878,0.008208811283111572,7.018157339189202e-05,True,✓ 正确
+The system update patched several critical security vulnerabilities.,left,0,左向(因果),right,右向(反因果),1,0.498651921749115,0.4979323744773865,0.498651921749115,0.0034157054033130407,False,✗ 错误
+He put on his coat and walked out into the snow.,left,0,左向(因果),left,左向(因果),0,0.9983047246932983,0.9983047246932983,0.00168160954490304,1.3686930287803989e-05,True,✓ 正确
+"The marketing campaign went viral, driving a huge spike in sales.",left,0,左向(因果),bidirectional,双向,2,0.8816360235214233,0.039188530296087265,0.07917539775371552,0.8816360235214233,False,✗ 错误
+"After the sun set, the stars became visible in the night sky.",left,0,左向(因果),left,左向(因果),0,0.5803325772285461,0.5803325772285461,0.2994271218776703,0.12024026364088058,True,✓ 正确
+She followed her doctor's advice and her health improved significantly.,left,0,左向(因果),right,右向(反因果),1,0.7956611514091492,0.07009244710206985,0.7956611514091492,0.134246364235878,False,✗ 错误
+The company expanded its operations overseas after dominating the domestic market.,left,0,左向(因果),left,左向(因果),0,0.8605339527130127,0.8605339527130127,0.13217827677726746,0.007287695538252592,True,✓ 正确
+The artist mixed blue and yellow paint to create a shade of green.,left,0,左向(因果),left,左向(因果),0,0.7965657711029053,0.7965657711029053,0.203133225440979,0.00030103587778285146,True,✓ 正确
+"He apologized for his mistake, and the tension in the room dissipated.",left,0,左向(因果),right,右向(反因果),1,0.8179759383201599,0.1620795726776123,0.8179759383201599,0.01994454115629196,False,✗ 错误
+The research paper was peer-reviewed prior to its publication.,left,0,左向(因果),left,左向(因果),0,0.7624639868736267,0.7624639868736267,0.23693794012069702,0.0005981192807666957,True,✓ 正确
+"The fire alarm rang, prompting an immediate evacuation of the building.",left,0,左向(因果),right,右向(反因果),1,0.9922048449516296,0.005818648263812065,0.9922048449516296,0.0019764478784054518,False,✗ 错误
+She completed her degree and quickly found a job in her field.,left,0,左向(因果),bidirectional,双向,2,0.7475414276123047,0.036859288811683655,0.21559925377368927,0.7475414276123047,False,✗ 错误
+The new software update requires a system restart to take effect.,left,0,左向(因果),left,左向(因果),0,0.5975580811500549,0.5975580811500549,0.39296382665634155,0.009478011168539524,True,✓ 正确
+His persistent efforts finally paid off when he solved the difficult problem.,left,0,左向(因果),left,左向(因果),0,0.9315944910049438,0.9315944910049438,0.060969457030296326,0.007436050567775965,True,✓ 正确
+"The Roman Empire expanded its territory, spreading its culture across Europe.",left,0,左向(因果),left,左向(因果),0,0.5468594431877136,0.5468594431877136,0.44123849272727966,0.011902043595910072,True,✓ 正确
+He felt a profound sense of accomplishment after finishing the marathon.,left,0,左向(因果),left,左向(因果),0,0.9917120933532715,0.9917120933532715,0.008220057003200054,6.789759208913893e-05,True,✓ 正确
+"The AI model identifies patterns in the data, then makes a prediction.",left,0,左向(因果),right,右向(反因果),1,0.6044889688491821,0.3453482389450073,0.6044889688491821,0.05016278475522995,False,✗ 错误
+"She packed her bags the night before, ensuring a smooth departure in the morning.",left,0,左向(因果),right,右向(反因果),1,0.9105194211006165,0.08262832462787628,0.9105194211006165,0.006852259859442711,False,✗ 错误
+"The manager approved the budget, allowing the project to move forward.",left,0,左向(因果),bidirectional,双向,2,0.5895583033561707,0.057621631771326065,0.35282009840011597,0.5895583033561707,False,✗ 错误
+The river overflowed its banks following days of heavy rain.,left,0,左向(因果),left,左向(因果),0,0.9861965775489807,0.9861965775489807,0.01369224488735199,0.00011113258369732648,True,✓ 正确
+He took a moment to appreciate the view from the mountaintop.,left,0,左向(因果),right,右向(反因果),1,0.48633283376693726,0.4821793735027313,0.48633283376693726,0.03148779273033142,False,✗ 错误
+The nation transitioned to a democracy after decades of authoritarian rule.,left,0,左向(因果),left,左向(因果),0,0.9893180727958679,0.9893180727958679,0.010407108813524246,0.00027475471142679453,True,✓ 正确
+"The software is easy to use; consequently, it has many users.",left,0,左向(因果),right,右向(反因果),1,0.7207909226417542,0.26752665638923645,0.7207909226417542,0.011682375334203243,False,✗ 错误
+"He was very tired, having worked for twelve hours straight.",left,0,左向(因果),right,右向(反因果),1,0.987179160118103,0.01183679886162281,0.987179160118103,0.000984010985121131,False,✗ 错误
+Everyone was shocked; it turned out he was the manager.,right,1,右向(反因果),right,右向(反因果),1,0.9798021912574768,0.01592513546347618,0.9798021912574768,0.004272705875337124,True,✓ 正确
+"The project failed, a consequence of poor planning from the start.",right,1,右向(反因果),left,左向(因果),0,0.6661439538002014,0.6661439538002014,0.31708359718322754,0.016772476956248283,False,✗ 错误
+"The garden was in full bloom, the result of months of careful tending.",right,1,右向(反因果),right,右向(反因果),1,0.8465598225593567,0.10852967202663422,0.8465598225593567,0.04491052031517029,True,✓ 正确
+"He finally understood the joke, long after everyone else had stopped laughing.",right,1,右向(反因果),left,左向(因果),0,0.8939677476882935,0.8939677476882935,0.10577966272830963,0.0002526188618503511,False,✗ 错误
+The system crashed; a critical file had been accidentally deleted.,right,1,右向(反因果),left,左向(因果),0,0.5415968894958496,0.5415968894958496,0.4577160179615021,0.0006871075020171702,False,✗ 错误
+"The streets were deserted, a sign of the city-wide holiday.",right,1,右向(反因果),right,右向(反因果),1,0.8289783596992493,0.12189170718193054,0.8289783596992493,0.04912986606359482,True,✓ 正确
+"She seemed perfectly calm, her inner turmoil hidden from everyone.",right,1,右向(反因果),left,左向(因果),0,0.9731611013412476,0.9731611013412476,0.026554733514785767,0.0002841597597580403,False,✗ 错误
+"The experiment's results were unexpected, challenging the initial hypothesis.",right,1,右向(反因果),right,右向(反因果),1,0.624830424785614,0.37391534447669983,0.624830424785614,0.0012542359763756394,True,✓ 正确
+"His apology seemed insincere, considering he made the same mistake again.",right,1,右向(反因果),right,右向(反因果),1,0.8418581485748291,0.060012683272361755,0.8418581485748291,0.09812922030687332,True,✓ 正确
+"The accused was found innocent, the evidence against him being purely circumstantial.",right,1,右向(反因果),right,右向(反因果),1,0.5157008171081543,0.48266732692718506,0.5157008171081543,0.0016318776179105043,True,✓ 正确
+"The company's stock price soared, a reaction to the announcement of a new breakthrough product.",right,1,右向(反因果),left,左向(因果),0,0.9209577441215515,0.9209577441215515,0.07227587699890137,0.006766364444047213,False,✗ 错误
+"The ancient civilization vanished, its disappearance still a mystery to historians.",right,1,右向(反因果),left,左向(因果),0,0.9882312417030334,0.9882312417030334,0.011325973086059093,0.0004426930390764028,False,✗ 错误
+"She burst into tears, the accumulated stress of the week finally releasing.",right,1,右向(反因果),left,左向(因果),0,0.8842325210571289,0.8842325210571289,0.08039059489965439,0.035376857966184616,False,✗ 错误
+"The AI's answer was surprisingly creative, revealing a capability the developers hadn't anticipated.",right,1,右向(反因果),left,左向(因果),0,0.8050054907798767,0.8050054907798767,0.18152277171611786,0.013471708633005619,False,✗ 错误
+He looked exhausted; we later found out he had been working a second job.,right,1,右向(反因果),right,右向(反因果),1,0.5605580806732178,0.4213447570800781,0.5605580806732178,0.01809721253812313,True,✓ 正确
+The room fell silent as the CEO walked in.,right,1,右向(反因果),left,左向(因果),0,0.8210985660552979,0.8210985660552979,0.178475484251976,0.0004259682900737971,False,✗ 错误
+The defendant was acquitted after a key witness recanted their testimony.,right,1,右向(反因果),right,右向(反因果),1,0.6492040753364563,0.036318130791187286,0.6492040753364563,0.314477801322937,True,✓ 正确
+"His hands were covered in paint, a clear indication he had finished the mural.",right,1,右向(反因果),bidirectional,双向,2,0.6543985605239868,0.020707011222839355,0.3248944878578186,0.6543985605239868,False,✗ 错误
+"The code was elegant and simple, the product of a brilliant programmer's mind.",right,1,右向(反因果),left,左向(因果),0,0.8817175626754761,0.8817175626754761,0.11805960536003113,0.0002228220400866121,False,✗ 错误
+"He felt a sudden sense of dread, though he couldn't explain why.",right,1,右向(反因果),left,左向(因果),0,0.9919381737709045,0.9919381737709045,0.007993493229150772,6.83869220665656e-05,False,✗ 错误
+"The city's air quality was remarkably good, a benefit of its extensive public transit system.",right,1,右向(反因果),left,左向(因果),0,0.7923715710639954,0.7923715710639954,0.2043239325284958,0.003304520156234503,False,✗ 错误
+"Her confidence was inspiring, born from years of experience and success.",right,1,右向(反因果),right,右向(反因果),1,0.8088018298149109,0.1344442367553711,0.8088018298149109,0.05675388500094414,True,✓ 正确
+"The algorithm was surprisingly efficient, a testament to its clever design.",right,1,右向(反因果),left,左向(因果),0,0.7647884488105774,0.7647884488105774,0.23436926305294037,0.0008423096733167768,False,✗ 错误
+"The decision seemed rash at first, but the reasoning behind it was sound.",right,1,右向(反因果),right,右向(反因果),1,0.7205922603607178,0.27235645055770874,0.7205922603607178,0.0070513393729925156,True,✓ 正确
+"The building was abandoned, its windows broken and walls covered in graffiti.",right,1,右向(反因果),left,左向(因果),0,0.8182517290115356,0.8182517290115356,0.11608854681253433,0.0656597837805748,False,✗ 错误
+"He was a surprisingly good leader, his quiet nature hiding a strong will.",right,1,右向(反因果),right,右向(反因果),1,0.9816465973854065,0.014354446902871132,0.9816465973854065,0.003998972475528717,True,✓ 正确
+"The play was a smashing success, something no critic had predicted.",right,1,右向(反因果),left,左向(因果),0,0.8032787442207336,0.8032787442207336,0.11801470816135406,0.0787065327167511,False,✗ 错误
+"The ecosystem was thriving, a positive outcome of the recent conservation efforts.",right,1,右向(反因果),left,左向(因果),0,0.6093542575836182,0.6093542575836182,0.39034152030944824,0.0003042856988031417,False,✗ 错误
+"The message was cryptic, its true meaning hidden in a cipher.",right,1,右向(反因果),right,右向(反因果),1,0.9032586216926575,0.09349987655878067,0.9032586216926575,0.0032414852175861597,True,✓ 正确
+"He finally felt at peace, his long-standing anxieties now resolved.",right,1,右向(反因果),left,左向(因果),0,0.9810009598731995,0.9810009598731995,0.018938474357128143,6.0549977206392214e-05,False,✗ 错误
+"The launch was delayed, a problem with the fuel sensor being the cause.",right,1,右向(反因果),left,左向(因果),0,0.7972741723060608,0.7972741723060608,0.1901930719614029,0.012532755732536316,False,✗ 错误
+"The document was a forgery, a fact revealed by a handwriting expert.",right,1,右向(反因果),left,左向(因果),0,0.6667706370353699,0.6667706370353699,0.33289599418640137,0.000333399890223518,False,✗ 错误
+"Her promotion was well-deserved, a recognition of her consistent high performance.",right,1,右向(反因果),left,左向(因果),0,0.733253002166748,0.733253002166748,0.25797948241233826,0.008767577819526196,False,✗ 错误
+"The project's budget was cut, forcing the team to rethink their strategy.",right,1,右向(反因果),left,左向(因果),0,0.6418606042861938,0.6418606042861938,0.27539920806884766,0.08274013549089432,False,✗ 错误
+His sudden change in attitude was puzzling until we learned of his family emergency.,right,1,右向(反因果),right,右向(反因果),1,0.5862945318222046,0.22496198117733002,0.5862945318222046,0.18874354660511017,True,✓ 正确
+"The algorithm's bias was subtle, only becoming apparent after analyzing thousands of outputs.",right,1,右向(反因果),left,左向(因果),0,0.7792600393295288,0.7792600393295288,0.21990813314914703,0.0008318147738464177,False,✗ 错误
+"The political landscape shifted dramatically, the result of a grassroots movement.",right,1,右向(反因果),left,左向(因果),0,0.9938417673110962,0.9938417673110962,0.006052883807569742,0.00010530830331845209,False,✗ 错误
+"She had a unique perspective on the problem, shaped by her unconventional background.",right,1,右向(反因果),right,右向(反因果),1,0.854518473148346,0.12840329110622406,0.854518473148346,0.017078254371881485,True,✓ 正确
+"The company culture felt toxic, with managers pitting employees against each other.",right,1,右向(反因果),left,左向(因果),0,0.9758769273757935,0.9758769273757935,0.023578111082315445,0.0005449049058370292,False,✗ 错误
+"The user interface looked simple, but it was the result of extensive user research.",right,1,右向(反因果),right,右向(反因果),1,0.8228893280029297,0.1753116399049759,0.8228893280029297,0.0017989750485867262,True,✓ 正确
+"He was forgiven, his genuine remorse having been clear to everyone.",right,1,右向(反因果),right,右向(反因果),1,0.8889679908752441,0.10992196947336197,0.8889679908752441,0.001110066077671945,True,✓ 正确
+"The forest was eerily quiet, all the birds having fled before the storm.",right,1,右向(反因果),right,右向(反因果),1,0.6562408208847046,0.3414553999900818,0.6562408208847046,0.0023038117215037346,True,✓ 正确
+"The system's failure was inevitable, its design being flawed from the very beginning.",right,1,右向(反因果),left,左向(因果),0,0.8236661553382874,0.8236661553382874,0.17469869554042816,0.0016351687954738736,False,✗ 错误
+"He appeared very knowledgeable, a facade that quickly crumbled under questioning.",right,1,右向(反因果),right,右向(反因果),1,0.9479092359542847,0.05084098130464554,0.9479092359542847,0.001249774475581944,True,✓ 正确
+"Her solution was brilliant, something no one else on the team had thought of.",right,1,右向(反因果),left,左向(因果),0,0.42470476031303406,0.42470476031303406,0.3994341492652893,0.17586103081703186,False,✗ 错误
+"The artifact was priceless, its historical significance being immense.",right,1,右向(反因果),left,左向(因果),0,0.8663592338562012,0.8663592338562012,0.13331975042819977,0.00032100334647111595,False,✗ 错误
+"The team morale was low, a direct result of the constant overtime.",right,1,右向(反因果),right,右向(反因果),1,0.815983235836029,0.026205793023109436,0.815983235836029,0.15781095623970032,True,✓ 正确
+The software update introduced more bugs than it fixed.,right,1,右向(反因果),right,右向(反因果),1,0.7441791892051697,0.25145605206489563,0.7441791892051697,0.004364724736660719,True,✓ 正确
+"His expression was unreadable, his true feelings a complete mystery.",right,1,右向(反因果),right,右向(反因果),1,0.8787370324134827,0.1201864555478096,0.8787370324134827,0.0010764991166070104,True,✓ 正确
+"Although the weather was bad, the match went on.",bidirectional,2,双向,bidirectional,双向,2,0.4825843870639801,0.1825336217880249,0.3348819613456726,0.4825843870639801,True,✓ 正确
+"He is a talented designer, but his communication skills are lacking.",bidirectional,2,双向,bidirectional,双向,2,0.9627055525779724,0.0074888006784021854,0.02980567328631878,0.9627055525779724,True,✓ 正确
+"While AI offers incredible tools, it also raises ethical concerns.",bidirectional,2,双向,right,右向(反因果),1,0.7845592498779297,0.10443423688411713,0.7845592498779297,0.11100655049085617,False,✗ 错误
+"The new policy benefits the company, yet it is unpopular with the employees.",bidirectional,2,双向,left,左向(因果),0,0.6156942844390869,0.6156942844390869,0.3348429501056671,0.04946273937821388,False,✗ 错误
+"She enjoys living in the city, whereas her partner prefers the countryside.",bidirectional,2,双向,bidirectional,双向,2,0.44683897495269775,0.3606828451156616,0.19247816503047943,0.44683897495269775,True,✓ 正确
+"Despite the initial setbacks, the project was ultimately successful.",bidirectional,2,双向,bidirectional,双向,2,0.806793749332428,0.08342546224594116,0.10978083312511444,0.806793749332428,True,✓ 正确
+"The plan is solid in theory; in practice, however, it's difficult to implement.",bidirectional,2,双向,right,右向(反因果),1,0.6799193024635315,0.07194247096776962,0.6799193024635315,0.24813823401927948,False,✗ 错误
+"He works hard, yet he rarely gets the recognition he deserves.",bidirectional,2,双向,left,左向(因果),0,0.7666149735450745,0.7666149735450745,0.22163255512714386,0.011752430349588394,False,✗ 错误
+"Some people support the new law, while others are strongly opposed.",bidirectional,2,双向,left,左向(因果),0,0.9891641736030579,0.9891641736030579,0.010732545517385006,0.00010329993529012427,False,✗ 错误
+"The movie received critical acclaim, though it did not perform well at the box office.",bidirectional,2,双向,right,右向(反因果),1,0.7613673806190491,0.22577650845050812,0.7613673806190491,0.01285608485341072,False,✗ 错误
+"The strategy was risky, but the potential rewards were enormous.",bidirectional,2,双向,right,右向(反因果),1,0.7596719861030579,0.20982638001441956,0.7596719861030579,0.030501648783683777,False,✗ 错误
+"On one hand, the technology saves time; on the other hand, it reduces job opportunities.",bidirectional,2,双向,left,左向(因果),0,0.9419907927513123,0.9419907927513123,0.057777632027864456,0.00023159371630754322,False,✗ 错误
+"The defense presented a strong case, but the prosecution's evidence was more compelling.",bidirectional,2,双向,right,右向(反因果),1,0.709936797618866,0.055744972079992294,0.709936797618866,0.23431824147701263,False,✗ 错误
+"He is an expert in his field, but even he couldn't solve the problem.",bidirectional,2,双向,bidirectional,双向,2,0.9561999440193176,0.010251817293465137,0.0335482656955719,0.9561999440193176,True,✓ 正确
+"The research provides valuable insights, though more data is needed for a firm conclusion.",bidirectional,2,双向,left,左向(因果),0,0.9323717355728149,0.9323717355728149,0.06702958792448044,0.0005986161413602531,False,✗ 错误
+"The first half of the book was captivating, but the second half was rather dull.",bidirectional,2,双向,bidirectional,双向,2,0.45929670333862305,0.14988957345485687,0.3908137381076813,0.45929670333862305,True,✓ 正确
+"She understood his reasoning; however, she couldn't agree with his decision.",bidirectional,2,双向,bidirectional,双向,2,0.6469337344169617,0.021452073007822037,0.3316141963005066,0.6469337344169617,True,✓ 正确
+"While some praised the art for its originality, others dismissed it as chaotic.",bidirectional,2,双向,left,左向(因果),0,0.983958899974823,0.983958899974823,0.015998518094420433,4.2541043512756005e-05,False,✗ 错误
+"The company is profitable, yet it faces intense competition.",bidirectional,2,双向,left,左向(因果),0,0.8304166197776794,0.8304166197776794,0.13449516892433167,0.03508822247385979,False,✗ 错误
+"He wanted to go to the party, but he knew he had to study for the exam.",bidirectional,2,双向,right,右向(反因果),1,0.8986847996711731,0.09849090129137039,0.8986847996711731,0.0028243185952305794,False,✗ 错误
+"The software has a powerful feature set, but its user interface is not intuitive.",bidirectional,2,双向,right,右向(反因果),1,0.6215115785598755,0.37137043476104736,0.6215115785598755,0.00711802439764142,False,✗ 错误
+"The ceasefire agreement was signed, yet sporadic fighting continued in the region.",bidirectional,2,双向,left,左向(因果),0,0.7908295392990112,0.7908295392990112,0.2086961716413498,0.00047432593419216573,False,✗ 错误
+"She is outgoing and sociable, quite the opposite of her introverted brother.",bidirectional,2,双向,bidirectional,双向,2,0.967029869556427,0.004345956724137068,0.028624199330806732,0.967029869556427,True,✓ 正确
+"The proposal looks good on paper, but its real-world feasibility is questionable.",bidirectional,2,双向,left,左向(因果),0,0.5152705311775208,0.5152705311775208,0.47934281826019287,0.00538664823397994,False,✗ 错误
+"Despite its small size, the country has a significant global influence.",bidirectional,2,双向,left,左向(因果),0,0.9821566939353943,0.9821566939353943,0.017017444595694542,0.0008258934831246734,False,✗ 错误
+"He is a respected scientist, but his latest theory has been met with skepticism.",bidirectional,2,双向,bidirectional,双向,2,0.9654832482337952,0.0069303992204368114,0.027586370706558228,0.9654832482337952,True,✓ 正确
+"The medication is effective, although it has some minor side effects.",bidirectional,2,双向,left,左向(因果),0,0.6991153955459595,0.6991153955459595,0.2255524843931198,0.0753321498632431,False,✗ 错误
+"Some tasks are better suited for humans, while others can be automated by AI.",bidirectional,2,双向,right,右向(反因果),1,0.4541040062904358,0.13269852101802826,0.4541040062904358,0.41319745779037476,False,✗ 错误
+"The novel's plot was intricate, but its character development was weak.",bidirectional,2,双向,right,右向(反因果),1,0.61592698097229,0.37761276960372925,0.61592698097229,0.006460259202867746,False,✗ 错误
+"He had all the necessary qualifications, yet he wasn't hired for the job.",bidirectional,2,双向,right,右向(反因果),1,0.789838969707489,0.17850261926651,0.789838969707489,0.03165847063064575,False,✗ 错误
+"The mountain is beautiful to look at, but dangerous to climb.",bidirectional,2,双向,right,右向(反因果),1,0.8398975133895874,0.11250297725200653,0.8398975133895874,0.04759957268834114,False,✗ 错误
+"While I sympathize with your situation, I cannot make an exception to the rules.",bidirectional,2,双向,right,右向(反因果),1,0.5480437278747559,0.4442810118198395,0.5480437278747559,0.00767524866387248,False,✗ 错误
+"The design is aesthetically pleasing, but it's not very functional.",bidirectional,2,双向,right,右向(反因果),1,0.5052168369293213,0.49345746636390686,0.5052168369293213,0.0013256741221994162,False,✗ 错误
+He is both a gifted musician and a talented athlete.,bidirectional,2,双向,bidirectional,双向,2,0.9485806822776794,0.013351373374462128,0.038067858666181564,0.9485806822776794,True,✓ 正确
+"The team has great individual players, but they don't work well together.",bidirectional,2,双向,bidirectional,双向,2,0.5465186834335327,0.027961837127804756,0.42551952600479126,0.5465186834335327,True,✓ 正确
+The city is a hub of innovation; it also struggles with high living costs.,bidirectional,2,双向,left,左向(因果),0,0.5158249735832214,0.5158249735832214,0.4583964943885803,0.025778528302907944,False,✗ 错误
+"He apologized, but the damage was already done.",bidirectional,2,双向,right,右向(反因果),1,0.8238018155097961,0.15622638165950775,0.8238018155097961,0.01997184194624424,False,✗ 错误
+"The product is affordable, yet its quality is surprisingly high.",bidirectional,2,双向,right,右向(反因果),1,0.5876275897026062,0.35851797461509705,0.5876275897026062,0.05385443568229675,False,✗ 错误
+"The presentation was informative, if a little dry.",bidirectional,2,双向,left,左向(因果),0,0.9517271518707275,0.9517271518707275,0.04674570634961128,0.0015271552838385105,False,✗ 错误
+"The law aims to protect the environment, but it may harm the economy.",bidirectional,2,双向,right,右向(反因果),1,0.5794562697410583,0.39720189571380615,0.5794562697410583,0.023341797292232513,False,✗ 错误
+"She speaks quietly, but her words carry great weight.",bidirectional,2,双向,left,左向(因果),0,0.784493088722229,0.784493088722229,0.20884393155574799,0.006662930361926556,False,✗ 错误
+"He is known for his generosity, but he can also be quite stubborn.",bidirectional,2,双向,bidirectional,双向,2,0.973810613155365,0.00450432114303112,0.02168511599302292,0.973810613155365,True,✓ 正确
+"The journey was long and arduous; nevertheless, the destination was worth it.",bidirectional,2,双向,right,右向(反因果),1,0.6205040216445923,0.24586740136146545,0.6205040216445923,0.13362859189510345,False,✗ 错误
+"The evidence seems to point to one conclusion, but a closer look reveals contradictions.",bidirectional,2,双向,right,右向(反因果),1,0.9560179114341736,0.037272464483976364,0.9560179114341736,0.006709652487188578,False,✗ 错误
+"You can use the free version of the software, or you can purchase the premium version.",bidirectional,2,双向,left,左向(因果),0,0.9004821181297302,0.9004821181297302,0.09694227576255798,0.0025755977258086205,False,✗ 错误
+"The artist is celebrated for his paintings, but his sculptures are less known.",bidirectional,2,双向,left,左向(因果),0,0.8512657880783081,0.8512657880783081,0.1484948843717575,0.00023931346368044615,False,✗ 错误
+"The negotiations were tough, but a compromise was eventually reached.",bidirectional,2,双向,right,右向(反因果),1,0.7796584367752075,0.08801788091659546,0.7796584367752075,0.13232363760471344,False,✗ 错误
+"He is a leader in technology, while his brother is a prominent figure in finance.",bidirectional,2,双向,bidirectional,双向,2,0.9645534753799438,0.007829299196600914,0.02761726826429367,0.9645534753799438,True,✓ 正确
+"The film was a visual masterpiece, though its story was somewhat predictable.",bidirectional,2,双向,right,右向(反因果),1,0.8474724888801575,0.12838442623615265,0.8474724888801575,0.02414308302104473,False,✗ 错误
+"The system is secure against external threats, but vulnerable to insider attacks.",bidirectional,2,双向,right,右向(反因果),1,0.5638049244880676,0.42950576543807983,0.5638049244880676,0.006689285859465599,False,✗ 错误
+我完成了实验，然后开始写报告。,left,0,左向(因果),left,左向(因果),0,0.9999566078186035,0.9999566078186035,4.317789353081025e-05,2.4570204004703555e-07,True,✓ 正确
+会议结束后，大家分头开始执行任务。,left,0,左向(因果),left,左向(因果),0,0.9998937845230103,0.9998937845230103,0.00010532727901590988,8.634867185719486e-07,True,✓ 正确
+他按下开机键，电脑屏幕随之亮起。,left,0,左向(因果),left,左向(因果),0,0.9992555975914001,0.9992555975914001,0.0007110212463885546,3.333477798150852e-05,True,✓ 正确
+了解了客户需求之后，我们的团队马上设计了原型。,left,0,左向(因果),left,左向(因果),0,0.9991900324821472,0.9991900324821472,0.0007918593473732471,1.8128217561752535e-05,True,✓ 正确
+雨停了，孩子们便跑到院子里玩耍。,left,0,左向(因果),left,左向(因果),0,0.99973064661026,0.99973064661026,0.00026872724993154407,6.344506573441322e-07,True,✓ 正确
+她仔细阅读了说明书，接着开始组装家具。,left,0,左向(因果),left,左向(因果),0,0.9994648098945618,0.9994648098945618,0.0005104028386995196,2.4807661247905344e-05,True,✓ 正确
+股市大涨，许多投资者的资产都增加了。,left,0,左向(因果),left,左向(因果),0,0.9931954145431519,0.9931954145431519,0.006709566339850426,9.501189924776554e-05,True,✓ 正确
+他跑了五公里，出了一身汗。,left,0,左向(因果),left,左向(因果),0,0.9996737241744995,0.9996737241744995,0.00032223359448835254,4.0782770156511106e-06,True,✓ 正确
+输入正确的密码，门锁就打开了。,left,0,左向(因果),left,左向(因果),0,0.9942578077316284,0.9942578077316284,0.005563553422689438,0.00017862417735159397,True,✓ 正确
+技术革新推动了社会生产力的巨大发展。,left,0,左向(因果),left,左向(因果),0,0.7352327108383179,0.7352327108383179,0.13481800258159637,0.12994924187660217,True,✓ 正确
+她感到有些累，于是决定早点休息。,left,0,左向(因果),left,左向(因果),0,0.9278849363327026,0.9278849363327026,0.07158783078193665,0.000527151976712048,True,✓ 正确
+分析完数据，他得出了一个初步的结论。,left,0,左向(因果),left,左向(因果),0,0.9457248449325562,0.9457248449325562,0.05375394597649574,0.0005211769603192806,True,✓ 正确
+春天播下种子，秋天就能收获果实。,left,0,左向(因果),left,左向(因果),0,0.999795138835907,0.999795138835907,0.00019276957027614117,1.2186699677840807e-05,True,✓ 正确
+手机没电了，所以我需要给它充电。,left,0,左向(因果),bidirectional,双向,2,0.78500896692276,0.20654083788394928,0.00845017097890377,0.78500896692276,False,✗ 错误
+他通过了所有的考试，顺利地拿到了毕业证书。,left,0,左向(因果),left,左向(因果),0,0.9987500905990601,0.9987500905990601,0.001136832870543003,0.00011310911213513464,True,✓ 正确
+新的交通法规实施后，城市拥堵状况有所缓解。,left,0,左向(因果),left,左向(因果),0,0.9999006986618042,0.9999006986618042,9.905263141263276e-05,2.823037448251853e-07,True,✓ 正确
+他感到一阵心安，因为他已经做好了万全的准备。,left,0,左向(因果),left,左向(因果),0,0.9951867461204529,0.9951867461204529,0.004772561136633158,4.069699934916571e-05,True,✓ 正确
+这个算法首先对数据进行预处理，以提高后续模型的准确性。,left,0,左向(因果),right,右向(反因果),1,0.44572004675865173,0.1427036076784134,0.44572004675865173,0.4115763306617737,False,✗ 错误
+他把面包放进烤箱，几分钟后闻到了香味。,left,0,左向(因果),left,左向(因果),0,0.9979277849197388,0.9979277849197388,0.0017882579704746604,0.0002839856024365872,True,✓ 正确
+随着城市化进程的加快，高楼大厦拔地而起。,left,0,左向(因果),left,左向(因果),0,0.9127713441848755,0.9127713441848755,0.08662202209234238,0.0006066604983061552,True,✓ 正确
+她感到口渴，就去厨房倒了杯水。,left,0,左向(因果),left,左向(因果),0,0.9305493235588074,0.9305493235588074,0.06906448304653168,0.0003861093136947602,True,✓ 正确
+收到面试通知，他开始认真准备简历。,left,0,左向(因果),left,左向(因果),0,0.998492956161499,0.998492956161499,0.0014205535408109426,8.650255767861381e-05,True,✓ 正确
+蒸汽机的发明，标志着第一次工业革命的开始。,left,0,左向(因果),bidirectional,双向,2,0.851308286190033,0.07947366684675217,0.06921803206205368,0.851308286190033,False,✗ 错误
+他耐心地解释了整个过程，消除了大家的疑虑。,left,0,左向(因果),left,左向(因果),0,0.9970917701721191,0.9970917701721191,0.0027600182220339775,0.000148189821629785,True,✓ 正确
+模型完成了训练，现在可以用来进行预测了。,left,0,左向(因果),left,左向(因果),0,0.7961193323135376,0.7961193323135376,0.20195633172988892,0.001924421638250351,True,✓ 正确
+他戴上耳机，世界瞬间安静了下来。,left,0,左向(因果),left,左向(因果),0,0.9996408224105835,0.9996408224105835,0.0003568236716091633,2.3796808363840682e-06,True,✓ 正确
+公司发布了新产品，立刻吸引了大量用户的关注。,left,0,左向(因果),left,左向(因果),0,0.9898410439491272,0.9898410439491272,0.0014904183335602283,0.008668490685522556,True,✓ 正确
+太阳升起，新的一天开始了。,left,0,左向(因果),left,左向(因果),0,0.7311935424804688,0.7311935424804688,0.15402303636074066,0.11478342860937119,True,✓ 正确
+她接受了朋友的建议，改变了自己的计划。,left,0,左向(因果),left,左向(因果),0,0.9885320663452148,0.9885320663452148,0.011220882646739483,0.00024695994216017425,True,✓ 正确
+秦始皇统一了六国，建立了中国历史上第一个中央集权王朝。,left,0,左向(因果),left,左向(因果),0,0.9982197880744934,0.9982197880744934,0.001145448419265449,0.0006347337039187551,True,✓ 正确
+他感到一阵暖意，朋友的关心让他很感动。,left,0,左向(因果),left,左向(因果),0,0.9952623844146729,0.9952623844146729,0.004695311654359102,4.225151496939361e-05,True,✓ 正确
+系统升级后，软件的运行变得更加流畅。,left,0,左向(因果),left,左向(因果),0,0.9987810254096985,0.9987810254096985,0.0011338667245581746,8.511618943884969e-05,True,✓ 正确
+他关上窗户，隔绝了外面的喧嚣。,left,0,左向(因果),left,左向(因果),0,0.999891996383667,0.999891996383667,0.0001070587313733995,9.162695846498536e-07,True,✓ 正确
+团队完成了头脑风暴，确定了最终的方案。,left,0,左向(因果),bidirectional,双向,2,0.9441118240356445,0.02998201921582222,0.0259061511605978,0.9441118240356445,False,✗ 错误
+洪水退去后，人们开始了家园的重建工作。,left,0,左向(因果),left,左向(因果),0,0.9989569187164307,0.9989569187164307,0.0009935209527611732,4.9568669055588543e-05,True,✓ 正确
+她被那个故事深深打动，眼眶有些湿润。,left,0,左向(因果),left,左向(因果),0,0.6011199951171875,0.6011199951171875,0.39286303520202637,0.006016966886818409,True,✓ 正确
+汉朝开辟了丝绸之路，促进了东西方文化的交流。,left,0,左向(因果),left,左向(因果),0,0.9997931122779846,0.9997931122779846,0.0001991798635572195,7.786799869791139e-06,True,✓ 正确
+这个程序很简单，因此很快就学会了如何使用。,left,0,左向(因果),right,右向(反因果),1,0.6322672367095947,0.10751309990882874,0.6322672367095947,0.2602196931838989,False,✗ 错误
+他工作了一整天，感觉筋疲力尽。,left,0,左向(因果),left,左向(因果),0,0.9960228204727173,0.9960228204727173,0.002486896002665162,0.0014901956310495734,True,✓ 正确
+为了赶上早班车，他五点钟就起床了。,left,0,左向(因果),left,左向(因果),0,0.9999513626098633,0.9999513626098633,4.831723708775826e-05,3.753623900593084e-07,True,✓ 正确
+所有人都很惊讶，后来才知道他是负责人。,right,1,右向(反因果),right,右向(反因果),1,0.9985688924789429,0.0013668648898601532,0.9985688924789429,6.417725671781227e-05,True,✓ 正确
+这个项目失败了，归根结底是初期调研不够充分。,right,1,右向(反因果),right,右向(反因果),1,0.6162236332893372,0.10902015119791031,0.6162236332893372,0.27475622296333313,True,✓ 正确
+花园里生机勃勃，那是她几个月来精心照料的结果。,right,1,右向(反因果),bidirectional,双向,2,0.9696932435035706,0.0232924222946167,0.007014269009232521,0.9696932435035706,False,✗ 错误
+他终于听懂了那个笑话，而此时大家早已笑过。,right,1,右向(反因果),left,左向(因果),0,0.9874961376190186,0.9874961376190186,0.011812301352620125,0.000691543857101351,False,✗ 错误
+系统突然崩溃，原来是一个核心文件被误删了。,right,1,右向(反因果),left,左向(因果),0,0.9983691573143005,0.9983691573143005,0.0014995215460658073,0.0001314295077463612,False,✗ 错误
+街上空无一人，原来今天是法定节假日。,right,1,右向(反因果),left,左向(因果),0,0.9972373247146606,0.9972373247146606,0.0027132791001349688,4.929164788336493e-05,False,✗ 错误
+她表面上很平静，内心的波澜却无人知晓。,right,1,右向(反因果),left,左向(因果),0,0.5716139674186707,0.5716139674186707,0.42293211817741394,0.005453907418996096,False,✗ 错误
+这次实验的结果出人意料，完全推翻了之前的假设。,right,1,右向(反因果),bidirectional,双向,2,0.9871925115585327,0.002345071407034993,0.010462389327585697,0.9871925115585327,False,✗ 错误
+他的道歉缺乏诚意，毕竟他很快又犯了同样的错误。,right,1,右向(反因果),left,左向(因果),0,0.8464603424072266,0.8464603424072266,0.08446036279201508,0.06907929480075836,False,✗ 错误
+被告被判无罪，关键在于针对他的证据都是间接的。,right,1,右向(反因果),right,右向(反因果),1,0.6812605857849121,0.23200511932373047,0.6812605857849121,0.0867343321442604,True,✓ 正确
+公司股价大涨，事实证明发布新产品的决策是正确的。,right,1,右向(反因果),left,左向(因果),0,0.9837834239006042,0.9837834239006042,0.002192901447415352,0.014023685827851295,False,✗ 错误
+那个古老的文明突然消失了，其原因至今仍是历史谜团。,right,1,右向(反因果),right,右向(反因果),1,0.9992398023605347,0.0007453215075656772,0.9992398023605347,1.4846366866549943e-05,True,✓ 正确
+她突然大哭起来，一周积累的压力终于爆发了。,right,1,右向(反因果),right,右向(反因果),1,0.7802023887634277,0.21660026907920837,0.7802023887634277,0.003197305602952838,True,✓ 正确
+人工智能的回答极富创造性，这揭示了开发者未曾预料到的能力。,right,1,右向(反因果),left,左向(因果),0,0.9996846914291382,0.9996846914291382,0.0003125648945569992,2.7801606847788207e-06,False,✗ 错误
+他看起来很疲惫，我们后来才得知他一直在做兼职。,right,1,右向(反因果),left,左向(因果),0,0.7812759876251221,0.7812759876251221,0.21781809628009796,0.0009059161529876292,False,✗ 错误
+整个会场鸦雀无声，直到主持人走上台。,right,1,右向(反因果),left,左向(因果),0,0.7830603718757629,0.7830603718757629,0.15261034667491913,0.06432920694351196,False,✗ 错误
+一名关键证人推翻了之前的证词，被告因此被当庭释放。,right,1,右向(反因果),bidirectional,双向,2,0.9353068470954895,0.008925517089664936,0.055767688900232315,0.9353068470954895,False,✗ 错误
+他满手油漆，显然是刚刚画完了那幅壁画。,right,1,右向(反因果),left,左向(因果),0,0.9994246959686279,0.9994246959686279,0.0005611931555904448,1.4206902051228099e-05,False,✗ 错误
+这段代码简洁而高效，无疑出自一位顶尖程序员之手。,right,1,右向(反因果),right,右向(反因果),1,0.553352952003479,0.03462111949920654,0.553352952003479,0.41202592849731445,True,✓ 正确
+他心里咯噔一下，一种不祥的预感涌上心头。,right,1,右向(反因果),left,左向(因果),0,0.9852161407470703,0.9852161407470703,0.013897503726184368,0.0008863148395903409,False,✗ 错误
+这座城市的空气质量非常好，这得益于其发达的公共交通系统。,right,1,右向(反因果),right,右向(反因果),1,0.7269434928894043,0.010855468921363354,0.7269434928894043,0.2622010409832001,True,✓ 正确
+她的自信令人钦佩，这种自信源于多年的经验积累。,right,1,右向(反因果),left,左向(因果),0,0.5760862827301025,0.5760862827301025,0.4114595651626587,0.012454160489141941,False,✗ 错误
+这个算法的效率惊人，其巧妙的设计思想可见一斑。,right,1,右向(反因果),right,右向(反因果),1,0.5258942246437073,0.10917925834655762,0.5258942246437073,0.3649265170097351,True,✓ 正确
+那个决定起初看似草率，其背后的逻辑却十分严谨。,right,1,右向(反因果),right,右向(反因果),1,0.9993745684623718,0.0006053653196431696,0.9993745684623718,2.0063995179953054e-05,True,✓ 正确
+这栋建筑早已被废弃，窗户破碎，墙上满是涂鸦。,right,1,右向(反因果),bidirectional,双向,2,0.9000821113586426,0.012607812881469727,0.08731000870466232,0.9000821113586426,False,✗ 错误
+他是一位出色的领导者，安静的外表下藏着坚定的意志。,right,1,右向(反因果),left,左向(因果),0,0.7975674867630005,0.7975674867630005,0.17913088202476501,0.02330170013010502,False,✗ 错误
+这部剧取得了巨大的成功，这是所有评论家都没想到的。,right,1,右向(反因果),bidirectional,双向,2,0.9344173073768616,0.012521903961896896,0.053060758858919144,0.9344173073768616,False,✗ 错误
+这里的生态系统非常健康，这是近期保护措施的积极成果。,right,1,右向(反因果),bidirectional,双向,2,0.834275484085083,0.025884637609124184,0.13983993232250214,0.834275484085083,False,✗ 错误
+这条信息很隐晦，其真实含义需要解密才能得知。,right,1,右向(反因果),right,右向(反因果),1,0.5213334560394287,0.026290208101272583,0.5213334560394287,0.4523763060569763,True,✓ 正确
+他内心终于平静了，长期以来的焦虑烟消云散。,right,1,右向(反因果),left,左向(因果),0,0.981205940246582,0.981205940246582,0.018367232754826546,0.00042676180601119995,False,✗ 错误
+火箭发射被推迟，原因是燃料传感器出了问题。,right,1,右向(反因果),left,左向(因果),0,0.9899436235427856,0.9899436235427856,0.009953660890460014,0.00010269564518239349,False,✗ 错误
+这份文件是伪造的，一位笔迹专家揭示了真相。,right,1,右向(反因果),bidirectional,双向,2,0.902690589427948,0.01642560586333275,0.08088385313749313,0.902690589427948,False,✗ 错误
+她的晋升是实至名归的，公司以此表彰她持续的优异表现。,right,1,右向(反因果),left,左向(因果),0,0.6441752910614014,0.6441752910614014,0.34871017932891846,0.007114550098776817,False,✗ 错误
+项目预算被削减，团队不得不重新考虑他们的策略。,right,1,右向(反因果),right,右向(反因果),1,0.5396950840950012,0.459693044424057,0.5396950840950012,0.0006118526798672974,True,✓ 正确
+他态度的突然转变令人费解，直到我们知道了他家里的急事。,right,1,右向(反因果),left,左向(因果),0,0.9981168508529663,0.9981168508529663,0.001832543988712132,5.0712889787973836e-05,False,✗ 错误
+算法的偏见很微妙，只有在分析了数千个输出后才变得明显。,right,1,右向(反因果),right,右向(反因果),1,0.6075226068496704,0.3755291998386383,0.6075226068496704,0.016948198899626732,True,✓ 正确
+政治格局发生了巨变，一场自下而上的运动是这一切的推手。,right,1,右向(反因果),left,左向(因果),0,0.9987066984176636,0.9987066984176636,0.0012870070058852434,6.333890269161202e-06,False,✗ 错误
+她对问题有独特的看法，这源于她非传统的成长背景。,right,1,右向(反因果),left,左向(因果),0,0.9827013611793518,0.9827013611793518,0.014881257899105549,0.002417484065517783,False,✗ 错误
+公司的氛围让人感到压抑，经理们总是在员工之间制造对立。,right,1,右向(反因果),left,左向(因果),0,0.9573298692703247,0.9573298692703247,0.00350959156639874,0.039160460233688354,False,✗ 错误
+这个用户界面看起来很简单，背后却是大量的用户研究所得。,right,1,右向(反因果),bidirectional,双向,2,0.5247472524642944,0.14795519411563873,0.327297568321228,0.5247472524642944,False,✗ 错误
+他得到了大家的原谅，他真诚的悔意所有人都看在眼里。,right,1,右向(反因果),left,左向(因果),0,0.999107301235199,0.999107301235199,0.000883638858795166,9.054766451299656e-06,False,✗ 错误
+森林里寂静得可怕，原来所有鸟兽都在暴风雨来临前逃走了。,right,1,右向(反因果),left,左向(因果),0,0.9436679482460022,0.9436679482460022,0.05579047650098801,0.000541594170499593,False,✗ 错误
+系统的崩溃是必然的，它的设计从一开始就存在缺陷。,right,1,右向(反因果),left,左向(因果),0,0.9984025359153748,0.9984025359153748,0.001445402973331511,0.00015207189426291734,False,✗ 错误
+他显得知识渊博，但这个假象在几个问题后就被戳穿了。,right,1,右向(反因果),left,左向(因果),0,0.9972819089889526,0.9972819089889526,0.0026933930348604918,2.4756125640124083e-05,False,✗ 错误
+她的解决方案非常巧妙，团队里其他人都没想到。,right,1,右向(反因果),left,左向(因果),0,0.5334345102310181,0.5334345102310181,0.45333266258239746,0.013232817873358727,False,✗ 错误
+这件文物的历史意义极其重大，可以说是无价之宝。,right,1,右向(反因果),right,右向(反因果),1,0.7176899313926697,0.012811427004635334,0.7176899313926697,0.26949864625930786,True,✓ 正确
+团队士气低落，这是持续加班的直接后果。,right,1,右向(反因果),bidirectional,双向,2,0.9437156319618225,0.0308100376278162,0.025474313646554947,0.9437156319618225,False,✗ 错误
+软件更新后，引入的漏洞比修复的还多。,right,1,右向(反因果),bidirectional,双向,2,0.9937989115715027,0.0009957421571016312,0.005205329041928053,0.9937989115715027,False,✗ 错误
+他的表情让人捉摸不透，没人知道他真实的想法。,right,1,右向(反因果),left,左向(因果),0,0.9641119837760925,0.9641119837760925,0.03510968014597893,0.000778365065343678,False,✗ 错误
+虽然天气不好，但比赛仍然进行。,bidirectional,2,双向,bidirectional,双向,2,0.999383807182312,0.00027978417347185314,0.0003364336444064975,0.999383807182312,True,✓ 正确
+他是一位有才华的设计师，但沟通能力有所欠缺。,bidirectional,2,双向,left,左向(因果),0,0.7978924512863159,0.7978924512863159,0.17491981387138367,0.02718769945204258,False,✗ 错误
+人工智能提供了强大的工具，同时也引发了伦理方面的担忧。,bidirectional,2,双向,left,左向(因果),0,0.9996914863586426,0.9996914863586426,0.00030580637394450605,2.695071771086077e-06,False,✗ 错误
+新政策对公司有利，却在员工中引起了不满。,bidirectional,2,双向,left,左向(因果),0,0.9999381303787231,0.9999381303787231,6.16449469816871e-05,2.8578381261468166e-07,False,✗ 错误
+她喜欢城市的繁华，而她的伴侣则更爱乡村的宁静。,bidirectional,2,双向,left,左向(因果),0,0.9915305376052856,0.9915305376052856,0.008242960087954998,0.00022649523452855647,False,✗ 错误
+尽管初期遇到了一些挫折，项目最终还是取得了成功。,bidirectional,2,双向,bidirectional,双向,2,0.9993809461593628,0.00033794628689065576,0.0002810110163409263,0.9993809461593628,True,✓ 正确
+这个计划理论上可行，然而在实践中却困难重重。,bidirectional,2,双向,bidirectional,双向,2,0.5604621767997742,0.07600033283233643,0.3635374903678894,0.5604621767997742,True,✓ 正确
+他工作努力，却很少得到应有的认可。,bidirectional,2,双向,left,左向(因果),0,0.9967586398124695,0.9967586398124695,0.002153853652998805,0.001087505603209138,False,✗ 错误
+一些人支持新法律，另一些人则强烈反对。,bidirectional,2,双向,bidirectional,双向,2,0.9822297096252441,0.005631768144667149,0.012138556689023972,0.9822297096252441,True,✓ 正确
+这部电影获得了评论界的高度赞扬，尽管票房表现平平。,bidirectional,2,双向,bidirectional,双向,2,0.9478808641433716,0.00895727053284645,0.04316180199384689,0.9478808641433716,True,✓ 正确
+这个策略风险很高，但潜在的回报也同样巨大。,bidirectional,2,双向,right,右向(反因果),1,0.4650031626224518,0.1014244332909584,0.4650031626224518,0.4335724115371704,False,✗ 错误
+一方面，这项技术节省了时间；另一方面，它也减少了就业机会。,bidirectional,2,双向,bidirectional,双向,2,0.9985879063606262,0.0006461300072260201,0.0007659385446459055,0.9985879063606262,True,✓ 正确
+辩方的论证很充分，但是控方的证据更有说服力。,bidirectional,2,双向,left,左向(因果),0,0.7371716499328613,0.7371716499328613,0.02602086402475834,0.2368074655532837,False,✗ 错误
+他是该领域的专家，可即便是他也无法解决这个问题。,bidirectional,2,双向,left,左向(因果),0,0.887158215045929,0.887158215045929,0.09049901366233826,0.022342761978507042,False,✗ 错误
+这项研究提供了宝贵的见解，不过还需要更多数据来证实结论。,bidirectional,2,双向,right,右向(反因果),1,0.6551332473754883,0.017603281885385513,0.6551332473754883,0.3272634744644165,False,✗ 错误
+书的前半部分很吸引人，后半部分却相当乏味。,bidirectional,2,双向,left,左向(因果),0,0.8667969703674316,0.8667969703674316,0.11341887712478638,0.019784117117524147,False,✗ 错误
+她理解他的逻辑，但仍然无法同意他的决定。,bidirectional,2,双向,left,左向(因果),0,0.889900803565979,0.889900803565979,0.10703159123659134,0.003067627316340804,False,✗ 错误
+有人称赞这件艺术品富有创意，也有人认为它杂乱无章。,bidirectional,2,双向,left,左向(因果),0,0.6943607926368713,0.6943607926368713,0.24935437738895416,0.05628480762243271,False,✗ 错误
+公司虽然盈利，但面临着激烈的市场竞争。,bidirectional,2,双向,left,左向(因果),0,0.9216952323913574,0.9216952323913574,0.0039473301731050014,0.07435742020606995,False,✗ 错误
+他很想去参加派对，但他知道必须为考试复习。,bidirectional,2,双向,left,左向(因果),0,0.9977841973304749,0.9977841973304749,0.0021292627789080143,8.654409612063318e-05,False,✗ 错误
+这个软件功能强大，但用户界面设计得并不直观。,bidirectional,2,双向,bidirectional,双向,2,0.6294987797737122,0.06754999607801437,0.30295124650001526,0.6294987797737122,True,✓ 正确
+停火协议已经签署，但该地区的零星战斗仍在继续。,bidirectional,2,双向,left,左向(因果),0,0.7145978212356567,0.7145978212356567,0.28489094972610474,0.0005112299695611,False,✗ 错误
+她外向活泼，与她内向的哥哥性格截然相反。,bidirectional,2,双向,left,左向(因果),0,0.9986685514450073,0.9986685514450073,0.0012814997462555766,4.994844493921846e-05,False,✗ 错误
+这个提案在纸面上看起来不错，但其现实可行性值得怀疑。,bidirectional,2,双向,right,右向(反因果),1,0.7279067039489746,0.06371171772480011,0.7279067039489746,0.2083815634250641,False,✗ 错误
+尽管国家面积不大，它却拥有举足轻重的国际影响力。,bidirectional,2,双向,bidirectional,双向,2,0.9993565678596497,0.00037774350494146347,0.00026562652783468366,0.9993565678596497,True,✓ 正确
+他是一位受人尊敬的科学家，但他的最新理论却遭到了质疑。,bidirectional,2,双向,left,左向(因果),0,0.7968651056289673,0.7968651056289673,0.18003389239311218,0.023100942373275757,False,✗ 错误
+这种药效果显著，虽然有一些轻微的副作用。,bidirectional,2,双向,bidirectional,双向,2,0.9095430374145508,0.006223137024790049,0.08423381298780441,0.9095430374145508,True,✓ 正确
+有些任务更适合人类来做，而另一些则可以由人工智能自动完成。,bidirectional,2,双向,bidirectional,双向,2,0.9563408493995667,0.03093346208333969,0.012725705280900002,0.9563408493995667,True,✓ 正确
+小说的情节错综复杂，但在角色塑造上却比较薄弱。,bidirectional,2,双向,right,右向(反因果),1,0.9503480195999146,0.008041715249419212,0.9503480195999146,0.04161020368337631,False,✗ 错误
+他具备所有必要的资历，却没有被这个职位录取。,bidirectional,2,双向,left,左向(因果),0,0.9872356057167053,0.9872356057167053,0.01045060995966196,0.0023137626703828573,False,✗ 错误
+这座山远看很美，攀登起来却很危险。,bidirectional,2,双向,right,右向(反因果),1,0.5982945561408997,0.009288358502089977,0.5982945561408997,0.3924171030521393,False,✗ 错误
+我同情你的处境，但我不能为你破例。,bidirectional,2,双向,left,左向(因果),0,0.9994606375694275,0.9994606375694275,0.0005358647322282195,3.4038948797388002e-06,False,✗ 错误
+这个设计在美学上很出色，但在功能性上有所欠缺。,bidirectional,2,双向,bidirectional,双向,2,0.5947025418281555,0.06909386813640594,0.3362036347389221,0.5947025418281555,True,✓ 正确
+他既是一位天赋异禀的音乐家，也是一位出色的运动员。,bidirectional,2,双向,bidirectional,双向,2,0.9857353568077087,0.008295990526676178,0.0059686205349862576,0.9857353568077087,True,✓ 正确
+这个团队拥有出色的球员，但他们之间缺乏有效的配合。,bidirectional,2,双向,bidirectional,双向,2,0.6134700775146484,0.0628637820482254,0.32366621494293213,0.6134700775146484,True,✓ 正确
+这座城市是创新中心，同时也承受着高昂的生活成本。,bidirectional,2,双向,right,右向(反因果),1,0.7294542193412781,0.010965190827846527,0.7294542193412781,0.2595806419849396,False,✗ 错误
+他道了歉，可伤害已经造成了。,bidirectional,2,双向,left,左向(因果),0,0.771081805229187,0.771081805229187,0.037512801587581635,0.19140546023845673,False,✗ 错误
+这款产品价格亲民，质量却出奇地好。,bidirectional,2,双向,bidirectional,双向,2,0.7898386716842651,0.009374061599373817,0.20078718662261963,0.7898386716842651,True,✓ 正确
+这次演讲内容丰富，就是风格稍微有些枯燥。,bidirectional,2,双向,bidirectional,双向,2,0.985107958316803,0.003046072321012616,0.011845896951854229,0.985107958316803,True,✓ 正确
+法律旨在保护环境，但可能会对经济造成一定影响。,bidirectional,2,双向,left,左向(因果),0,0.9923427700996399,0.9923427700996399,0.00763706723228097,2.007067269005347e-05,False,✗ 错误
+她说话声音很轻，但话语却很有分量。,bidirectional,2,双向,right,右向(反因果),1,0.5199047923088074,0.46065017580986023,0.5199047923088074,0.019445007666945457,False,✗ 错误
+他以慷慨闻名，但有时也相当固执。,bidirectional,2,双向,left,左向(因果),0,0.5705457925796509,0.5705457925796509,0.38645583391189575,0.042998332530260086,False,✗ 错误
+旅途漫长而艰辛，不过目的地是值得的。,bidirectional,2,双向,left,左向(因果),0,0.9467300772666931,0.9467300772666931,0.0024753992911428213,0.050794463604688644,False,✗ 错误
+证据似乎指向一个结论，但仔细研究就会发现其中的矛盾。,bidirectional,2,双向,left,左向(因果),0,0.6200050115585327,0.6200050115585327,0.37019771337509155,0.009797262959182262,False,✗ 错误
+你可以使用软件的免费版，或者购买功能更全的高级版。,bidirectional,2,双向,left,左向(因果),0,0.9965893030166626,0.9965893030166626,0.0010212657507508993,0.0023894498590379953,False,✗ 错误
+这位艺术家以其画作闻名，他的雕塑作品则鲜为人知。,bidirectional,2,双向,right,右向(反因果),1,0.5936081409454346,0.025504229590296745,0.5936081409454346,0.38088759779930115,False,✗ 错误
+谈判过程很艰难，但双方最终达成了妥协。,bidirectional,2,双向,left,左向(因果),0,0.996147632598877,0.996147632598877,0.0021389008034020662,0.0017134592635557055,False,✗ 错误
+他是科技界的领军人物，而他的兄弟则是金融界的翘楚。,bidirectional,2,双向,left,左向(因果),0,0.9737546443939209,0.9737546443939209,0.023754429072141647,0.002490989863872528,False,✗ 错误
+这部电影视觉效果堪称杰作，可惜故事情节有些老套。,bidirectional,2,双向,bidirectional,双向,2,0.9500089883804321,0.00847658421844244,0.041514474898576736,0.9500089883804321,True,✓ 正确
+系统能有效防御外部威胁，但对内部攻击却很脆弱。,bidirectional,2,双向,left,左向(因果),0,0.9984533786773682,0.9984533786773682,0.0014114017831161618,0.00013520335778594017,False,✗ 错误
