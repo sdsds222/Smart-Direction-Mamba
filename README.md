@@ -198,6 +198,11 @@ Prediction: python predict.py -m checkpoints/v2.pth -i test.csv
 
 Note: Ensure PyTorch/GPU environment, data UTF-8 encoding. If accuracy is low, check data balance or add epochs.
 
+![训练流程图](Snipaste_2025-10-22_00-15-01.png)
+
+![训练流程图](Snipaste_2025-10-22_02-23-43.png)
+
+
 # Smart Direction Mamba (SDM) 架构核心原理
 
 ## Smart Direction Mamba (SDM) 的核心目标是动态解决 Mamba/SSM 架构在处理自然语言时面临的固定因果性问题，同时严格控制计算复杂度。 传统 Mamba 具有线性时间复杂度 O(N)，但其固定的单向扫描无法有效处理需要“未来信息”的非因果依赖。Transformer 虽然能处理非因果性，但其 O(N^2) 的复杂度在长序列上效率低下。
@@ -393,3 +398,7 @@ python predict.py -m checkpoints/my_model.pth -i test_data.csv -o results/ --int
 预测：python predict.py -m checkpoints/v2.pth -i test.csv
 
 注意：确保PyTorch/GPU环境，数据UTF-8编码。如果准确率低，检查数据平衡或加epochs。
+
+![训练流程图](Snipaste_2025-10-22_00-15-01.png)
+
+![训练流程图](Snipaste_2025-10-22_02-23-43.png)
