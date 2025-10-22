@@ -1,79 +1,72 @@
-"""
-增强版评估脚本 - 支持选择模型文件和多个CSV文件
-"""
-
-import torch
-import pandas as pd
-from mamba_de import MambaDirectionEstimator
-from tqdm import tqdm
-import argparse
+# predict.py (FIXED VERSION)
 import os
-import numpy as np
+import argparse
 import glob
+import time
+import numpy as np
+import pandas as pd
+import torch
+import contextlib
+from typing import List
+
+from mamba_de import MambaDirectionEstimator
 
 try:
-    from transformers import BertTokenizer
+    from transformers import AutoTokenizer
     HAS_TRANSFORMERS = True
 except ImportError:
     HAS_TRANSFORMERS = False
 
+try:
+    from tqdm import tqdm
+    HAS_TQDM = True
+except ImportError:
+    HAS_TQDM = False
 
-def list_model_files(directory='checkpoints'):
-    """列出所有模型文件"""
+
+def list_model_files(directory='checkpoints') -> List[str]:
     if not os.path.exists(directory):
         return []
-    
     model_files = glob.glob(os.path.join(directory, '*.pth'))
-    return sorted(model_files, key=os.path.getmtime, reverse=True)  # 按时间排序
-
-
-def list_csv_files(directory='.'):
-    """列出所有CSV文件"""
-    csv_files = glob.glob(os.path.join(directory, '*.csv'))
-    return sorted(csv_files)
+    return sorted(model_files, key=os.path.getmtime, reverse=True)
 
 
 def select_model_interactive():
-    """交互式选择模型文件"""
     print("\n" + "="*70)
     print("🤖 选择模型文件")
     print("="*70)
-    
+
     model_files = list_model_files()
-    
     if not model_files:
         print("❌ 未找到模型文件 (在checkpoints/目录)")
         model_path = input("\n请输入模型文件路径: ").strip()
         if not os.path.exists(model_path):
             raise FileNotFoundError(f"找不到文件: {model_path}")
         return model_path
-    
+
     print("\n找到以下模型:")
     for i, file in enumerate(model_files, 1):
-        size = os.path.getsize(file) / (1024 * 1024)  # MB
+        size = os.path.getsize(file) / (1024 * 1024)
         mtime = os.path.getmtime(file)
-        import time
         time_str = time.strftime('%Y-%m-%d %H:%M', time.localtime(mtime))
-        
-        # 尝试读取准确率
         try:
             checkpoint = torch.load(file, map_location='cpu')
             acc = checkpoint.get('val_acc', 0)
-            print(f"  {i}. {os.path.basename(file):30s} ({size:.1f} MB, 准确率: {acc:.2f}%, {time_str})")
-        except:
+            freeze = checkpoint.get('freeze_embedding', False)
+            embed_type = "冻结" if freeze else "微调"
+            bert_name = checkpoint.get('bert_model_name') or checkpoint.get('config', {}).get('bert_model_name')
+            print(f"  {i}. {os.path.basename(file):30s} ({size:.1f} MB, Acc: {acc:.2f}%, {embed_type}, {bert_name}, {time_str})")
+        except Exception:
             print(f"  {i}. {os.path.basename(file):30s} ({size:.1f} MB, {time_str})")
-    
+
     print(f"  {len(model_files)+1}. 手动输入文件路径")
-    
+
     while True:
         choice = input(f"\n请选择 [1-{len(model_files)+1}]: ").strip()
-        
         if not choice.isdigit():
             print("❌ 请输入数字")
             continue
-        
         choice = int(choice)
-        
         if 1 <= choice <= len(model_files):
             return model_files[choice-1]
         elif choice == len(model_files) + 1:
@@ -86,169 +79,128 @@ def select_model_interactive():
             print(f"❌ 请输入1-{len(model_files)+1}之间的数字")
 
 
-def select_multiple_csv(csv_files):
-    """选择多个CSV文件"""
-    print("\n" + "="*70)
-    print("📚 多CSV文件选择")
-    print("="*70)
-    print("\n提示：输入数字序号，用逗号或空格分隔")
-    print("例如: 1,2,3 或 1 2 3")
-    print("输入 'all' 选择全部\n")
-    
-    for i, file in enumerate(csv_files, 1):
-        size = os.path.getsize(file) / 1024
-        try:
-            total_rows = sum(1 for _ in open(file, encoding='utf-8')) - 1
-            print(f"  {i}. {os.path.basename(file):30s} ({size:.1f} KB, ~{total_rows} 行)")
-        except:
-            print(f"  {i}. {os.path.basename(file):30s} ({size:.1f} KB)")
-    
-    while True:
-        selection = input(f"\n请选择要预测的CSV文件: ").strip()
-        
-        if selection.lower() == 'all':
-            return csv_files
-        
-        try:
-            if ',' in selection:
-                indices = [int(x.strip()) for x in selection.split(',')]
-            else:
-                indices = [int(x.strip()) for x in selection.split()]
-            
-            selected_files = []
-            for idx in indices:
-                if 1 <= idx <= len(csv_files):
-                    selected_files.append(csv_files[idx-1])
-                else:
-                    print(f"❌ 序号 {idx} 无效")
-                    break
-            else:
-                if selected_files:
-                    print(f"\n✓ 已选择 {len(selected_files)} 个文件:")
-                    for f in selected_files:
-                        print(f"  - {os.path.basename(f)}")
-                    return selected_files
-                else:
-                    print("❌ 未选择任何文件")
-        except ValueError:
-            print("❌ 输入格式错误，请输入数字序号")
+DIR_MAP_STR2IDX = {
+    'left': 0, 'right': 1, 'bidirectional': 2,
+    '左': 0, '右': 1, '双向': 2,
+    'l': 0, 'r': 1, 'b': 2,
+    'L': 0, 'R': 1, 'B': 2,
+    '0': 0, '1': 1, '2': 2,
+    0: 0, 1: 1, 2: 2,
+}
+DIR_IDX2NAME_CN = {0: '左向(因果)', 1: '右向(反因果)', 2: '双向'}
+
+def _label_to_idx_strict(x):
+    return DIR_MAP_STR2IDX.get(x, DIR_MAP_STR2IDX.get(str(x).strip(), None))
+
+def _per_class_metrics(cm, eps=1e-12):
+    P, R, F = [], [], []
+    for k in range(cm.shape[0]):
+        tp = cm[k, k]
+        fp = cm[:, k].sum() - tp
+        fn = cm[k, :].sum() - tp
+        p = tp / (tp + fp + eps) if (tp + fp) > 0 else 0.0
+        r = tp / (tp + fn + eps) if (tp + fn) > 0 else 0.0
+        f1 = 2*p*r/(p+r+eps) if (p+r) > 0 else 0.0
+        P.append(p); R.append(r); F.append(f1)
+    return np.array(P), np.array(R), np.array(F), float(np.mean(P)), float(np.mean(R)), float(np.mean(F))
 
 
-def select_csv_interactive():
-    """交互式选择CSV文件（支持多选）"""
-    print("\n" + "="*70)
-    print("📁 选择评估数据")
-    print("="*70)
-    
-    csv_files = list_csv_files()
-    
-    if not csv_files:
-        print("❌ 当前目录没有找到CSV文件")
-        csv_path = input("\n请输入CSV文件路径: ").strip()
-        if not os.path.exists(csv_path):
-            raise FileNotFoundError(f"找不到文件: {csv_path}")
-        return [csv_path]
-    
-    print("\n找到以下CSV文件:")
-    for i, file in enumerate(csv_files, 1):
-        size = os.path.getsize(file) / 1024
-        try:
-            total_rows = sum(1 for _ in open(file, encoding='utf-8')) - 1
-            print(f"  {i}. {os.path.basename(file):30s} ({size:.1f} KB, ~{total_rows} 行)")
-        except:
-            print(f"  {i}. {os.path.basename(file):30s} ({size:.1f} KB)")
-    
-    print(f"  {len(csv_files)+1}. 手动输入文件路径")
-    print(f"  {len(csv_files)+2}. 选择多个CSV文件")
-    
-    while True:
-        choice = input(f"\n请选择 [1-{len(csv_files)+2}]: ").strip()
-        
-        if not choice.isdigit():
-            print("❌ 请输入数字")
-            continue
-        
-        choice = int(choice)
-        
-        if 1 <= choice <= len(csv_files):
-            return [csv_files[choice-1]]
-        elif choice == len(csv_files) + 1:
-            csv_path = input("请输入CSV文件路径: ").strip()
-            if not os.path.exists(csv_path):
-                print(f"❌ 找不到文件: {csv_path}")
-                continue
-            return [csv_path]
-        elif choice == len(csv_files) + 2:
-            return select_multiple_csv(csv_files)
-        else:
-            print(f"❌ 请输入1-{len(csv_files)+2}之间的数字")
+class Predictor:
+    def __init__(self, model_path: str, max_length_override: int = None, use_amp: bool = True):
+        self.raw_device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        self.device = self.raw_device
+        self.use_amp = (use_amp and self.raw_device == 'cuda')
 
+        ckpt = torch.load(model_path, map_location=self.device)
 
-class Evaluator:
-    """评估器"""
-    
-    def __init__(self, model_path):
-        self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
-        
-        checkpoint = torch.load(model_path, map_location=self.device)
-        
-        self.use_bert_tokenizer = checkpoint.get('use_bert_tokenizer', True)
-        
+        bert_name = (ckpt.get('bert_model_name')
+                     or ckpt.get('config', {}).get('bert_model_name')
+                     or os.environ.get('SDM_BERT_MODEL', 'xlm-roberta-base'))
+
+        self.use_bert_tokenizer = ckpt.get('use_bert_tokenizer', True)
         if self.use_bert_tokenizer:
             if not HAS_TRANSFORMERS:
-                raise ImportError("需要安装: pip install transformers")
-            self.tokenizer = BertTokenizer.from_pretrained('bert-base-chinese')
+                raise ImportError("需要安装 transformers: pip install transformers")
+            try:
+                self.tokenizer = AutoTokenizer.from_pretrained(bert_name)
+                self.pad_token_id = ckpt.get('pad_token_id', self.tokenizer.pad_token_id)
+            except Exception as e:
+                raise RuntimeError(f"无法加载分词器 '{bert_name}': {e}")
         else:
-            self.char_to_idx = checkpoint['char_to_idx']
-        
+            self.char_to_idx = ckpt.get('char_to_idx')
+            if not self.char_to_idx:
+                raise RuntimeError("Char 模式需要 ckpt 中的 'char_to_idx'。")
+            self.pad_token_id = 0
+
+        freeze_embedding = ckpt.get('freeze_embedding', False)
+        dropout = ckpt.get('dropout', ckpt.get('config', {}).get('dropout', 0.5))
+
         self.model = MambaDirectionEstimator(
-            vocab_size=checkpoint['vocab_size'],
-            d_model=checkpoint['d_model'],
-            d_state=checkpoint['d_state']
+            vocab_size=ckpt.get('vocab_size', 0),
+            d_model=ckpt['d_model'],
+            d_state=ckpt['d_state'],
+            dropout=dropout,
+            freeze_embedding=freeze_embedding,
+            bert_model_name=bert_name
         )
-        self.model.load_state_dict(checkpoint['model_state_dict'])
+        self.model.load_state_dict(ckpt['model_state_dict'], strict=True)
         self.model = self.model.to(self.device)
         self.model.eval()
-        
-        self.max_length = 64
-        
+
+        self.max_length = (max_length_override
+                           if isinstance(max_length_override, int) and max_length_override > 0
+                           else ckpt.get('max_length', ckpt.get('config', {}).get('max_length', 64)))
+
+        try:
+            vocab_model = getattr(self.model.embedding, 'num_embeddings', None)
+            vocab_tok = getattr(self.tokenizer, 'vocab_size', None) if self.use_bert_tokenizer else len(self.char_to_idx)
+            if isinstance(vocab_model, int) and isinstance(vocab_tok, int) and vocab_model != vocab_tok:
+                print(f"⚠️ 分词器词表({vocab_tok})与模型embedding词表({vocab_model})不一致。推理可能受影响，请确认 tokenizer 与训练时一致。")
+        except Exception:
+            pass
+
         self.direction_map = {0: 'left', 1: 'right', 2: 'bidirectional'}
-        self.direction_names = {0: '左向(因果)', 1: '右向(反因果)', 2: '双向'}
-        
-        self.label_to_idx = {
-            'left': 0, 'right': 1, 'bidirectional': 2,
-            '左': 0, '右': 1, '双向': 2,
-            'L': 0, 'R': 1, 'B': 2
-        }
-        
-        tokenizer_type = "BERT" if self.use_bert_tokenizer else "字符级"
-        print(f"✓ 模型已加载 (Tokenizer: {tokenizer_type}, 设备: {self.device})")
-        print(f"✓ 验证准确率: {checkpoint['val_acc']:.2f}%")
-    
-    def tokenize(self, text: str):
+        self.direction_names = DIR_IDX2NAME_CN
+
+        amp_str = "开启" if self.use_amp else "关闭"
+        tokenizer_type = "AutoTokenizer" if self.use_bert_tokenizer else "Char"
+        embed_type = "冻结" if freeze_embedding else "微调"
+        print(f"✓ 模型已加载 (Tokenizer: {tokenizer_type}, Embedding: {embed_type}, 设备: {self.device}, AMP: {amp_str})")
+        print(f"✓ 使用 tokenizer: {bert_name}")
+        print(f"✓ max_length: {self.max_length}")
+        print(f"✓ pad_token_id: {self.pad_token_id}")
+        if 'val_acc' in ckpt:
+            print(f"✓ 训练时验证准确率: {ckpt['val_acc']:.2f}%")
+
+    def _amp_ctx(self):
+        if self.use_amp and self.device == 'cuda':
+            return torch.amp.autocast('cuda', dtype=torch.float16, enabled=True)
+        return contextlib.nullcontext()
+
+    def _tokenize_one(self, text: str) -> torch.Tensor:
         if self.use_bert_tokenizer:
-            encoded = self.tokenizer.encode(
+            enc = self.tokenizer(
                 text,
-                add_special_tokens=False,
+                add_special_tokens=True,
                 max_length=self.max_length,
                 truncation=True,
-                padding='max_length'
+                padding='max_length',
+                return_tensors='pt'
             )
-            return torch.tensor([encoded], dtype=torch.long)
+            return enc['input_ids'].squeeze(0).to(torch.long)
         else:
-            tokens = [self.char_to_idx.get(char, 1) for char in text[:self.max_length]]
+            tokens = [self.char_to_idx.get(ch, 1) for ch in text[:self.max_length]]
             if len(tokens) < self.max_length:
-                tokens = tokens + [0] * (self.max_length - len(tokens))
-            return torch.tensor([tokens], dtype=torch.long)
-    
-    def predict_one(self, text):
-        input_ids = self.tokenize(text).to(self.device)
-        
-        with torch.no_grad():
-            directions, probs = self.model.predict(input_ids)
-        
-        pred_idx = directions[0].item()
-        
+                tokens += [0] * (self.max_length - len(tokens))
+            return torch.tensor(tokens, dtype=torch.long)
+
+    def predict_one(self, text: str):
+        input_ids = self._tokenize_one(text).unsqueeze(0).to(self.device)
+        with torch.no_grad(), self._amp_ctx():
+            logits = self.model(input_ids)
+            probs = torch.softmax(logits, dim=-1)
+            directions = torch.argmax(logits, dim=-1)
+        pred_idx = int(directions[0])
         return {
             'pred_idx': pred_idx,
             'pred_label': self.direction_map[pred_idx],
@@ -256,170 +208,158 @@ class Evaluator:
             'confidence': float(probs[0][pred_idx]),
             'prob_left': float(probs[0][0]),
             'prob_right': float(probs[0][1]),
-            'prob_bi': float(probs[0][2])
+            'prob_bidirectional': float(probs[0][2]),
         }
-    
-    def evaluate_csv(self, input_path, output_path, text_col='text', label_col='direction'):
-        """评估单个CSV文件"""
-        print(f"\n{'='*70}")
-        print(f"评估文件: {os.path.basename(input_path)}")
-        print(f"{'='*70}")
-        
-        df = pd.read_csv(input_path, encoding='utf-8')
-        
+
+    def predict_csv(self, input_csv: str, output_csv: str, text_col='text', label_col='direction', batch_size=64, verbose=True):
+        df = pd.read_csv(input_csv, encoding='utf-8')
         if text_col not in df.columns:
             raise ValueError(f"找不到文本列 '{text_col}'")
-        
-        has_labels = label_col in df.columns
-        
-        print(f"✓ 加载了 {len(df)} 条样本")
-        
-        if has_labels:
-            true_labels_idx = []
-            true_labels_cn = []
-            
-            for label in df[label_col]:
-                label_str = str(label).strip()
-                true_idx = self.label_to_idx.get(label_str, -1)
-                if true_idx == -1:
-                    true_labels_cn.append("未知")
-                else:
-                    true_labels_cn.append(self.direction_names[true_idx])
-                true_labels_idx.append(true_idx)
-            
-            df['true_label_idx'] = true_labels_idx
-            df['true_label_cn'] = true_labels_cn
-            
-            valid_df = df[df['true_label_idx'] != -1].copy()
-            if len(valid_df) < len(df):
-                print(f"⚠️  过滤掉 {len(df) - len(valid_df)} 条无效标签")
-            
-            print(f"✓ 有效样本: {len(valid_df)} 条")
-        else:
-            print("ℹ️  无标签列，仅进行预测")
-            valid_df = df.copy()
-        
-        print("\n开始预测...")
-        predictions = []
-        
-        for idx, row in tqdm(valid_df.iterrows(), total=len(valid_df), desc="预测进度"):
-            text = str(row[text_col])
-            result = self.predict_one(text)
-            predictions.append(result)
-        
-        valid_df['pred_label'] = [p['pred_label'] for p in predictions]
-        valid_df['pred_label_cn'] = [p['pred_label_cn'] for p in predictions]
-        valid_df['pred_idx'] = [p['pred_idx'] for p in predictions]
-        valid_df['confidence'] = [p['confidence'] for p in predictions]
-        valid_df['prob_left'] = [p['prob_left'] for p in predictions]
-        valid_df['prob_right'] = [p['prob_right'] for p in predictions]
-        valid_df['prob_bidirectional'] = [p['prob_bi'] for p in predictions]
-        
-        if has_labels:
-            valid_df['correct'] = valid_df['true_label_idx'] == valid_df['pred_idx']
-            valid_df['result'] = valid_df['correct'].apply(lambda x: '✓ 正确' if x else '✗ 错误')
-        
-        valid_df.to_csv(output_path, index=False, encoding='utf-8')
-        print(f"\n✓ 结果已保存到: {output_path}")
-        
-        if has_labels:
-            self.print_evaluation(valid_df)
-        else:
-            self.print_prediction_summary(valid_df)
-        
-        return valid_df
-    
-    def print_evaluation(self, df):
-        """打印评估结果（有标签）"""
-        print("\n" + "="*70)
-        print("评估结果")
-        print("="*70)
-        
-        accuracy = (df['correct'].sum() / len(df)) * 100
-        print(f"\n总体准确率: {accuracy:.2f}% ({df['correct'].sum()}/{len(df)})")
-        
-        print(f"平均置信度: {df['confidence'].mean():.2%}")
-        if df['correct'].sum() > 0:
-            print(f"  正确预测的置信度: {df[df['correct']]['confidence'].mean():.2%}")
-        if (~df['correct']).sum() > 0:
-            print(f"  错误预测的置信度: {df[~df['correct']]['confidence'].mean():.2%}")
-        
-        print("\n方向分布:")
-        direction_counts = df['pred_label_cn'].value_counts()
-        for direction, count in direction_counts.items():
-            pct = 100 * count / len(df)
-            print(f"  {direction}: {count} ({pct:.1f}%)")
-    
-    def print_prediction_summary(self, df):
-        """打印预测摘要（无标签）"""
-        print("\n" + "="*70)
-        print("预测结果摘要")
-        print("="*70)
-        
-        print(f"\n总样本数: {len(df)}")
-        print(f"平均置信度: {df['confidence'].mean():.2%}")
-        
-        print("\n预测方向分布:")
-        direction_counts = df['pred_label_cn'].value_counts()
-        for direction, count in direction_counts.items():
-            pct = 100 * count / len(df)
-            print(f"  {direction}: {count} ({pct:.1f}%)")
+        texts = df[text_col].astype(str).tolist()
+
+        has_label_col = (label_col in df.columns)
+        labels_idx = None
+        if has_label_col:
+            raw_labels = df[label_col].tolist()
+            labels_idx = np.array([_label_to_idx_strict(x) for x in raw_labels], dtype=object)
+
+        preds_idx, preds_label, preds_label_cn = [], [], []
+        confs, p_left, p_right, p_bi = [], [], [], []
+
+        cm = np.zeros((3, 3), dtype=np.int64) if has_label_col else None
+        valid_eval_count = 0
+
+        rng_iter = range(0, len(texts), batch_size)
+        if HAS_TQDM and verbose:
+            rng_iter = tqdm(rng_iter, total=(len(texts)+batch_size-1)//batch_size, desc=f"Predict {os.path.basename(input_csv)}")
+
+        self.model.eval()
+        with torch.no_grad():
+            for i in rng_iter:
+                batch_texts = texts[i:i+batch_size]
+                batch_ids = [self._tokenize_one(t) for t in batch_texts]
+                input_ids = torch.stack(batch_ids, dim=0).to(self.device)
+
+                with self._amp_ctx():
+                    logits = self.model(input_ids)
+                    probs = torch.softmax(logits, dim=-1)
+                    directions = torch.argmax(logits, dim=-1)
+
+                directions = directions.cpu().numpy()
+                probs = probs.cpu().numpy()
+
+                for b, (d, p) in enumerate(zip(directions, probs)):
+                    idx = int(d)
+                    preds_idx.append(idx)
+                    preds_label.append(self.direction_map[idx])
+                    preds_label_cn.append(self.direction_names[idx])
+                    confs.append(float(p[idx]))
+                    p_left.append(float(p[0]))
+                    p_right.append(float(p[1]))
+                    p_bi.append(float(p[2]))
+
+                    if has_label_col:
+                        gold = labels_idx[i + b]
+                        if gold in (0, 1, 2):
+                            cm[gold, idx] += 1
+                            valid_eval_count += 1
+
+        df['pred_idx'] = preds_idx
+        df['pred_label'] = preds_label
+        df['pred_label_cn'] = preds_label_cn
+        df['confidence'] = confs
+        df['prob_left'] = p_left
+        df['prob_right'] = p_right
+        df['prob_bidirectional'] = p_bi
+
+        if has_label_col:
+            is_valid = np.array([x in (0,1,2) for x in labels_idx], dtype=bool)
+            is_correct = np.array([labels_idx[j] == preds_idx[j] if is_valid[j] else None for j in range(len(df))], dtype=object)
+            df['is_valid_label'] = is_valid.astype(int)
+            df['is_correct'] = [int(x) if x is not None else '' for x in is_correct]
+
+        os.makedirs(os.path.dirname(os.path.abspath(output_csv)) or '.', exist_ok=True)
+        df.to_csv(output_csv, index=False, encoding='utf-8')
+        print(f"✓ 已保存预测结果: {output_csv} （{len(df)} 条）")
+
+        if has_label_col and valid_eval_count > 0:
+            total = cm.sum()
+            acc = np.trace(cm) / max(1, total)
+            P, R, F1, mP, mR, mF1 = _per_class_metrics(cm)
+
+            print("\n评估指标（跳过未知标签样本）")
+            print("-"*70)
+            print(f"有效评测样本: {valid_eval_count} / {len(df)}")
+            print(f"Overall Acc: {acc*100:.2f}%  |  Macro P/R/F1: {mP:.3f}/{mR:.3f}/{mF1:.3f}")
+            print("\n混淆矩阵:")
+            header = '实际\\预测'
+            col_names = [DIR_IDX2NAME_CN[i] for i in range(3)]
+            print(f'{header:12s}  ' + '  '.join([f'{name:12s}' for name in col_names]))
+            for i in range(3):
+                row = '  '.join([f'{int(v):12d}' for v in cm[i]])
+                print(f'{DIR_IDX2NAME_CN[i]:12s}  {row}')
+            print("\n按类 P/R/F1:")
+            for i, name in enumerate(col_names):
+                print(f"  {name}: P={P[i]:.3f} R={R[i]:.3f} F1={F1[i]:.3f}")
+            print("-"*70)
+        elif has_label_col:
+            print("\n⚠️ 没有任何合法标签样本（0/1/2 或 left/right/bidirectional/中文/LRB），跳过指标计算。")
+
+        return df, (cm if (has_label_col and valid_eval_count > 0) else None)
 
 
-def interactive_mode(evaluator):
-    """交互模式"""
+def interactive_mode(predictor: Predictor):
     print("\n" + "="*70)
     print("🎯 交互式预测模式")
     print("="*70)
-    print("输入文本进行预测，输入 'quit' 或 'q' 退出")
+    print("输入文本进行预测，输入 'quit' / 'q' 退出")
     print("-"*70)
-    
+
     while True:
         text = input("\n📝 请输入文本: ").strip()
-        
-        if text.lower() in ['quit', 'exit', 'q', '退出']:
+        if text.lower() in ['quit', 'q', 'exit', '退出']:
             print("\n👋 再见！")
             break
-        
         if not text:
-            print("⚠️  文本不能为空，请重新输入")
+            print("⚠️ 文本不能为空，请重新输入")
             continue
-        
+
         try:
-            result = evaluator.predict_one(text)
-            
+            r = predictor.predict_one(text)
             print("\n" + "="*70)
             print("📊 预测结果")
             print("="*70)
             print(f"文本: {text}")
-            print(f"\n🎯 预测方向: {result['pred_label_cn']} ({result['pred_label']})")
-            print(f"📈 置信度: {result['confidence']:.2%}")
-            print(f"\n详细概率分布:")
-            print(f"  左向(因果):      {result['prob_left']:.2%} {'█' * int(result['prob_left'] * 30)}")
-            print(f"  右向(反因果):    {result['prob_right']:.2%} {'█' * int(result['prob_right'] * 30)}")
-            print(f"  双向:            {result['prob_bi']:.2%} {'█' * int(result['prob_bi'] * 30)}")
+            print(f"\n🎯 预测方向: {r['pred_label_cn']} ({r['pred_label']})")
+            print(f"📈 置信度: {r['confidence']:.2%}")
+            print("\n详细概率分布：")
+            bar = lambda x: '█' * int(x * 30)
+            print(f"  左向(因果):      {r['prob_left']:.2%} {bar(r['prob_left'])}")
+            print(f"  右向(反因果):    {r['prob_right']:.2%} {bar(r['prob_right'])}")
+            print(f"  双向:            {r['prob_bidirectional']:.2%} {bar(r['prob_bidirectional'])}")
             print("="*70)
-            
         except Exception as e:
             print(f"\n❌ 预测出错: {e}")
 
 
 def main():
-    parser = argparse.ArgumentParser(description='增强版评估 - 支持选择模型和多CSV文件')
+    parser = argparse.ArgumentParser(description='预测脚本 - 支持模型选择、CSV批量预测和交互式预测（多语种对齐 / AMP 新API）')
     parser.add_argument('-m', '--model', type=str, help='模型文件路径')
     parser.add_argument('-i', '--input', type=str, nargs='+', help='输入CSV文件（可多个）')
     parser.add_argument('-o', '--output-dir', type=str, default='.', help='输出目录')
     parser.add_argument('-t', '--text-col', type=str, default='text', help='文本列名')
-    parser.add_argument('-l', '--label-col', type=str, default='direction', help='标签列名')
-    parser.add_argument('--interactive', action='store_true', help='交互模式')
-    
+    parser.add_argument('--label-col', type=str, default='direction', help='标签列名（若存在则计算指标）')
+    parser.add_argument('--batch-size', type=int, default=64, help='推理批大小')
+    parser.add_argument('--max-length', type=int, default=None, help='可覆盖 ckpt 的 max_length')
+    parser.add_argument('--interactive', action='store_true', help='交互式预测模式')
+    parser.add_argument('--no-amp', action='store_true', help='关闭 AMP（默认开启，CUDA 可用时生效）')
+
     args = parser.parse_args()
-    
+
     print("="*70)
-    print("🎯 Mamba Direction Estimator - 增强版评估工具")
+    print("🎯 Mamba Direction Estimator - 预测工具（多语种对齐，AMP 新API）")
     print("="*70)
-    
-    # 1. 选择模型
+
     if args.model:
         model_path = args.model
         if not os.path.exists(model_path):
@@ -427,62 +367,50 @@ def main():
             return
     else:
         model_path = select_model_interactive()
-    
-    # 2. 加载模型
+
     try:
-        evaluator = Evaluator(model_path)
+        predictor = Predictor(
+            model_path=model_path,
+            max_length_override=args.max_length,
+            use_amp=(not args.no_amp)
+        )
     except Exception as e:
         print(f"\n❌ 加载模型失败: {e}")
+        import traceback
+        traceback.print_exc()
         return
-    
-    # 3. 选择CSV文件（如果不是交互模式）
+
     if not args.interactive:
         if args.input:
             csv_paths = args.input
-            for csv_path in csv_paths:
-                if not os.path.exists(csv_path):
-                    print(f"❌ 错误: 找不到文件 {csv_path}")
+            for p in csv_paths:
+                if not os.path.exists(p):
+                    print(f"❌ 错误: 找不到文件 {p}")
                     return
         else:
-            csv_paths = select_csv_interactive()
-        
-        # 4. 批量评估
-        os.makedirs(args.output_dir, exist_ok=True)
-        
-        all_results = []
-        for csv_path in csv_paths:
-            output_name = os.path.basename(csv_path).replace('.csv', '_predicted.csv')
-            output_path = os.path.join(args.output_dir, output_name)
-            
-            try:
-                df = evaluator.evaluate_csv(
-                    input_path=csv_path,
-                    output_path=output_path,
-                    text_col=args.text_col,
-                    label_col=args.label_col
-                )
-                all_results.append({
-                    'file': os.path.basename(csv_path),
-                    'samples': len(df),
-                    'output': output_path
-                })
-            except Exception as e:
-                print(f"\n❌ 处理 {csv_path} 时出错: {e}")
-                continue
-        
-        # 5. 总结
-        if len(csv_paths) > 1:
-            print("\n" + "="*70)
-            print("📊 批量评估完成")
-            print("="*70)
-            for result in all_results:
-                print(f"\n文件: {result['file']}")
-                print(f"  样本数: {result['samples']}")
-                print(f"  输出: {result['output']}")
-    
-    # 6. 交互模式
+            csv_paths = []
+
+        if csv_paths:
+            os.makedirs(args.output_dir, exist_ok=True)
+            for csv_path in csv_paths:
+                out_name = os.path.basename(csv_path).replace('.csv', '_predicted.csv')
+                out_path = os.path.join(args.output_dir, out_name)
+                try:
+                    predictor.predict_csv(
+                        input_csv=csv_path,
+                        output_csv=out_path,
+                        text_col=args.text_col,
+                        label_col=args.label_col,
+                        batch_size=args.batch_size,
+                        verbose=True
+                    )
+                except Exception as e:
+                    print(f"\n❌ 处理 {csv_path} 时出错: {e}")
+                    import traceback
+                    traceback.print_exc()
+
     if args.interactive or not args.input:
-        interactive_mode(evaluator)
+        interactive_mode(predictor)
 
 
 if __name__ == '__main__':

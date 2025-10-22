@@ -1,80 +1,165 @@
-"""
-Mamba DE - 使用真实的BERT Tokenizer
-这个版本使用的tokenization方法和BERT一样，更接近实际大模型
-"""
-
+# mamba_de.py (FIXED VERSION - ALL BUGS RESOLVED)
+import os
+import contextlib
+import math
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torch.utils.data import Dataset, DataLoader, random_split
+from torch.utils.data import Dataset, DataLoader, random_split, Subset
 import pandas as pd
 import numpy as np
-import os
+from typing import Optional, Union
 
-# 需要安装: pip install transformers
+DEFAULT_BERT_NAME = os.environ.get('SDM_BERT_MODEL', 'xlm-roberta-base')
+ENV_USE_FOCAL = os.environ.get('SDM_USE_FOCAL', '0') == '1'
+ENV_FOCAL_GAMMA = float(os.environ.get('SDM_FOCAL_GAMMA', '2.0'))
+ENV_EARLY_STOP = int(os.environ.get('SDM_EARLY_STOP_PATIENCE', '5'))
+ENV_CLIP_MAX_NORM = float(os.environ.get('SDM_CLIP_MAX_NORM', '1.0'))
+
 try:
-    from transformers import BertTokenizer
+    from transformers import AutoTokenizer, AutoModel, AutoConfig
     HAS_TRANSFORMERS = True
 except ImportError:
     HAS_TRANSFORMERS = False
-    print("⚠️  警告: 未安装transformers库")
-    print("运行: pip install transformers")
+    print("⚠️ 未安装 transformers，运行: pip install transformers")
 
+def _has_new_torch_amp():
+    return hasattr(torch, "amp") and hasattr(torch.amp, "autocast")
+
+_HAS_NEW_AMP = _has_new_torch_amp()
+
+def _autocast_ctx(enabled=True):
+    if not enabled:
+        return contextlib.nullcontext()
+    return torch.amp.autocast('cuda', enabled=True) if _HAS_NEW_AMP else torch.cuda.amp.autocast(enabled=True)
+
+def _make_scaler(enabled=True):
+    if not enabled:
+        return None
+    try:
+        return torch.amp.GradScaler('cuda', enabled=True) if _HAS_NEW_AMP else torch.cuda.amp.GradScaler(enabled=True)
+    except TypeError:
+        return torch.cuda.amp.GradScaler(enabled=True)
+
+class FocalLoss(nn.Module):
+    def __init__(self, gamma=2.0, weight=None, reduction='mean'):
+        super().__init__()
+        self.gamma = gamma
+        self.weight = weight
+        self.reduction = reduction
+
+    def forward(self, logits, target):
+        logpt = torch.log_softmax(logits, dim=-1)
+        pt = torch.exp(logpt)
+        logpt = logpt.gather(1, target.view(-1, 1)).squeeze(1)
+        pt = pt.gather(1, target.view(-1, 1)).squeeze(1)
+        if self.weight is not None:
+            w = self.weight.to(logits.device).gather(0, target)
+            loss = -w * (1 - pt).pow(self.gamma) * logpt
+        else:
+            loss = -(1 - pt).pow(self.gamma) * logpt
+        if self.reduction == 'mean':
+            return loss.mean()
+        elif self.reduction == 'sum':
+            return loss.sum()
+        return loss
 
 class SimplifiedMambaSSM(nn.Module):
-    """简化的Mamba SSM单元"""
-    
     def __init__(self, d_model: int, d_state: int = 16):
         super().__init__()
         self.d_model = d_model
         self.d_state = d_state
         
-        self.A = nn.Parameter(torch.randn(d_model, d_state) * 0.01)
+        self.A = nn.Parameter(torch.randn(d_state, d_state) * 0.01)
+        self.delta_proj = nn.Linear(d_model, d_state, bias=False)
         self.B_proj = nn.Linear(d_model, d_state, bias=False)
         self.C_proj = nn.Linear(d_model, d_state, bias=False)
+        self.out = nn.Linear(d_state, d_model, bias=False)
         self.D = nn.Parameter(torch.ones(d_model))
-        self.input_gate = nn.Linear(d_model, d_model)
+        self.input_gate = nn.Sequential(
+            nn.Linear(d_model, d_model),
+            nn.LayerNorm(d_model)
+        )
         
-    def forward(self, x, h=None):
-        batch_size, seq_len, _ = x.shape
+        nn.init.orthogonal_(self.A)
+        self.A.data = -torch.abs(self.A.data)
+
+    def forward(self, x, h=None, mask: Optional[torch.Tensor] = None):
+        B, T, _ = x.shape
         device = x.device
-        
         if h is None:
-            h = torch.zeros(batch_size, self.d_state, device=device)
-        
-        outputs = []
-        
-        for t in range(seq_len):
+            h = torch.zeros(B, self.d_state, device=device)
+        if mask is None:
+            mask = torch.ones(B, T, device=device)
+        mask = mask.unsqueeze(-1)
+
+        outs = []
+        for t in range(T):
             x_t = x[:, t, :]
-            x_gated = torch.sigmoid(self.input_gate(x_t)) * x_t
+            m_t = mask[:, t, :]
             
+            x_gated = torch.sigmoid(self.input_gate(x_t)) * x_t
+            delta = F.softplus(self.delta_proj(x_gated))
             B_t = self.B_proj(x_gated)
             C_t = self.C_proj(x_gated)
             
-            A_mean = self.A.mean(dim=0)
-            h = torch.tanh(h * A_mean + B_t)
+            A_bar = torch.exp(delta.unsqueeze(-1) * self.A)
+            h_candidate = torch.bmm(A_bar, h.unsqueeze(-1)).squeeze(-1) + B_t
+            h_candidate = torch.tanh(h_candidate)
+            h = h_candidate * m_t + h * (1.0 - m_t)
             
-            y_t = (C_t * h).sum(dim=-1, keepdim=True) * torch.ones_like(x_t) + self.D * x_t
-            outputs.append(y_t)
-        
-        output = torch.stack(outputs, dim=1)
-        return output, h
+            s_t = C_t * h
+            y_t = self.out(s_t) + self.D * x_t
+            outs.append(y_t)
 
+        return torch.stack(outs, dim=1), h
 
 class MambaDirectionEstimator(nn.Module):
-    """Mamba方向判别器 - 使用BERT tokenizer"""
-    
-    def __init__(self, vocab_size: int, d_model: int, d_state: int = 16, dropout: float = 0.1):
+    def __init__(self, vocab_size: int, d_model: int, d_state: int = 16, dropout: float = 0.5,
+                 freeze_embedding: bool = False, bert_model_name: str = DEFAULT_BERT_NAME):
         super().__init__()
         self.d_model = d_model
         self.d_state = d_state
-        
-        # 嵌入层（和BERT一样的做法）
-        self.embedding = nn.Embedding(vocab_size, d_model, padding_idx=0)
-        
+        self.freeze_embedding = freeze_embedding
+        self.bert_model_name = bert_model_name
+        self.dropout = dropout
+
+        if HAS_TRANSFORMERS:
+            print(f"🚀 加载预训练模型并提取 embedding: {bert_model_name}")
+            try:
+                cfg = AutoConfig.from_pretrained(bert_model_name)
+                backbone = AutoModel.from_pretrained(bert_model_name, config=cfg, low_cpu_mem_usage=True)
+            except Exception:
+                backbone = AutoModel.from_pretrained(bert_model_name)
+
+            bert_dim = backbone.config.hidden_size
+            self.embedding = backbone.get_input_embeddings()
+            tokenizer = AutoTokenizer.from_pretrained(bert_model_name)
+            self.pad_token_id = tokenizer.pad_token_id
+            print(f"✓ Pad Token ID: {self.pad_token_id}")
+
+            if freeze_embedding:
+                print("❄️ 冻结 embedding 权重")
+                for p in self.embedding.parameters():
+                    p.requires_grad = False
+            else:
+                print("🔥 微调 embedding 权重")
+
+            if bert_dim != d_model:
+                self.projection = nn.Linear(bert_dim, d_model)
+                print(f"📐 添加投影层: {bert_dim} -> {d_model}")
+            else:
+                self.projection = None
+            print("✓ 使用预训练 embedding")
+        else:
+            self.embedding = nn.Embedding(vocab_size, d_model, padding_idx=0)
+            self.projection = None
+            self.pad_token_id = 0
+            print("⚠️ 使用随机初始化 embedding（未安装 transformers）")
+
         self.forward_ssm = SimplifiedMambaSSM(d_model, d_state)
         self.backward_ssm = SimplifiedMambaSSM(d_model, d_state)
-        
+
         self.state_analyzer = nn.Sequential(
             nn.Linear(d_state * 2, d_model),
             nn.LayerNorm(d_model),
@@ -82,323 +167,370 @@ class MambaDirectionEstimator(nn.Module):
             nn.Dropout(dropout),
             nn.Linear(d_model, d_model // 2),
             nn.ReLU(),
-            nn.Dropout(dropout)
+            nn.Linear(d_model // 2, d_model)
         )
-        
-        self.decision_head = nn.Linear(d_model // 2, 3)
-        
-    def forward(self, input_ids):
-        x = self.embedding(input_ids)
-        
-        _, h_forward = self.forward_ssm(x)
-        x_reversed = torch.flip(x, dims=[1])
-        _, h_backward = self.backward_ssm(x_reversed)
-        
-        h_combined = torch.cat([h_forward, h_backward], dim=-1)
-        features = self.state_analyzer(h_combined)
-        direction_logits = self.decision_head(features)
-        
-        return direction_logits
-    
-    def predict(self, input_ids):
-        self.eval()
-        with torch.no_grad():
-            logits = self.forward(input_ids)
-            probs = F.softmax(logits, dim=-1)
-            directions = torch.argmax(probs, dim=-1)
-        return directions, probs
 
+        self.pool_proj = nn.Linear(d_model * 2, d_model)
+
+        self.classifier = nn.Sequential(
+            nn.Linear(d_model, d_model // 2),
+            nn.LayerNorm(d_model // 2),
+            nn.ReLU(),
+            nn.Dropout(dropout),
+            nn.Linear(d_model // 2, 3)
+        )
+
+    def _infer_mask(self, input_ids):
+        pad_token_id = getattr(self, 'pad_token_id', 0)
+        return (input_ids != pad_token_id).float()
+
+    def forward(self, input_ids):
+        if self.projection is not None:
+            x = self.projection(self.embedding(input_ids))
+        else:
+            x = self.embedding(input_ids)
+        
+        mask = self._infer_mask(input_ids)
+        forward_out, h_f = self.forward_ssm(x, mask=mask)
+        
+        x_reversed = torch.flip(x, dims=[1])
+        mask_reversed = torch.flip(mask, dims=[1])
+        backward_out, h_b = self.backward_ssm(x_reversed, mask=mask_reversed)
+        backward_out = torch.flip(backward_out, dims=[1])
+        
+        combined = torch.cat([forward_out, backward_out], dim=-1)
+        final_state = torch.cat([h_f, h_b], dim=-1)
+        enriched_state = self.state_analyzer(final_state)
+        pooled = self.pool_proj(combined.mean(dim=1)) + enriched_state
+        logits = self.classifier(pooled)
+        
+        return logits
 
 class DirectionDatasetBERT(Dataset):
-    """使用BERT Tokenizer的数据集"""
-    
-    def __init__(self, csv_path: str, max_length: int = 64, use_bert_tokenizer: bool = True):
-        df = pd.read_csv(csv_path, encoding='utf-8')
-        self.texts = df['text'].tolist()
-        self.directions = df['direction'].tolist()
+    def __init__(self, csv_path, max_length=64, use_bert_tokenizer=True, bert_model_name=DEFAULT_BERT_NAME):
+        df = pd.read_csv(csv_path)
+        required_cols = {'text', 'direction'}
+        if not required_cols.issubset(df.columns):
+            raise ValueError(f"CSV 必须包含列: {required_cols}，实际: {df.columns.tolist()}")
+
+        self.texts = df['text'].astype(str).tolist()
+        raw_labels = df['direction'].tolist()
         
+        label_map = {'left': 0, 'right': 1, 'bidirectional': 2}
+        self.labels = []
+        valid_indices = []
+        for i, lbl in enumerate(raw_labels):
+            lbl_low = str(lbl).strip().lower()
+            if lbl_low in label_map:
+                self.labels.append(label_map[lbl_low])
+                valid_indices.append(i)
+
+        self.texts = [self.texts[i] for i in valid_indices]
+        if len(self.texts) == 0:
+            raise ValueError("过滤后无有效样本。")
+        
+        print(f"✓ 有效样本数: {len(self.texts)} (原始 {len(df)} 条)")
+
         self.max_length = max_length
-        self.use_bert_tokenizer = use_bert_tokenizer and HAS_TRANSFORMERS
-        
-        self.direction_map = {
-            'left': 0, 'right': 1, 'bidirectional': 2,
-            '左': 0, '右': 1, '双向': 2,
-            'L': 0, 'R': 1, 'B': 2
-        }
-        
-        # 初始化tokenizer
-        if self.use_bert_tokenizer:
-            print("✓ 使用BERT Tokenizer (和真实大模型一样的方法)")
-            self.tokenizer = BertTokenizer.from_pretrained('bert-base-chinese')
+        self.use_bert_tokenizer = use_bert_tokenizer
+        self.bert_model_name = bert_model_name
+
+        if use_bert_tokenizer:
+            if not HAS_TRANSFORMERS:
+                raise RuntimeError("未安装 transformers，无法使用 BERT tokenizer")
+            self.tokenizer = AutoTokenizer.from_pretrained(bert_model_name)
             self.vocab_size = self.tokenizer.vocab_size
+            print(f"✓ 使用 BERT Tokenizer: {bert_model_name}, vocab_size={self.vocab_size}")
         else:
-            print("✓ 使用简单字符级Tokenizer")
-            self._build_char_vocab()
-        
-        print(f"✓ 加载数据集: {len(self.texts)} 条样本")
-        print(f"✓ 词表大小: {self.vocab_size}")
-        self._print_statistics()
-    
-    def _build_char_vocab(self):
-        """后备方案：字符级tokenizer"""
-        chars = set()
-        for text in self.texts:
-            chars.update(text)
-        
-        self.char_to_idx = {'<PAD>': 0, '<UNK>': 1}
-        for idx, char in enumerate(sorted(chars)):
-            self.char_to_idx[char] = idx + 2
-        
-        self.vocab_size = len(self.char_to_idx)
-    
-    def _print_statistics(self):
-        direction_counts = {}
-        for d in self.directions:
-            key = str(d)
-            direction_counts[key] = direction_counts.get(key, 0) + 1
-        
-        print("✓ 方向分布:")
-        for direction, count in sorted(direction_counts.items()):
-            pct = 100 * count / len(self.directions)
-            print(f"  {direction}: {count} ({pct:.1f}%)")
-    
-    def tokenize(self, text: str):
-        """Tokenization"""
-        if self.use_bert_tokenizer:
-            # 🚀 使用BERT的子词级tokenization
-            encoded = self.tokenizer.encode(
-                text,
-                add_special_tokens=False,
-                max_length=self.max_length,
-                truncation=True,
-                padding='max_length'
-            )
-            return torch.tensor(encoded, dtype=torch.long)
-        else:
-            # 后备：字符级tokenization
-            tokens = [self.char_to_idx.get(char, 1) for char in text[:self.max_length]]
-            if len(tokens) < self.max_length:
-                tokens = tokens + [0] * (self.max_length - len(tokens))
-            return torch.tensor(tokens, dtype=torch.long)
-    
+            all_chars = set(''.join(self.texts))
+            self.char_to_idx = {ch: i+1 for i, ch in enumerate(sorted(all_chars))}
+            self.char_to_idx['<PAD>'] = 0
+            self.vocab_size = len(self.char_to_idx)
+            print(f"✓ 使用字符级 Tokenizer, vocab_size={self.vocab_size}")
+
     def __len__(self):
         return len(self.texts)
-    
+
     def __getitem__(self, idx):
-        text = str(self.texts[idx])
-        direction = self.directions[idx]
-        
-        input_ids = self.tokenize(text)
-        direction_label = self.direction_map.get(direction, 0)
-        
-        return {
-            'input_ids': input_ids,
-            'direction': torch.tensor(direction_label, dtype=torch.long),
-            'text': text
-        }
+        text = self.texts[idx]
+        label = self.labels[idx]
 
+        if self.use_bert_tokenizer:
+            enc = self.tokenizer(
+                text,
+                max_length=self.max_length,
+                padding='max_length',
+                truncation=True,
+                return_tensors='pt',
+                add_special_tokens=True
+            )
+            input_ids = enc['input_ids'].squeeze(0)
+        else:
+            input_ids = [self.char_to_idx.get(ch, 0) for ch in text[:self.max_length]]
+            pad_len = self.max_length - len(input_ids)
+            if pad_len > 0:
+                input_ids = input_ids + [0] * pad_len
+            input_ids = torch.tensor(input_ids, dtype=torch.long)
 
-def train_mamba_de(model, train_loader, val_loader, num_epochs=20, lr=1e-3, device='cuda'):
-    """训练函数"""
-    device = torch.device(device if torch.cuda.is_available() else 'cpu')
-    print(f"\n✓ 使用设备: {device}\n")
-    
-    model = model.to(device)
-    optimizer = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=0.1)
+        return {'input_ids': input_ids, 'direction': torch.tensor(label, dtype=torch.long)}
+
+def _per_class_metrics(cm):
+    num_classes = cm.shape[0]
+    P, R, F1 = [], [], []
+    for i in range(num_classes):
+        tp = cm[i, i]
+        fp = cm[:, i].sum() - tp
+        fn = cm[i, :].sum() - tp
+        p = tp / max(1, tp + fp)
+        r = tp / max(1, tp + fn)
+        f1 = 2 * p * r / max(1e-9, p + r)
+        P.append(p)
+        R.append(r)
+        F1.append(f1)
+    macro_p = sum(P) / num_classes
+    macro_r = sum(R) / num_classes
+    macro_f1 = sum(F1) / num_classes
+    return P, R, F1, macro_p, macro_r, macro_f1
+
+def train_mamba_de(model, train_loader, val_loader, num_epochs=30, lr=1e-3, device='cuda',
+                   save_path='checkpoints/best_model.pth', use_focal=False, focal_gamma=2.0,
+                   early_stop_patience=5, clip_max_norm=1.0, extra_meta=None):
+    os.makedirs(os.path.dirname(save_path), exist_ok=True)
+    model.to(device)
+
+    all_labels = []
+    for batch in train_loader:
+        all_labels.extend(batch['direction'].tolist())
+    label_counts = torch.bincount(torch.tensor(all_labels))
+    total = label_counts.sum()
+    class_weights = total / (label_counts.float() * 3 + 1e-6)
+    class_weights = class_weights.to(device)
+    print(f"类别权重: {class_weights.tolist()}")
+
+    if use_focal:
+        criterion = FocalLoss(gamma=focal_gamma, weight=class_weights)
+        print(f"使用 Focal Loss (gamma={focal_gamma})")
+    else:
+        criterion = nn.CrossEntropyLoss(weight=class_weights)
+
+    optimizer = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=1e-4)
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=num_epochs)
-    criterion = nn.CrossEntropyLoss()
-    
+
+    use_amp = torch.cuda.is_available()
+    scaler = _make_scaler(enabled=use_amp)
+
     best_val_acc = 0.0
-    direction_names = ['左向(因果)', '右向(反因果)', '双向']
-    
-    os.makedirs('checkpoints', exist_ok=True)
-    
+    patience = early_stop_patience
+    no_improve = 0
+    direction_names = ['left', 'right', 'bidirectional']
+
     for epoch in range(num_epochs):
-        # 训练
         model.train()
-        train_loss = 0.0
-        train_correct = 0
-        train_total = 0
-        
-        for batch_idx, batch in enumerate(train_loader):
+        tr_loss, tr_correct, tr_total = 0.0, 0, 0
+
+        for batch in train_loader:
             input_ids = batch['input_ids'].to(device)
             labels = batch['direction'].to(device)
-            
-            logits = model(input_ids)
-            loss = criterion(logits, labels)
-            
             optimizer.zero_grad()
-            loss.backward()
-            torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
-            optimizer.step()
-            
-            train_loss += loss.item()
-            preds = torch.argmax(logits, dim=-1)
-            train_correct += (preds == labels).sum().item()
-            train_total += labels.size(0)
-        
-        avg_train_loss = train_loss / len(train_loader)
-        train_acc = 100 * train_correct / train_total
-        
-        # 验证
+
+            with _autocast_ctx(enabled=use_amp):
+                logits = model(input_ids)
+                loss = criterion(logits, labels)
+
+            if scaler is not None:
+                scaler.scale(loss).backward()
+                scaler.unscale_(optimizer)
+                torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=clip_max_norm)
+                scaler.step(optimizer)
+                scaler.update()
+            else:
+                loss.backward()
+                torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=clip_max_norm)
+                optimizer.step()
+
+            tr_loss += float(loss.item())
+            preds = torch.argmax(logits.detach(), dim=-1)
+            tr_correct += int((preds == labels).sum().item())
+            tr_total += labels.size(0)
+
+        avg_train_loss = tr_loss / max(1, len(train_loader))
+        train_acc = 100.0 * tr_correct / max(1, tr_total)
+
         model.eval()
-        val_loss = 0.0
-        val_correct = 0
-        val_total = 0
-        confusion_matrix = np.zeros((3, 3), dtype=int)
-        
+        va_loss, va_correct, va_total = 0.0, 0, 0
+        cm = np.zeros((3, 3), dtype=int)
+
         with torch.no_grad():
             for batch in val_loader:
                 input_ids = batch['input_ids'].to(device)
                 labels = batch['direction'].to(device)
-                
-                logits = model(input_ids)
-                loss = criterion(logits, labels)
-                
-                val_loss += loss.item()
+                with _autocast_ctx(enabled=use_amp):
+                    logits = model(input_ids)
+                    loss = criterion(logits, labels)
+                va_loss += float(loss.item())
                 preds = torch.argmax(logits, dim=-1)
-                val_correct += (preds == labels).sum().item()
-                val_total += labels.size(0)
-                
-                for true, pred in zip(labels.cpu().numpy(), preds.cpu().numpy()):
-                    confusion_matrix[true][pred] += 1
-        
-        avg_val_loss = val_loss / len(val_loader)
-        val_acc = 100 * val_correct / val_total
-        
+                va_correct += int((preds == labels).sum().item())
+                va_total += labels.size(0)
+                for t, p in zip(labels.cpu().numpy(), preds.cpu().numpy()):
+                    cm[t][p] += 1
+
+        avg_val_loss = va_loss / max(1, len(val_loader))
+        val_acc = 100.0 * va_correct / max(1, va_total)
+        P, R, F1, macro_p, macro_r, macro_f1 = _per_class_metrics(cm)
+
         print(f'Epoch [{epoch+1}/{num_epochs}]')
         print(f'  训练 - Loss: {avg_train_loss:.4f}, Acc: {train_acc:.2f}%')
-        print(f'  验证 - Loss: {avg_val_loss:.4f}, Acc: {val_acc:.2f}%')
-        
+        print(f'  验证 - Loss: {avg_val_loss:.4f}, Acc: {val_acc:.2f}%  | Macro P/R/F1: {macro_p:.3f}/{macro_r:.3f}/{macro_f1:.3f}')
+
         if (epoch + 1) % 5 == 0:
             print('\n混淆矩阵:')
             header = '实际\\预测'
-            print(f'{header:12s}  ' + '  '.join([f'{name:12s}' for name in direction_names]))
-            for i, row in enumerate(confusion_matrix):
-                print(f'{direction_names[i]:12s}  ' + '  '.join([f'{val:12d}' for val in row]))
-        
-        print()
-        
+            print(f'{header:12s}  ' + '  '.join([f'{n:12s}' for n in direction_names]))
+            for i, row in enumerate(cm):
+                print(f'{direction_names[i]:12s}  ' + '  '.join([f'{v:12d}' for v in row]))
+            print('按类 P/R/F1:')
+            for i, name in enumerate(direction_names):
+                print(f'  {name}: P={P[i]:.3f} R={R[i]:.3f} F1={F1[i]:.3f}')
+            print()
+
         if val_acc > best_val_acc:
             best_val_acc = val_acc
-            
-            # 保存tokenizer类型
+            no_improve = 0
+
+            ds_flag = True
+            char_to_idx = None
+            try:
+                ds = train_loader.dataset
+                real_ds = ds.dataset if isinstance(ds, Subset) else ds
+                ds_flag = getattr(real_ds, 'use_bert_tokenizer', True)
+                if not ds_flag:
+                    char_to_idx = getattr(real_ds, 'char_to_idx', None)
+            except Exception:
+                pass
+
             save_dict = {
                 'epoch': epoch,
                 'model_state_dict': model.state_dict(),
                 'optimizer_state_dict': optimizer.state_dict(),
                 'val_acc': val_acc,
-                'vocab_size': model.embedding.num_embeddings,
+                'vocab_size': getattr(model.embedding, 'num_embeddings', None) or 0,
                 'd_model': model.d_model,
                 'd_state': model.d_state,
-                'use_bert_tokenizer': train_loader.dataset.dataset.use_bert_tokenizer
+                'use_bert_tokenizer': ds_flag,
+                'freeze_embedding': model.freeze_embedding,
+                'bert_model_name': getattr(model, 'bert_model_name', DEFAULT_BERT_NAME),
+                'pad_token_id': getattr(model, 'pad_token_id', 0),
+                'class_weights': class_weights.detach().cpu().tolist(),
+                'use_focal': use_focal,
+                'focal_gamma': focal_gamma,
+                'dropout': getattr(model, 'dropout', 0.5),
             }
-            
-            # 如果用的是字符级，保存词表
-            if not train_loader.dataset.dataset.use_bert_tokenizer:
-                save_dict['char_to_idx'] = train_loader.dataset.dataset.char_to_idx
-            
-            torch.save(save_dict, 'checkpoints/best_model_bert.pth')
-            print(f'✓ 保存最佳模型 (验证准确率: {val_acc:.2f}%)\n')
-        
+            if char_to_idx is not None:
+                save_dict['char_to_idx'] = char_to_idx
+            if extra_meta:
+                save_dict.update(extra_meta)
+
+            torch.save(save_dict, save_path)
+            print(f'  ✓ 保存最佳模型 -> {save_path} (验证准确率: {val_acc:.2f}%)\n')
+        else:
+            no_improve += 1
+            print(f'  ↳ 验证未提升（连续 {no_improve}/{patience}）\n')
+            if no_improve >= patience:
+                print(f'⏹ 触发 EarlyStopping（patience={patience}），提前结束训练。')
+                break
+
         scheduler.step()
-    
+
     print(f'\n训练完成！最佳验证准确率: {best_val_acc:.2f}%')
     return model, device
 
+def _build_cli():
+    import argparse
+    p = argparse.ArgumentParser(description="Mamba DE 训练（多语种 + 预训练Embedding + AMP + 早停）")
+    p.add_argument('--csv', type=str, default='training_data.csv', help='训练CSV路径')
+    p.add_argument('--bert-model', type=str, default=DEFAULT_BERT_NAME, help='预训练模型名/路径')
+    p.add_argument('--d-model', type=int, default=128)
+    p.add_argument('--d-state', type=int, default=16)
+    p.add_argument('--dropout', type=float, default=0.5)
+    p.add_argument('--freeze-embedding', action='store_true', help='冻结embedding')
+    p.add_argument('--max-length', type=int, default=64)
+    p.add_argument('--batch-size', type=int, default=16)
+    p.add_argument('--epochs', type=int, default=30)
+    p.add_argument('--lr', type=float, default=1e-3)
+    p.add_argument('--train-split', type=float, default=0.8)
+    p.add_argument('--use-focal', action='store_true')
+    p.add_argument('--focal-gamma', type=float, default=2.0)
+    p.add_argument('--early-stop', type=int, default=5, help='EarlyStopping patience')
+    p.add_argument('--clip-max-norm', type=float, default=1.0)
+    p.add_argument('--no-amp', action='store_true', help='禁用AMP')
+    p.add_argument('--save-name', type=str, default='best_model_bert.pth', help='保存文件名')
+    return p
 
 def main():
-    """主函数"""
     print("="*60)
-    print("Mamba Direction Estimator - BERT Tokenizer版")
+    print("Mamba Direction Estimator - ALL BUGS FIXED")
     print("="*60)
-    
+
     if not HAS_TRANSFORMERS:
-        print("\n❌ 错误: 需要安装transformers库")
-        print("运行: pip install transformers")
-        print("安装后会自动下载BERT中文模型（约400MB）")
+        print("\n❌ 需要安装 transformers：pip install transformers")
         return
-    
-    D_MODEL = 128
-    D_STATE = 16
-    MAX_LENGTH = 64
-    BATCH_SIZE = 16
-    NUM_EPOCHS = 30
-    LEARNING_RATE = 1e-3
-    TRAIN_SPLIT = 0.8
-    
-    print("\n[1/5] 加载数据集...")
+
+    args = _build_cli().parse_args()
+
     dataset = DirectionDatasetBERT(
-        csv_path='training_data.csv',
-        max_length=MAX_LENGTH,
-        use_bert_tokenizer=True  # 使用BERT tokenizer
+        csv_path=args.csv,
+        max_length=args.max_length,
+        use_bert_tokenizer=True,
+        bert_model_name=args.bert_model
     )
-    
-    train_size = int(TRAIN_SPLIT * len(dataset))
+
+    train_size = int(args.train_split * len(dataset))
     val_size = len(dataset) - train_size
-    train_dataset, val_dataset = random_split(dataset, [train_size, val_size])
-    
-    train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True)
-    val_loader = DataLoader(val_dataset, batch_size=BATCH_SIZE, shuffle=False)
-    
-    print(f"✓ 训练集: {train_size} 样本")
-    print(f"✓ 验证集: {val_size} 样本")
-    
-    print("\n[2/5] 初始化模型...")
+    train_ds, val_ds = random_split(dataset, [train_size, val_size])
+    train_loader = DataLoader(train_ds, batch_size=args.batch_size, shuffle=True)
+    val_loader = DataLoader(val_ds, batch_size=args.batch_size, shuffle=False)
+    print(f"✓ 训练集: {train_size} | 验证集: {val_size}")
+
     model = MambaDirectionEstimator(
         vocab_size=dataset.vocab_size,
-        d_model=D_MODEL,
-        d_state=D_STATE,
-        dropout=0.5
+        d_model=args.d_model,
+        d_state=args.d_state,
+        dropout=args.dropout,
+        freeze_embedding=args.freeze_embedding,
+        bert_model_name=args.bert_model
     )
-    
-    num_params = sum(p.numel() for p in model.parameters())
-    print(f"✓ 模型参数量: {num_params:,} ({num_params/1e6:.2f}M)")
-    
-    print("\n[3/5] 开始训练...")
-    print("💡 提示: 使用BERT tokenizer后，模型性能应该会更好")
-    
+
+    save_path = os.path.join('checkpoints', args.save_name)
     trained_model, device = train_mamba_de(
         model=model,
         train_loader=train_loader,
         val_loader=val_loader,
-        num_epochs=NUM_EPOCHS,
-        lr=LEARNING_RATE,
-        device='cuda'
+        num_epochs=args.epochs,
+        lr=args.lr,
+        device='cuda',
+        save_path=save_path,
+        use_focal=args.use_focal,
+        focal_gamma=args.focal_gamma,
+        early_stop_patience=args.early_stop,
+        clip_max_norm=args.clip_max_norm,
+        extra_meta={
+            'max_length': args.max_length,
+            'config': {
+                'bert_model_name': args.bert_model,
+                'max_length': args.max_length,
+                'batch_size': args.batch_size,
+                'num_epochs': args.epochs,
+                'learning_rate': args.lr,
+                'train_split': args.train_split,
+                'd_model': args.d_model,
+                'd_state': args.d_state,
+                'dropout': args.dropout,
+                'freeze_embedding': args.freeze_embedding
+            }
+        }
     )
-    
-    print("\n[4/5] 测试推理...")
-    trained_model.eval()
-    sample_batch = next(iter(val_loader))
-    
-    direction_names = ['左向(因果)', '右向(反因果)', '双向']
-    
-    with torch.no_grad():
-        input_ids = sample_batch['input_ids'][:5].to(device)
-        texts = sample_batch['text'][:5]
-        true_labels = sample_batch['direction'][:5]
-        
-        directions, probs = trained_model.predict(input_ids)
-        
-        directions = directions.cpu()
-        probs = probs.cpu()
-        
-        print("\n推理示例:")
-        print("-" * 60)
-        for i in range(len(texts)):
-            print(f"\n文本: {texts[i]}")
-            print(f"真实标签: {direction_names[true_labels[i]]}")
-            print(f"预测方向: {direction_names[directions[i]]}")
-            print(f"置信度: ", end='')
-            for j, prob in enumerate(probs[i]):
-                print(f"{direction_names[j]}: {prob:.3f}  ", end='')
-            print()
-    
-    print("\n[5/5] 完成！")
-    print(f"✓ 模型已保存至: checkpoints/best_model_bert.pth")
-    print("\n💡 这个模型使用的tokenization方法和BERT一样！")
-    print("="*60)
 
+    print(f"\n✅ 训练完成，模型已保存: {save_path}")
 
 if __name__ == '__main__':
     main()

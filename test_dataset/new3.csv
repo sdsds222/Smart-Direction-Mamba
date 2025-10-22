@@ -1,0 +1,94 @@
+text,direction
+"实验结束，灯一暗，报告草稿已在屏幕上跳出。",left
+"公交晚点，会议室里的人却先散了。",right
+"云层压低，比赛照常进行，观众裹紧外套。",bidirectional
+"夜跑完，鞋垫仍在晾，心率记录已同步到表。",left
+"大家安静，原来门外的脚步停住了。",right
+"风声大，窗仍开着，屋里空气反而清。",bidirectional
+"代码提交，流水线秒起，日志逐行变绿。",left
+"掌声突停，台上屏幕换到致谢页时才有人呼气。",right
+"雨未停，施工继续，进度条缓慢却没倒退。",bidirectional
+"闹钟一响，猫先起身，我跟着去煮咖啡。",left
+"灯还亮着，等到楼下车门关合才有人说晚安。",right
+"预算紧，项目不停，方案改得更精细。",bidirectional
+"清单勾完，背包顺手拉上拉链。",left
+"消息一条条刷过，到最后一行才看懂前面的玩笑。",right
+"海风咸，摊位依旧火，游客一边抱怨一边排队。",bidirectional
+"下班路上，雨突然停，袖口刚好干。",left
+"热度散去，原来话题的源头只是误读。",right
+"路滑，却有人练滑板，围观的人越聚越多。",bidirectional
+"面团发好，烤箱预热到位，芝士随即铺开。",left
+"掌心冰凉，直到暖风口合上那一刻才明白空调在制冷。",right
+"电量只剩一格，导航仍开着，路线改成省电模式。",bidirectional
+"晨会刚结束，任务卡片已被认领一半。",left
+"笑声忽止，原来麦克风一直是静音。",right
+"落日红，街区灯先亮，影子延长到路对面。",bidirectional
+"发票拍照存档，报销单紧接着生成。",left
+"人群安静下来，直到门把转动才有人回应。",right
+"咖啡苦，曲奇甜，味道在舌尖打架却合拍。",bidirectional
+"核对无误，合同封页压上印章。",left
+"屏幕忽闪，等字幕爬完才看懂开场那句。",right
+"风向变，帆仍拉紧，船头略微偏却不失速。",bidirectional
+"传感器校准后，曲线稳如直尺。",left
+"先欢呼，后解释，真相落地才有人点头。",right
+"路牌新，地图旧，两者配合着也不迷路。",bidirectional
+"跑批完成，仓库表面值一致。",left
+"房间忽然安静，直到空调叶片停下才意识到噪声的来源。",right
+"花开早，蜂来迟，院里依旧有春天的气味。",bidirectional
+"体温回落，药盒合上，待办列表继续推进。",left
+"会场掌声很整齐，到最后一页才知道不是决赛。",right
+"地铁挤，站台宽，人流分层也能顺着走。",bidirectional
+"模型微调完，验证集的曲线顺势下探。",left
+"通知迟到，到结尾的备注才说明更换地点。",right
+"风餐露宿，脚步不断，终点线就挂在夜里。",bidirectional
+"洗碗机一响，厨房灯随手熄。",left
+"心跳忽快，直到后台页面弹出才明白系统在回滚。",right
+"早班累，晚霞暖，情绪在路口拐了个弯。",bidirectional
+"合并请求通过，版本号递增一位。",left
+"笑容忽然收起，看到屏幕右上角的红点才有人叹气。",right
+"风冷，汤热，桌边的人聊起了远方也聊到今晚。",bidirectional
+"参数敲定，脚本随即入库。",left
+"人群欢腾，等烟花熄灭才有人开始收拾。",right
+"云薄，月亮亮，路灯一盏盏被比了下去。",bidirectional
+"Backups finished, alerts cleared, deploy rolled right after that.",left
+"Everyone laughed, only when the credits stopped did the joke land.",right
+"Battery low, call kept going, decisions got quicker anyway.",bidirectional
+"Sprint closed, retros notes flowed, next tickets lined up already.",left
+"The hall went quiet; only when the latch clicked did the tension drop.",right
+"Rain on the glass, meeting on schedule, slides trimmed to essentials.",bidirectional
+"Data cleaned, chart redrew, trendline settled without fuss.",left
+"Cheers first, understanding later; the reveal tied the opener.",right
+"Cold outside, game continued, benches shuffled to keep warm.",bidirectional
+"Emails triaged, calendar reshaped, the afternoon opened up.",left
+"Smiles froze; only at the last paragraph did the twist explain it.",right
+"Budget thin, plan intact, scope bent but didn’t break.",bidirectional
+"Test passed, metrics logged, canary widened to full traffic.",left
+"Applause faded; the mic unmuted just after the punchline.",right
+"Wind sharp, trail busy, pace adjusted yet spirits high.",bidirectional
+"Dishes stacked, timer chimed, bread came out golden.",left
+"Hands were steady; only when the door shut did nerves show.",right
+"Clouds heavy, kickoff on time, goals tightened instead of slipping.",bidirectional
+"Notes sorted, summary posted, team synced within minutes.",left
+"Everyone quiet; once the handle turned, whispers stopped.",right
+"Heat harsh, AC stubborn, we moved seats and kept going.",bidirectional
+"PR merged, tags updated, changelog read clean.",left
+"Room was bright; only after the shade dropped did screens calm down.",right
+"Late train, firm deadline, we split tasks and made it.",bidirectional
+"Prototype clicked, demo recorded, link shipped to stakeholders.",left
+"Laughter stalled; only at the fine print did the hint appear.",right
+"Storm near, harbor busy, ropes tighter and plans looser.",bidirectional
+"Checklist done, suitcase shut, taxi ordered right away.",left
+"Voices hushed; after the curtain fell, the plot made sense.",right
+"Cold brew strong, morning short, tasks stretched but fit.",bidirectional
+"Survey closed, dashboard refreshed, insights pinned for review.",left
+"People cheered; the scoreboard freeze finally told the story.",right
+"Sun dim, street bright, silhouettes long but steady.",bidirectional
+"Invoice matched, ledger balanced, month wrapped neatly.",left
+"Chatter paused; when the light switched, the culprit was obvious.",right
+"Queue long, patience thin, service steady and oddly soothing.",bidirectional
+"Caches warmed, latency dipped, rollout widened on schedule.",left
+"Smirks vanished; the last slide clarified the first claim.",right
+"Cloud thin, moon clean, footsteps synced with the crosswalk.",bidirectional
+"Meeting ended, action items already in motion.",left
+"Noise stopped; only after the fan rested did focus return.",right
+"Workload heavy, morale light, we pushed and laughed anyway.",bidirectional
