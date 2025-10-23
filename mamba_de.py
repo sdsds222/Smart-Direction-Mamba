@@ -1,4 +1,4 @@
-# mamba_de.py (FIXED VERSION - ALL BUGS RESOLVED)
+# mamba_de.py (FIXED VERSION - ALL BUGS RESOLVED, INTERFACES UNCHANGED)
 import os
 import contextlib
 import math
@@ -65,12 +65,19 @@ class FocalLoss(nn.Module):
         return loss
 
 class SimplifiedMambaSSM(nn.Module):
+    """
+    修正点：
+    1) 将 A 改为对角参数 A_diag，离散化使用 exp(Δ * A_diag) 与 h 做按维缩放，避免错误的逐元素矩阵指数。
+    2) 仍保持与原类名/接口一致。
+    """
     def __init__(self, d_model: int, d_state: int = 16):
         super().__init__()
         self.d_model = d_model
         self.d_state = d_state
-        
-        self.A = nn.Parameter(torch.randn(d_state, d_state) * 0.01)
+
+        # 使用对角 A：保证 e^{ΔA} = diag(e^{Δ a_i}) 简单稳定
+        self.A_diag = nn.Parameter(torch.randn(d_state) * 0.01)
+
         self.delta_proj = nn.Linear(d_model, d_state, bias=False)
         self.B_proj = nn.Linear(d_model, d_state, bias=False)
         self.C_proj = nn.Linear(d_model, d_state, bias=False)
@@ -80,9 +87,10 @@ class SimplifiedMambaSSM(nn.Module):
             nn.Linear(d_model, d_model),
             nn.LayerNorm(d_model)
         )
-        
-        nn.init.orthogonal_(self.A)
-        self.A.data = -torch.abs(self.A.data)
+
+        # 稳定性：A 对角为负
+        with torch.no_grad():
+            self.A_diag.data = -self.A_diag.data.abs()
 
     def forward(self, x, h=None, mask: Optional[torch.Tensor] = None):
         B, T, _ = x.shape
@@ -91,28 +99,28 @@ class SimplifiedMambaSSM(nn.Module):
             h = torch.zeros(B, self.d_state, device=device)
         if mask is None:
             mask = torch.ones(B, T, device=device)
-        mask = mask.unsqueeze(-1)
+        mask = mask.unsqueeze(-1)  # [B, T, 1]
 
         outs = []
         for t in range(T):
             x_t = x[:, t, :]
             m_t = mask[:, t, :]
-            
+
             x_gated = torch.sigmoid(self.input_gate(x_t)) * x_t
-            delta = F.softplus(self.delta_proj(x_gated))
-            B_t = self.B_proj(x_gated)
-            C_t = self.C_proj(x_gated)
-            
-            A_bar = torch.exp(delta.unsqueeze(-1) * self.A)
-            h_candidate = torch.bmm(A_bar, h.unsqueeze(-1)).squeeze(-1) + B_t
-            h_candidate = torch.tanh(h_candidate)
+            delta = F.softplus(self.delta_proj(x_gated))          # [B, d_state]
+            B_t = self.B_proj(x_gated)                            # [B, d_state]
+            C_t = self.C_proj(x_gated)                            # [B, d_state]
+
+            # e^{Δ * A_diag}：按维缩放
+            A_bar = torch.exp(delta * self.A_diag)                # [B, d_state]
+            h_candidate = torch.tanh(A_bar * h + B_t)             # [B, d_state]
             h = h_candidate * m_t + h * (1.0 - m_t)
-            
-            s_t = C_t * h
-            y_t = self.out(s_t) + self.D * x_t
+
+            s_t = C_t * h                                         # [B, d_state]
+            y_t = self.out(s_t) + self.D * x_t                    # [B, d_model]
             outs.append(y_t)
 
-        return torch.stack(outs, dim=1), h
+        return torch.stack(outs, dim=1), h  # [B, T, d_model], [B, d_state]
 
 class MambaDirectionEstimator(nn.Module):
     def __init__(self, vocab_size: int, d_model: int, d_state: int = 16, dropout: float = 0.5,
@@ -185,25 +193,38 @@ class MambaDirectionEstimator(nn.Module):
         return (input_ids != pad_token_id).float()
 
     def forward(self, input_ids):
+        # [B, T] -> [B, T, d_model]
         if self.projection is not None:
             x = self.projection(self.embedding(input_ids))
         else:
             x = self.embedding(input_ids)
-        
-        mask = self._infer_mask(input_ids)
-        forward_out, h_f = self.forward_ssm(x, mask=mask)
-        
+
+        # 推断有效位 mask
+        mask = self._infer_mask(input_ids)             # [B, T]
+
+        # 前向与反向 SSM
+        forward_out, h_f = self.forward_ssm(x, mask=mask)  # [B, T, d], [B, s]
         x_reversed = torch.flip(x, dims=[1])
         mask_reversed = torch.flip(mask, dims=[1])
         backward_out, h_b = self.backward_ssm(x_reversed, mask=mask_reversed)
-        backward_out = torch.flip(backward_out, dims=[1])
-        
-        combined = torch.cat([forward_out, backward_out], dim=-1)
-        final_state = torch.cat([h_f, h_b], dim=-1)
-        enriched_state = self.state_analyzer(final_state)
-        pooled = self.pool_proj(combined.mean(dim=1)) + enriched_state
-        logits = self.classifier(pooled)
-        
+        backward_out = torch.flip(backward_out, dims=[1])  # 对齐时间
+
+        # 拼接双向输出
+        combined = torch.cat([forward_out, backward_out], dim=-1)  # [B, T, 2d]
+
+        # ---- 关键修复：带 mask 的池化，避免 PAD 稀释 ----
+        mask_exp = mask.unsqueeze(-1)                               # [B, T, 1]
+        combined_masked = combined * mask_exp                       # [B, T, 2d]
+        denom = mask.sum(dim=1, keepdim=True).clamp_min(1e-6)       # [B, 1]
+        pooled_seq = combined_masked.sum(dim=1) / denom             # [B, 2d]
+        pooled = self.pool_proj(pooled_seq)                         # [B, d]
+        # ---------------------------------------------------
+
+        # 融合终态
+        final_state = torch.cat([h_f, h_b], dim=-1)                 # [B, 2s]
+        enriched_state = self.state_analyzer(final_state)           # [B, d]
+
+        logits = self.classifier(pooled + enriched_state)           # [B, 3]
         return logits
 
 class DirectionDatasetBERT(Dataset):
@@ -215,7 +236,7 @@ class DirectionDatasetBERT(Dataset):
 
         self.texts = df['text'].astype(str).tolist()
         raw_labels = df['direction'].tolist()
-        
+
         label_map = {'left': 0, 'right': 1, 'bidirectional': 2}
         self.labels = []
         valid_indices = []
@@ -228,7 +249,7 @@ class DirectionDatasetBERT(Dataset):
         self.texts = [self.texts[i] for i in valid_indices]
         if len(self.texts) == 0:
             raise ValueError("过滤后无有效样本。")
-        
+
         print(f"✓ 有效样本数: {len(self.texts)} (原始 {len(df)} 条)")
 
         self.max_length = max_length
@@ -298,6 +319,7 @@ def train_mamba_de(model, train_loader, val_loader, num_epochs=30, lr=1e-3, devi
     os.makedirs(os.path.dirname(save_path), exist_ok=True)
     model.to(device)
 
+    # 统计类权重
     all_labels = []
     for batch in train_loader:
         all_labels.extend(batch['direction'].tolist())
@@ -307,6 +329,7 @@ def train_mamba_de(model, train_loader, val_loader, num_epochs=30, lr=1e-3, devi
     class_weights = class_weights.to(device)
     print(f"类别权重: {class_weights.tolist()}")
 
+    # 损失函数
     if use_focal:
         criterion = FocalLoss(gamma=focal_gamma, weight=class_weights)
         print(f"使用 Focal Loss (gamma={focal_gamma})")
@@ -316,7 +339,8 @@ def train_mamba_de(model, train_loader, val_loader, num_epochs=30, lr=1e-3, devi
     optimizer = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=1e-4)
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=num_epochs)
 
-    use_amp = torch.cuda.is_available()
+    # AMP 控制：尊重设备与可选环境变量 SDM_NO_AMP（由 main 在 --no-amp 时设置）
+    use_amp = (device == 'cuda') and (os.environ.get('SDM_NO_AMP', '0') != '1')
     scaler = _make_scaler(enabled=use_amp)
 
     best_val_acc = 0.0
@@ -477,6 +501,11 @@ def main():
 
     args = _build_cli().parse_args()
 
+    # 设备自动选择；不改 CLI 接口
+    dev = 'cuda' if torch.cuda.is_available() else 'cpu'
+    if args.no_amp:
+        os.environ['SDM_NO_AMP'] = '1'  # train 内部读取，保持函数签名不变
+
     dataset = DirectionDatasetBERT(
         csv_path=args.csv,
         max_length=args.max_length,
@@ -486,7 +515,9 @@ def main():
 
     train_size = int(args.train_split * len(dataset))
     val_size = len(dataset) - train_size
-    train_ds, val_ds = random_split(dataset, [train_size, val_size])
+    # 固定划分种子，增强可复现性；不改函数/参数接口
+    gen = torch.Generator().manual_seed(42)
+    train_ds, val_ds = random_split(dataset, [train_size, val_size], generator=gen)
     train_loader = DataLoader(train_ds, batch_size=args.batch_size, shuffle=True)
     val_loader = DataLoader(val_ds, batch_size=args.batch_size, shuffle=False)
     print(f"✓ 训练集: {train_size} | 验证集: {val_size}")
@@ -507,7 +538,7 @@ def main():
         val_loader=val_loader,
         num_epochs=args.epochs,
         lr=args.lr,
-        device='cuda',
+        device=dev,  # 不再写死 'cuda'
         save_path=save_path,
         use_focal=args.use_focal,
         focal_gamma=args.focal_gamma,

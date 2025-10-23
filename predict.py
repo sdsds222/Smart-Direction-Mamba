@@ -1,4 +1,4 @@
-# predict.py (FIXED VERSION)
+# predict.py (FIXED VERSION + ROUTING METRICS)
 import os
 import argparse
 import glob
@@ -264,6 +264,7 @@ class Predictor:
                             cm[gold, idx] += 1
                             valid_eval_count += 1
 
+        # 逐样本结果写入
         df['pred_idx'] = preds_idx
         df['pred_label'] = preds_label
         df['pred_label_cn'] = preds_label_cn
@@ -272,16 +273,45 @@ class Predictor:
         df['prob_right'] = p_right
         df['prob_bidirectional'] = p_bi
 
+        # === 路由（forward vs bidir）与二分类评估 ===
+        # 根据预测标签生成最终路由：left -> forward；right/bidir -> bidir
+        route_final = []
+        p_nonleft_list = []  # p(right) + p(bidir)
+        for j in range(len(preds_idx)):
+            is_nonleft = 1 if preds_idx[j] in (1, 2) else 0
+            route_final.append('bidir' if is_nonleft else 'forward')
+            p_nonleft_list.append(float(p_right[j] + p_bi[j]))
+
+        # 写入到输出表
+        df['route_final'] = route_final                # 最终路由方向(forward/bidir)
+        df['p_nonleft'] = p_nonleft_list               # 用于阈值/路由策略的参考
+
+        # 若存在金标，则计算二分类指标
         if has_label_col:
-            is_valid = np.array([x in (0,1,2) for x in labels_idx], dtype=bool)
-            is_correct = np.array([labels_idx[j] == preds_idx[j] if is_valid[j] else None for j in range(len(df))], dtype=object)
-            df['is_valid_label'] = is_valid.astype(int)
-            df['is_correct'] = [int(x) if x is not None else '' for x in is_correct]
+            # 生成二分类标签：gold_route：0=forward(left)，1=bidir(right/bidir)
+            gold_route_bin = []
+            for lab in labels_idx:
+                if lab in (0, 1, 2):
+                    gold_route_bin.append(0 if lab == 0 else 1)
+                else:
+                    gold_route_bin.append(None)
+
+            pred_route_bin = [0 if idx == 0 else 1 for idx in preds_idx]
+
+            # 构造 2x2 混淆矩阵: 行=gold, 列=pred
+            cm2 = np.zeros((2, 2), dtype=np.int64)
+            valid2 = 0
+            for g, p in zip(gold_route_bin, pred_route_bin):
+                if g is None:
+                    continue
+                cm2[g, p] += 1
+                valid2 += 1
 
         os.makedirs(os.path.dirname(os.path.abspath(output_csv)) or '.', exist_ok=True)
         df.to_csv(output_csv, index=False, encoding='utf-8')
         print(f"✓ 已保存预测结果: {output_csv} （{len(df)} 条）")
 
+        # 原三分类报告
         if has_label_col and valid_eval_count > 0:
             total = cm.sum()
             acc = np.trace(cm) / max(1, total)
@@ -303,7 +333,33 @@ class Predictor:
                 print(f"  {name}: P={P[i]:.3f} R={R[i]:.3f} F1={F1[i]:.3f}")
             print("-"*70)
         elif has_label_col:
-            print("\n⚠️ 没有任何合法标签样本（0/1/2 或 left/right/bidirectional/中文/LRB），跳过指标计算。")
+            print("\n⚠️ 没有任何合法标签样本（0/1/2 或 left/right/bidirectional/中文/LRB），跳过三分类指标计算。")
+
+        # 路由二分类报告
+        if has_label_col:
+            try:
+                if valid2 > 0:
+                    total2 = cm2.sum()
+                    acc2 = np.trace(cm2) / max(1, total2)
+                    P2, R2, F12, mP2, mR2, mF12 = _per_class_metrics(cm2)
+
+                    print("\n[路由层 (forward vs bidir) 指标]")
+                    print("-"*70)
+                    print(f"有效评测样本(二分类): {valid2} / {len(df)}")
+                    print(f"Routing Acc: {acc2*100:.2f}%  |  Macro P/R/F1: {mP2:.3f}/{mR2:.3f}/{mF12:.3f}")
+                    print("\n二分类混淆矩阵 (行=真实 gold, 列=预测 pred)")
+                    print("            pred: forward    bidir")
+                    print(f"gold: forward    {int(cm2[0,0]):10d} {int(cm2[0,1]):10d}")
+                    print(f"gold: bidir      {int(cm2[1,0]):10d} {int(cm2[1,1]):10d}")
+                    print("\n按类 P/R/F1:")
+                    print(f"  forward: P={P2[0]:.3f} R={R2[0]:.3f} F1={F12[0]:.3f}")
+                    print(f"  bidir  : P={P2[1]:.3f} R={R2[1]:.3f} F1={F12[1]:.3f}")
+                    print("-"*70)
+                else:
+                    print("\n⚠️ 二分类评估：没有任何合法路由金标，跳过。")
+            except NameError:
+                # valid2/cm2 未定义（无金标路径），忽略
+                pass
 
         return df, (cm if (has_label_col and valid_eval_count > 0) else None)
 
@@ -337,6 +393,11 @@ def interactive_mode(predictor: Predictor):
             print(f"  左向(因果):      {r['prob_left']:.2%} {bar(r['prob_left'])}")
             print(f"  右向(反因果):    {r['prob_right']:.2%} {bar(r['prob_right'])}")
             print(f"  双向:            {r['prob_bidirectional']:.2%} {bar(r['prob_bidirectional'])}")
+
+            # === 展示最终路由策略（简单版：p_nonleft>=0.5 -> bidir，否则 forward） ===
+            p_nonleft = r['prob_right'] + r['prob_bidirectional']
+            final_route = 'bidir' if p_nonleft >= 0.5 else 'forward'
+            print(f"\n🧭 最终路由方向(策略)：{final_route}  (p_nonleft={p_nonleft:.2%})")
             print("="*70)
         except Exception as e:
             print(f"\n❌ 预测出错: {e}")
