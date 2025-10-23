@@ -51,10 +51,15 @@ Dynamic Mamba Scan and State Propagation
 
 The Mamba scan switches based on the DE's decision, but its global state propagation (H) remains unidirectionally coherent to ensure continuity across long sequences.
 
-3.1 Dynamic Scan Modes
- 1. Leftward (L): Mamba performs the standard forward scan to capture causal relationships.
- 2. Rightward (R): Mamba performs the reverse scan to capture non-causal relationships (i.e., local future context).
- 3. Bidirectional (B): Mamba performs two independent scans (forward and reverse) and then fuses their outputs to capture the most complex local dependencies.
+3.1 Dynamic Scanning Modes
+
+1. Forward (L): Mamba executes a standard forward scan to capture causal dependencies.
+
+~~2. Backward (R): Mamba executes a backward scan to capture non-causal dependencies (i.e., local future context).~~
+
+3. Bidirectional (B): Mamba executes two independent scans (forward and backward) and then fuses their outputs to capture the most complex local dependencies.
+
+**Note: Although the Direction Estimator outputs three states (Left, Right, and Bidirectional), the dynamic scanning process only executes two modes: a Forward Scan (for the L state) and a Bidirectional Scan (for both the R and B states). This prevents state incoherence and enhances robustness.**
 
 3.2 Skip Estimator (SE)
 
@@ -252,8 +257,12 @@ Mamba 扫描根据 DE 的决策进行切换，但其全局状态传递 (H) 保�
 
 3.1 动态扫描模式
 1. 左向（L）： Mamba 执行标准的前向扫描，用于捕获因果关系。
-2. 右向（R）： Mamba 执行反向扫描，用于捕获非因果关系（即局部未来上下文）。
+
+~~2. 右向（R）： Mamba 执行反向扫描，用于捕获非因果关系（即局部未来上下文）。~~
+
 3. 双向（B）： Mamba 执行两次独立的扫描（正向和反向），然后融合它们的输出，以捕获最复杂的局部依赖。
+
+**注意，方向判别器虽然会输出三种状态（左，右，双向），但是动态扫描只进行正向扫描（L）和双向扫描（R和B），防止出现混乱，增强鲁棒性。**
  
 3.2 跳过判别器（SE）
 
@@ -276,7 +285,7 @@ SDM 架构中除了可以使用DE，还可以引入跳过判别器（SE），通
 
 SDM 依赖 Gumbel-Softmax 技巧实现训练：
 1. DE 的 Logits 被转化为一个可微分的概率分布（左、右、双向）。
-2.Mamba 的最终输出 是这三个方向扫描结果的加权平均。
+2.Mamba DE 的最终输出 是这三个方向扫描结果的加权平均。
 3. 这使得梯度可以顺利地流回 Mamba DE 或 Transformer DE 的权重，从而使得整个混合架构可以联合训练。
 
 设想：
