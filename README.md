@@ -88,6 +88,7 @@ SDM relies on the Gumbel-Softmax trick for end-to-end training:
 Future Scopes:
  1. It could be introduced a Attention Mechanism for Textual Influence Flow, by which the ability to dynamically adjust block size (L), expanding L when the text structure is stable to increase context utilization, and shrinking L when the structure is complex and flow direction is inconsistent to ensure coherence within the block.
  2. The possibility of designing mechanisms to detect redundant sequence blocks and skip the scan operation, passing the historical record from the previous block directly to the subsequent block to continue the scan.
+ 3. 3. If multiple adjacent chunks share the same direction, they can be fused into a single large chunk for a unified scan, which saves computational resources.
 
 ## Mamba DE Demo User Manual:
 
@@ -291,6 +292,7 @@ SDM 依赖 Gumbel-Softmax 技巧实现训练：
 设想：
 1. 通过引入一种关于文本影响流向的注意力机制能够在文本结构稳定时扩大块大小，提高上下文利用率；而在结构复杂，影响流向方向不一致时，缩小块大小，动态调整块的大小以确保块内信息影响流向一致。
 2. 可以设计一些机制检测无用序列小块，不执行扫描操作，将前一个块的历史记录直接给到后一个块继续扫描，即跳过。
+3. 如果多个相邻块同方向，则可合成一个同方向大块进行统一扫描，节省资源消耗。
 
 
 ## Mamba DE Demo使用手册：
