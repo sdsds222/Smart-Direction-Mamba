@@ -1,0 +1,520 @@
+text,direction
+版本先回滚了，因为风险评估过高。,right
+版本先回滚了，原因是风险评估过高。,right
+版本先回滚了，后来发现风险评估过高。,right
+回滚已完成，因为金丝雀节点错误率飙升。,right
+回滚已完成，原因是金丝雀节点错误率飙升。,right
+回滚已完成，后来发现金丝雀节点错误率飙升。,right
+服务重启了，因为 OOM 错误。,right
+服务重启了，原因是 OOM 错误。,right
+服务重启了，原来是 OOM 错误。,right
+P99 延迟很高，因为下游服务超时了。,right
+P99 延迟很高，原因是下游服务超时了。,right
+P99 延迟很高，原来是下游服务超时了。,right
+登录失败，因为 Redis 挂了。,right
+登录失败，原因是 Redis 挂了。,right
+登录失败，原来是 Redis 挂了。,right
+部署失败，因为磁盘空间不足。,right
+部署失败，原因是磁盘空间不足。,right
+部署失败，原来是磁盘空间不足。,right
+告警响了，因为 CPU 使用率超过 90%。,right
+告警响了，原因是 CPU 使用率超过 90%。,right
+告警响了，原来是 CPU 使用率超过 90%。,right
+Pod 挂了，因为健康检查失败。,right
+Pod 挂了，原因是健康检查失败。,right
+Pod 挂了，原来是健康检查失败。,right
+这波访问异常，好在只是沙箱环境。,right
+这波访问异常，幸亏只是沙箱环境。,right
+这波访问异常，原来只是沙箱环境。,right
+数据丢失，好在只是测试数据。,right
+数据丢失，幸亏只是测试数据。,right
+数据丢失，原来只是测试数据。,right
+查询很慢，因为索引没建。,right
+查询很慢，原因是索引没建。,right
+查询很慢，原来是索引没建。,right
+用户投诉，因为支付页面打不开。,right
+用户投诉，原因是支付页面打不开。,right
+用户投诉，原来是支付页面打不开。,right
+系统崩溃，因为内存泄漏。,right
+系统崩溃，原因是内存泄漏。,right
+系统崩溃，原来是内存泄漏。,right
+请求超时，因为数据库死锁。,right
+请求超时，原因是数据库死锁。,right
+请求超时，原来是数据库死锁。,right
+构建失败，因为依赖包下载失败。,right
+构建失败，原因是依赖包下载失败。,right
+构建失败，原来是依赖包下载失败。,right
+404 错误，因为路由配置错了。,right
+404 错误，原因是路由配置错了。,right
+404 错误，原来是路由配置错了。,right
+503 错误，因为连接池满了。,right
+503 错误，原因是连接池满了。,right
+503 错误，原来是连接池满了。,right
+启动失败，因为配置文件缺失。,right
+启动失败，原因是配置文件缺失。,right
+启动失败，原来是配置文件缺失。,right
+数据不一致，因为主从延迟。,right
+数据不一致，原因是主从延迟。,right
+数据不一致，原来是主从延迟。,right
+任务失败，因为上游任务没跑完。,right
+任务失败，原因是上游任务没跑完。,right
+任务失败，原来是上游任务没跑完。,right
+Pod 循环重启，因为探针超时。,right
+Pod 循环重启，原因是探针超时。,right
+Pod 循环重启，原来是探针超时。,right
+权限错误，因为 Token 过期了。,right
+权限错误，原因是 Token 过期了。,right
+权限错误，原来是 Token 过期了。,right
+页面白屏，因为 JS 报错。,right
+页面白屏，原因是 JS 报错。,right
+页面白屏，原来是 JS 报错。,right
+消息堆积，因为消费者挂了。,right
+消息堆积，原因是消费者挂了。,right
+消息堆积，原来是消费者挂了。,right
+写入失败，因为磁盘只读。,right
+写入失败，原因是磁盘只读。,right
+写入失败，原来是磁盘只读。,right
+连接被拒，因为防火墙没开端口。,right
+连接被拒，原因是防火墙没开端口。,right
+连接被拒，原来是防火墙没开端口。,right
+数据乱码，因为编码格式不对。,right
+数据乱码，原因是编码格式不对。,right
+数据乱码，原来是编码格式不对。,right
+测试不通过，因为断言失败。,right
+测试不通过，原因是断言失败。,right
+测试不通过，原来是断言失败。,right
+服务熔断，因为错误率太高。,right
+服务熔断，原因是错误率太高。,right
+服务熔断，原来是错误率太高。,right
+应用很卡，因为 GC 频繁。,right
+应用很卡，原因是 GC 频繁。,right
+应用很卡，原来是 GC 频繁。,right
+节点下线，因为心跳超时。,right
+节点下线，原因是心跳超时。,right
+节点下线，原来是心跳超时。,right
+请求被挡，因为触发了 WAF 规则。,right
+请求被挡，原因是触发了 WAF 规则。,right
+请求被挡，原来是触发了 WAF 规则。,right
+扩容失败，因为实例配额不足。,right
+扩容失败，原因是实例配额不足。,right
+扩容失败，原来是实例配额不足。,right
+数据为空，因为 ETL 任务昨晚失败了。,right
+数据为空，原因是 ETL 任务昨晚失败了。,right
+数据为空，原来是 ETL 任务昨晚失败了。,right
+交易失败，因为风控系统拦截。,right
+交易失败，原因是风控系统拦截。,right
+交易失败，原来是风控系统拦截。,right
+推送延迟，因为 APNS 通道拥堵。,right
+推送延迟，原因是 APNS 通道拥堵。,right
+推送延迟，原来是 APNS 通道拥堵。,right
+无法启动，因为端口被占用了。,right
+无法启动，原因是端口被占用了。,right
+无法启动，原来是端口被占用了。,right
+无法访问，因为 DNS 解析失败。,right
+无法访问，原因是 DNS 解析失败。,right
+无法访问，原来是 DNS 解析失败。,right
+视频卡顿，因为 CDN 回源。,right
+视频卡顿，原因是 CDN 回源。,right
+视频卡顿，原来是 CDN 回源。,right
+搜索无结果，因为索引正在重建。,right
+搜索无结果，原因是索引正在重建。,right
+搜索无结果，原来是索引正在重建。,right
+订单重复，因为上游在重试。,right
+订单重复，原因是上游在重试。,right
+订单重复，原来是上游在重试。,right
+CPU 飙高，因为有个死循环。,right
+CPU 飙高，原因是有个死循环。,right
+CPU 飙高，原来是有个死循环。,right
+文件打不开，因为权限不足。,right
+文件打不开，原因是权限不足。,right
+文件打不开，原来是权限不足。,right
+同步失败，因为网络分区。,right
+同步失败，原因是网络分区。,right
+同步失败，原来是网络分区。,right
+服务 502，因为 Nginx 配置错了。,right
+服务 502，原因是 Nginx 配置错了。,right
+服务 502，原来是 Nginx 配置错了。,right
+服务降级，因为依赖的 RPC 服务超时。,right
+服务降级，原因是依赖的 RPC 服务超时。,right
+服务降级，原来是依赖的 RPC 服务超时。,right
+我迟到了，因为堵车了。,right
+我迟到了，原因是堵车了。,right
+我迟到了，原来是堵车了。,right
+他很难过，因为考试没通过。,right
+他很难过，原因是考试没通过。,right
+他很难过，原来是考试没通过。,right
+股票跌了，因为财报不及预期。,right
+股票跌了，原因是财报不及预期。,right
+股票跌了，原来是财报不及预期。,right
+比赛取消了，因为下雨了。,right
+比赛取消了，原因是下雨了。,right
+比赛取消了，原来是下雨了。,right
+风险评估过高，所以版本先回滚了。,left
+风险评估过高，因此版本先回滚了。,left
+风险评估过高，导致了版本回滚。,left
+风险评估过高，于是我们回滚了版本。,left
+新代码导致内存泄漏，所以服务回滚了。,left
+新代码导致内存泄漏，因此服务回滚了。,left
+新代码导致内存泄漏，导致了服务回滚。,left
+新代码导致内存泄漏，于是服务回滚了。,left
+下游数据库慢查询，所以 API 延迟飙升。,left
+下游数据库慢查询，因此 API 延迟飙升。,left
+下游数据库慢查询，导致了 API 延迟飙升。,left
+下游数据库慢查询，于是 API 延迟飙升。,left
+安全扫描发现高危漏洞，所以发布暂停了。,left
+安全扫描发现高危漏洞，因此发布暂停了。,left
+安全扫描发现高危漏洞，导致了发布暂停。,left
+安全扫描发现高危漏洞，于是发布暂停了。,left
+缓存命中率提升，所以 P99 延迟下降。,left
+缓存命中率提升，因此 P99 延迟下降。,left
+缓存命中率提升，导致了 P99 延迟下降。,left
+缓存命中率提升，于是 P99 延迟下降。,left
+构建脚本是坏的，所以我们取消了发布。,left
+构建脚本是坏的，因此我们取消了发布。,left
+构建脚本是坏的，导致了发布被取消。,left
+构建脚本是坏的，于是我们取消了发布。,left
+CPU 使用率超过 90%，所以告警响了。,left
+CPU 使用率超过 90%，因此告警响了。,left
+CPU 使用率超过 90%，导致了告警。,left
+CPU 使用率超过 90%，于是告警响了。,left
+健康检查失败，所以 Pod 挂了。,left
+健康检查失败，因此 Pod 挂了。,left
+健康检查失败，导致了 Pod 挂掉。,left
+健康检查失败，于是 Pod 挂了。,left
+Redis 挂了，所以登录失败。,left
+Redis 挂了，因此登录失败。,left
+Redis 挂了，导致了登录失败。,left
+Redis 挂了，于是登录失败。,left
+磁盘空间不足，所以部署失败。,left
+磁盘空间不足，因此部署失败。,left
+磁盘空间不足，导致了部署失败。,left
+磁盘空间不足，于是部署失败。,left
+下游服务超时，所以 P99 延迟很高。,left
+下游服务超时，因此 P99 延迟很高。,left
+下游服务超时，导致了 P99 延迟很高。,left
+下游服务超时，于是 P99 延迟很高。,left
+OOM 错误，所以服务重启了。,left
+OOM 错误，因此服务重启了。,left
+OOM 错误，导致了服务重启。,left
+OOM 错误，于是服务重启了。,left
+索引没建，所以查询很慢。,left
+索引没建，因此查询很慢。,left
+索引没建，导致了查询很慢。,left
+索引没建，于是查询很慢。,left
+支付页面打不开，所以用户投诉。,left
+支付页面打不开，因此用户投诉。,left
+支付页面打不开，导致了用户投诉。,left
+支付页面打不开，于是用户投诉。,left
+内存泄漏，所以系统崩溃。,left
+内存泄漏，因此系统崩溃。,left
+内存泄漏，导致了系统崩溃。,left
+内存泄漏，于是系统崩溃。,left
+数据库死锁，所以请求超时。,left
+数据库死锁，因此请求超时。,left
+数据库死锁，导致了请求超时。,left
+数据库死锁，于是请求超时。,left
+依赖包下载失败，所以构建失败。,left
+依赖包下载失败，因此构建失败。,left
+依赖包下载失败，导致了构建失败。,left
+依赖包下载失败，于是构建失败。,left
+路由配置错了，所以 404 错误。,left
+路由配置错了，因此 404 错误。,left
+路由配置错了，导致了 404 错误。,left
+路由配置错了，于是 404 错误。,left
+连接池满了，所以 503 错误。,left
+连接池满了，因此 503 错误。,left
+连接池满了，导致了 503 错误。,left
+连接池满了，于是 503 错误。,left
+配置文件缺失，所以启动失败。,left
+配置文件缺失，因此启动失败。,left
+配置文件缺失，导致了启动失败。,left
+配置文件缺失，于是启动失败。,left
+主从延迟，所以数据不一致。,left
+主从延迟，因此数据不一致。,left
+主从延迟，导致了数据不一致。,left
+主从延迟，于是数据不一致。,left
+上游任务没跑完，所以任务失败。,left
+上游任务没跑完，因此任务失败。,left
+上游任务没跑完，导致了任务失败。,left
+上游任务没跑完，于是任务失败。,left
+探针超时，所以 Pod 循环重启。,left
+探针超时，因此 Pod 循环重启。,left
+探针超时，导致了 Pod 循环重启。,left
+探针超时，于是 Pod 循环重启。,left
+Token 过期了，所以权限错误。,left
+Token 过期了，因此权限错误。,left
+Token 过期了，导致了权限错误。,left
+Token 过期了，于是权限错误。,left
+JS 报错，所以页面白屏。,left
+JS 报错，因此页面白屏。,left
+JS 报错，导致了页面白屏。,left
+JS 报错，于是页面白屏。,left
+消费者挂了，所以消息堆积。,left
+消费者挂了，因此消息堆积。,left
+消费者挂了，导致了消息堆积。,left
+消费者挂了，于是消息堆积。,left
+磁盘只读，所以写入失败。,left
+磁盘只读，因此写入失败。,left
+磁盘只读，导致了写入失败。,left
+磁盘只读，于是写入失败。,left
+防火墙没开端口，所以连接被拒。,left
+防火墙没开端口，因此连接被拒。,left
+防火墙没开端口，导致了连接被拒。,left
+防火墙没开端口，于是连接被拒。,left
+编码格式不对，所以数据乱码。,left
+编码格式不对，因此数据乱码。,left
+编码格式不对，导致了数据乱码。,left
+编码格式不对，于是数据乱码。,left
+断言失败，所以测试不通过。,left
+断言失败，因此测试不通过。,left
+断言失败，导致了测试不通过。,left
+断言失败，于是测试不通过。,left
+错误率太高，所以服务熔断。,left
+错误率太高，因此服务熔断。,left
+错误率太高，导致了服务熔断。,left
+错误率太高，于是服务熔断。,left
+GC 频繁，所以应用很卡。,left
+GC 频繁，因此应用很卡。,left
+GC 频繁，导致了应用很卡。,left
+GC 频繁，于是应用很卡。,left
+心跳超时，所以节点下线。,left
+心跳超时，因此节点下线。,left
+心跳超时，导致了节点下线。,left
+心跳超时，于是节点下线。,left
+触发了 WAF 规则，所以请求被挡。,left
+触发了 WAF 规则，因此请求被挡。,left
+触发了 WAF 规则，导致了请求被挡。,left
+触发了 WAF 规则，于是请求被挡。,left
+实例配额不足，所以扩容失败。,left
+实例配额不足，因此扩容失败。,left
+实例配额不足，导致了扩容失败。,left
+实例配额不足，于是扩容失败。,left
+ETL 任务昨晚失败了，所以数据为空。,left
+ETL 任务昨晚失败了，因此数据为空。,left
+ETL 任务昨晚失败了，导致了数据为空。,left
+ETL 任务昨晚失败了，于是数据为空。,left
+风控系统拦截，所以交易失败。,left
+风控系统拦截，因此交易失败。,left
+风控系统拦截，导致了交易失败。,left
+风控系统拦截，于是交易失败。,left
+APNS 通道拥堵，所以推送延迟。,left
+APNS 通道拥堵，因此推送延迟。,left
+APNS 通道拥堵，导致了推送延迟。,left
+APNS 通道拥堵，于是推送延迟。,left
+端口被占用了，所以无法启动。,left
+端口被占用了，因此无法启动。,left
+端口被占用了，导致了无法启动。,left
+端口被占用了，于是无法启动。,left
+DNS 解析失败，所以无法访问。,left
+DNS 解析失败，因此无法访问。,left
+DNS 解析失败，导致了无法访问。,left
+DNS 解析失败，于是无法访问。,left
+CDN 回源，所以视频卡顿。,left
+CDN 回源，因此视频卡顿。,left
+CDN 回源，导致了视频卡顿。,left
+CDN 回源，于是视频卡顿。,left
+索引正在重建，所以搜索无结果。,left
+索引正在重建，因此搜索无结果。,left
+索引正在重建，导致了搜索无结果。,left
+索引正在重建，于是搜索无结果。,left
+上游在重试，所以订单重复。,left
+上游在重试，因此订单重复。,left
+上游在重试，导致了订单重复。,left
+上游在重试，于是订单重复。,left
+有个死循环，所以 CPU 飙高。,left
+有个死循环，因此 CPU 飙高。,left
+有个死循环，导致了 CPU 飙高。,left
+有个死循环，于是 CPU 飙高。,left
+权限不足，所以文件打不开。,left
+权限不足，因此文件打不开。,left
+权限不足，导致了文件打不开。,left
+权限不足，于是文件打不开。,left
+网络分区，所以同步失败。,left
+网络分区，因此同步失败。,left
+网络分区，导致了同步失败。,left
+网络分区，于是同步失败。,left
+Nginx 配置错了，所以服务 502。,left
+Nginx 配置错了，因此服务 502。,left
+Nginx 配置错了，导致了服务 502。,left
+Nginx 配置错了，于是服务 502。,left
+依赖的 RPC 服务超时，所以服务降级。,left
+依赖的 RPC 服务超时，因此服务降级。,left
+依赖的 RPC 服务超时，导致了服务降级。,left
+依赖的 RPC 服务超时，于是服务降级。,left
+堵车了，所以我迟到了。,left
+堵车了，因此我迟到了。,left
+堵车了，导致我迟到了。,left
+堵车了，于是我迟到了。,left
+考试没通过，所以他很难过。,left
+考试没通过，因此他很难过。,left
+考试没通过，导致他很难过。,left
+考试没通过，于是他很难过。,left
+财报不及预期，所以股票跌了。,left
+财报不及预期，因此股票跌了。,left
+财报不及预期，导致股票跌了。,left
+财报不及预期，于是股票跌了。,left
+下雨了，所以比赛取消了。,left
+下雨了，因此比赛取消了。,left
+下雨了，导致比赛取消了。,left
+下雨了，于是比赛取消了。,left
+前端加载缓慢，而后端 QPS 正常。,bidirectional
+模块 A 负责鉴权，模块 B 负责日志。,bidirectional
+CPU 使用率很高，同时内存使用率也很高。,bidirectional
+读延迟很低，但是写延迟很高。,bidirectional
+服务 A 是 Go 写的，而服务 B 是 Python 写的。,bidirectional
+数据库在 AWS，而缓存在 GCP。,bidirectional
+用户信息存在 MySQL，而日志存在 Elasticsearch。,bidirectional
+移动应用在崩溃，同时网站也很慢。,bidirectional
+模块 A 是 CPU 密集型，而模块 B 是 I/O 密集型。,bidirectional
+我们正在监控延迟，同时也在监控错误率。,bidirectional
+新的 UI 更快，但也更耗内存。,bidirectional
+这个算法很准，但它不是很快。,bidirectional
+服务 A 调用 B，同时 B 也回调 A。,bidirectional
+缓存和数据库之间存在同步问题。,bidirectional
+前端是用 React 构建的，而后端使用 Node.js。,bidirectional
+数据库是关系型的，但缓存是键值型的。,bidirectional
+主节点和副本节点都离线了。,bidirectional
+预发环境挂了，开发环境也不稳定。,bidirectional
+我们需要同时考虑性能和安全。,bidirectional
+数据流从 A 到 B，也从 B 回到 A。,bidirectional
+欧洲集群很稳定，但美东集群有问题。,bidirectional
+新版本上线了，旧版本也还在运行。,bidirectional
+CEO 在演讲，同时 CTO 也在台上。,bidirectional
+团队分布在柏林和纽约。,bidirectional
+API 处理读，一个单独的服务处理写。,bidirectional
+应用支持亮色模式，也支持暗色模式。,bidirectional
+数据跨三个可用区复制。,bidirectional
+他喜欢苹果，但她更喜欢橘子。,bidirectional
+这个系统很复杂，而且文档也很差。,bidirectional
+新功能很酷，但它有几个 bug。,bidirectional
+火车晚点了，公交车也延误了。,bidirectional
+服务 A 是有状态的，而服务 B 是无状态的。,bidirectional
+登录 API 很快，但搜索 API 很慢。,bidirectional
+文档过时了，而且代码很难读。,bidirectional
+这个系统可扩展性强，但不是很可靠。,bidirectional
+我们在招工程师，同时也在招设计师。,bidirectional
+新算法更快，但旧算法更准。,bidirectional
+数据库是规范化的，但数据仓库是反规范化的。,bidirectional
+RTO 很低，RPO 也很低。,bidirectional
+系统是高可用的，但不是强一致性的。,bidirectional
+我们用 Kafka 处理流，用 RabbitMQ 处理工作队列。,bidirectional
+iOS 应用是原生的，但安卓应用是 React Native 的。,bidirectional
+测试覆盖率很高，但是没有集成测试。,bidirectional
+数据在静态时加密，在传输时也加密。,bidirectional
+新服务器很强，但它也很贵。,bidirectional
+微服务是解耦的，但数据库是单体的。,bidirectional
+前端很复杂，后端也很复杂。,bidirectional
+新设计很简洁，但旧设计更令人熟悉。,bidirectional
+延迟很稳定，吞吐量也很一致。,bidirectional
+这个团队用 Scrum，而另一个团队用 Kanban。,bidirectional
+Pod 有 CPU 限制，它也有内存限制。,bidirectional
+API 是 RESTful 的，但内部服务使用 gRPC。,bidirectional
+新集群在 AWS，旧集群在本地机房。,bidirectional
+代码测试良好，但可读性不强。,bidirectional
+新功能很令人兴奋，但它也有风险。,bidirectional
+系统很安全，但对用户不是很友好。,bidirectional
+新数据库更快，但旧数据库更稳定。,bidirectional
+错误率很低，延迟也很低。,bidirectional
+应用可以在线工作，也可以离线工作。,bidirectional
+新手机相机更好，但电池寿命更差。,bidirectional
+单体应用很难部署，但微服务很难调试。,bidirectional
+新 UI 看起来很现代，但旧 UI 功能性更强。,bidirectional
+文档很完整，但不是很清晰。,bidirectional
+系统很健壮，而且也很高效。,bidirectional
+新笔记本很轻，但旧笔记本更耐用。,bidirectional
+应用在 iOS 上可用，在 Android 上也可用。,bidirectional
+新流程是自动化的，但旧流程更灵活。,bidirectional
+系统是强一致性的，但并不总是可用的。,bidirectional
+新语言很快，但旧语言有更好的库。,bidirectional
+数据是准确的，也是最新的。,bidirectional
+新服务器在云上，但旧服务器是物理机。,bidirectional
+新功能是 beta 版，旧功能已被废弃。,bidirectional
+系统易于使用，但很难定制。,bidirectional
+新更新很小，但它修复了一个关键 bug。,bidirectional
+应用很快，但不是很安全。,bidirectional
+新模型更大了，也更准确了。,bidirectional
+系统是分布式的，也是容错的。,bidirectional
+新笔记本内存更大，但旧笔记本键盘更好。,bidirectional
+应用很稳定，但性能很差。,bidirectional
+新 API 是同步的，但旧 API 是异步的。,bidirectional
+系统是合规的，但不是很高效。,bidirectional
+新功能很有用，但它藏在设置里。,bidirectional
+应用功能丰富，但也很臃G。,bidirectional
+新设计很清爽，但旧设计更有特色。,bidirectional
+系统很快，而且也很可靠。,bidirectional
+新手机很贵，但旧手机很慢。,bidirectional
+应用很强大，但学习曲线很陡。,bidirectional
+新框架很现代，但旧框架更稳定。,bidirectional
+系统是可用的，但不是强一致性的。,bidirectional
+新代码很简洁，但旧代码更明确。,bidirectional
+应用很安全，也很注重隐私。,bidirectional
+新服务器是虚拟的，但旧服务器是裸金属的。,bidirectional
+新功能很创新，但不是很实用。,bidirectional
+系统可扩展性强，但管理起来很复杂。,bidirectional
+新笔记本很薄，但它也容易发热。,bidirectional
+应用很简单，但不是很强大。,bidirectional
+新 API 更快，但旧 API 更灵活。,bidirectional
+系统很可靠，但不是很快。,bidirectional
+新代码很整洁，但旧代码是经过实战检验的。,bidirectional
+应用是免费的，但它有很多广告。,bidirectional
+新服务器用 SSD，但旧服务器用 HDD。,bidirectional
+新功能是实验性的，可能会被移除。,bidirectional
+系统是自动化的，但很难被覆盖(override)。,bidirectional
+新笔记本有触摸屏，但旧笔记本是雾面屏。,bidirectional
+应用很轻量，但功能不是很丰富。,bidirectional
+新 API 是 gRPC，但旧 API 是 SOAP。,bidirectional
+系统是强一致性的，但延迟很高。,bidirectional
+新代码是模块化的，但旧代码是单体的。,bidirectional
+应用是开源的，但文档很缺乏。,bidirectional
+新服务器在欧洲，但旧服务器在美国。,bidirectional
+新功能很强大，但也很令人困惑。,bidirectional
+系统是容错的，但性能不是很好。,bidirectional
+新笔记本很安静，但旧笔记本散热更好。,bidirectional
+应用很快，但不是很准确。,bidirectional
+新 API 是 REST，但旧 API 是 GraphQL。,bidirectional
+系统是可用的，但数据有时是陈旧的。,bidirectional
+新代码很优雅，但旧代码更直白。,bidirectional
+应用很受欢迎，但公司不盈利。,bidirectional
+新服务器核更多，但旧服务器主频更高。,bidirectional
+新功能很有用，但只对一小部分用户有用。,bidirectional
+系统是去中心化的，但很难查询。,bidirectional
+新笔记本是镜面屏，但旧笔记本更适合户外。,bidirectional
+应用很简单，但也很死板。,bidirectional
+新 API 是强类型的，但旧 API 是动态的。,bidirectional
+系统很可靠，但运行成本很高。,bidirectional
+新代码更快，但也更难理解。,bidirectional
+应用很漂亮，但无障碍(accessibility)做得不好。,bidirectional
+新服务器是 ARM 架构，但旧服务器是 x86。,bidirectional
+新功能很创新，但破坏了现有的工作流。,bidirectional
+系统是分布式的，但不是强一致性的。,bidirectional
+新笔记本键盘很小，但旧笔记本有数字键盘。,bidirectional
+应用很准确，但不是很快。,bidirectional
+新 API 很高效，但旧 API 更易用。,bidirectional
+系统是可用的，但不是很安全。,bidirectional
+新代码很短，但旧代码描述性更强。,bidirectional
+应用很强大，但不是很稳定。,bidirectional
+新服务器在容器里，但旧服务器是虚拟机。,bidirectional
+新功能很有帮助，但很难找到。,bidirectional
+系统是自动化的，但不是很智能。,bidirectional
+新笔记本触控板很棒，但旧笔记本有指点杆。,bidirectional
+应用保护隐私，但不是很快。,bidirectional
+新 API 是 GraphQL，但旧 API 是 REST。,bidirectional
+系统是强一致性的，但并不总是可用的。,bidirectional
+新代码很快，但可维护性不高。,bidirectional
+应用很轻量，但 UI 很笨拙。,bidirectional
+新服务器在 Kubernetes 里，但旧服务器在裸金属上。,bidirectional
+新功能很酷，但默认没开启。,bidirectional
+系统可扩展性强，但不是很可靠。,bidirectional
+新笔记本是 4K 屏，但旧笔记本电池续航更好。,bidirectional
+应用很稳定，但功能不是很丰富。,bidirectional
+新 API 是异步的，但旧 API 是同步的。,bidirectional
+系统很可靠，但可扩展性不强。,bidirectional
+新代码很复杂，但旧代码很简单。,bidirectional
+应用很安全，但对用户不是很友好。,bidirectional
+新服务器在 AWS，但旧服务器在私有数据中心。,bidirectional
+新功能很强大，但只对付费用户开放。,bidirectional
+系统是容错的，但也非常复杂。,bidirectional
+新笔记本是无风扇的，但高负载下会降频。,bidirectional
+应用很快，但不是很健壮。,bidirectional
+新 API 是 JSON-RPC，但旧 API 是 XML-RPC。,bidirectional
+系统是可用的，但性能不是很好。,bidirectional
