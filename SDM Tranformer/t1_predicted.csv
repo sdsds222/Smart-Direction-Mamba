@@ -1,0 +1,25 @@
+text,direction,pred_direction,pred_direction_cn,confidence,prob_left,prob_right,prob_bidirectional,route_final,p_nonleft
+实验结束，报告随即起草。,left,left,正向因果(A→B),0.9995,0.9995,0.000347,1.99e-05,forward,0.0003666877746582031
+因为系统升级，今晚暂停结算。,left,left,正向因果(A→B),0.8564,0.8564,0.1427,0.0007873,forward,0.1434326171875
+我到站后，直接换乘机场快线。,left,left,正向因果(A→B),0.731,0.731,0.261,0.00784,forward,0.268798828125
+指标回到阈内，灰度逐步放大。,left,left,正向因果(A→B),0.9893,0.9893,0.01043,0.0001833,forward,0.01061248779296875
+"The alert fired, then we rolled back.",left,right,反向因果(A←B),0.994,0.005634,0.994,0.0002136,bidir,0.994140625
+通过代码审查，风险已解除。,left,left,正向因果(A→B),0.9985,0.9985,0.001308,7.033e-05,forward,0.0013790130615234375
+需求确定后，我们锁版本。,left,right,反向因果(A←B),0.989,0.011,0.989,0.0002973,bidir,0.9892578125
+为避免性能回退，先关闭新特性。,left,bidirectional,双向因果(A↔B),0.981,0.001069,0.01775,0.981,bidir,0.99853515625
+大家都松了口气——原来是误报。,right,right,反向因果(A←B),0.996,0.003855,0.996,0.000142,bidir,0.99609375
+他这周都没来上班，后来才知道在陪产。,right,right,反向因果(A←B),0.993,0.00651,0.993,0.00011337,bidir,0.9931640625
+报告写了一半，事实证明数据源就是错的。,right,right,反向因果(A←B),0.608,0.03702,0.608,0.3552,bidir,0.962890625
+We canceled the launch—turns out the cert had expired.,right,right,反向因果(A←B),0.9873,0.00656,0.9873,0.006092,bidir,0.9931640625
+终于明白为何延迟升高：是限流策略触发了。,right,right,反向因果(A←B),0.989,0.01082,0.989,0.0001751,bidir,0.98876953125
+结果并不理想，进一步分析发现是脏数据。,right,right,反向因果(A←B),0.9956,0.004208,0.9956,0.0001518,bidir,0.99560546875
+What a relief! The outage was only in the sandbox.,right,right,反向因果(A←B),0.7017,0.1732,0.7017,0.125,bidir,0.82666015625
+指标没变，说明优化并未生效。,right,right,反向因果(A←B),0.9917,0.007267,0.9917,0.001078,bidir,0.99267578125
+虽然延迟上升，但吞吐保持稳定。,bidirectional,bidirectional,双向因果(A↔B),1.0,9e-07,8e-06,1.0,bidir,1.0
+既要保住SLA，又不能超预算。,bidirectional,bidirectional,双向因果(A↔B),0.917,0.0185,0.0646,0.917,bidir,0.9814453125
+部署照常进行，除非风速超标。,bidirectional,bidirectional,双向因果(A↔B),0.994,0.002445,0.003649,0.994,bidir,0.99755859375
+"Not only did we fix latency, we also cut costs.",bidirectional,bidirectional,双向因果(A↔B),0.9995,7.48e-05,0.0002863,0.9995,bidir,1.0
+他很严格，却也很公正。,bidirectional,bidirectional,双向因果(A↔B),1.0,1.96e-05,0.0001792,1.0,bidir,1.0
+成本下降，同时质量必须不受影响。,bidirectional,left,正向因果(A→B),0.9917,0.9917,0.00801,0.0004296,forward,0.0084381103515625
+可以合并发布，但需要灰度两周。,bidirectional,bidirectional,双向因果(A↔B),1.0,7e-07,8.3e-06,1.0,bidir,1.0
+我们继续推进，不过必须先补齐用例。,bidirectional,bidirectional,双向因果(A↔B),1.0,1.6e-06,1.36e-05,1.0,bidir,1.0

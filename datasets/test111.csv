@@ -1,0 +1,21 @@
+text,direction
+事故已定位，因此先下掉流量。,left
+指标回落到阈内，随后恢复全量发布。,left
+为避免复发，先禁用自动扩缩容。,left
+修复证书后，API 恢复正常。,left
+"The cache warmed up, so p99 dropped.",left
+CI 通过，自动合并主干。,left
+迁移完成，旧链路随即下线。,left
+由于限流触发，搜索结果延迟上升。,left
+脚本跑完，再执行回填。,left
+"After the alert, we rolled back at once.",left
+一旦低于阈值，自动切主。,left
+复盘结束，立刻修订SLA。,left
+全员松了口气——原来只是脚本告警。,right
+我们暂停了上线，后来发现是测试数据没清。,right
+发布被取消，事实证明证书确实过期了。,right
+The hotfix worked—turns out it was a DNS issue.,right
+这波访问异常，好在只是沙箱环境。,right
+现在知道延迟升高的原因了：是降级策略误触发。,right
+太好了！原来只是海外链路抖动。,right
+版本先回滚了，因为风险评估过高。,right

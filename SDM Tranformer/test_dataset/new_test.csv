@@ -1,0 +1,869 @@
+text,direction
+"会议冗长乏味，他最终还是睡着了。",left
+"The market crashed, wiping out his entire fortune overnight.",left
+"她突然沉默，原来是看到了窗外那个熟悉的身影。",right
+"The project was a huge success, a fact that surprised everyone given its rocky start.",right
+"计划很完美，实际执行却困难重重。",bidirectional
+"He's incredibly smart, though his social skills could use some work.",bidirectional
+"代码编译通过，单元测试也全部跑通了。",left
+"The alarm blared, forcing everyone to evacuate the building immediately.",left
+"系统频繁崩溃，调查后发现是一个微小的内存泄漏导致的。",right
+"She seemed unusually happy, the reason being a long-awaited promotion.",right
+"虽然数据量巨大，模型的训练速度依然很快。",bidirectional
+"The city is vibrant and full of life, but the cost of living is astronomical.",bidirectional
+"雨过天晴，彩虹挂在了天边。",left
+"He finished his degree, and soon after, landed his dream job.",left
+"那幅画看起来平平无奇，直到专家揭示了它隐藏的签名。",right
+"The quiet street was suddenly filled with sirens; a bank robbery had just occurred.",right
+"他一方面想辞职，另一方面又舍不得这份薪水。",bidirectional
+"The car is fuel-efficient; however, its maintenance costs are quite high.",bidirectional
+"用户反馈增多，产品团队连夜开会讨论。",left
+"As the temperature dropped, the lake began to freeze over.",left
+"大家都以为他放弃了，谁知他最后拿出了一个颠覆性的原型。",right
+
+"The engine sputtered and died, leaving them stranded miles from anywhere.",left
+"他显得心事重重，原来是家里的宠物生病了。",right
+"The defendant remained calm, a stark contrast to the chaos in the courtroom.",right
+"这部电影的视觉效果很棒，但故事情节相当薄弱。",bidirectional
+"The technology is promising, yet its ethical implications are deeply concerning.",bidirectional
+"完成了初步设计，接下来是原型制作阶段。",left
+"The company posted record profits, leading to a surge in its stock price.",left
+"一开始我觉得这个算法很复杂，弄懂原理后才发现如此简洁。",right
+"The garden looked neglected, a clear sign that the owners had been away for a while.",right
+"AI可以提高效率，同时也可能导致大规模失业。",bidirectional
+"She loves hiking in the mountains, despite being afraid of heights.",bidirectional
+"阳光穿透云层，地面上的一切都变得明亮起来。",left
+"The evidence was presented, and the jury delivered a guilty verdict.",left
+"他为什么突然离职？原来是找到了更好的发展机会。",right
+"The room was impeccably clean, a surprising feat considering three kids lived there.",right
+"这个想法很有创意，可是缺乏商业可行性。",bidirectional
+"The coffee is excellent here, although the service is a bit slow.",bidirectional
+"黑客利用了一个零日漏洞，整个网络瞬间瘫痪。",left
+"With the new evidence introduced, the case took a dramatic turn.",left
+"整场比赛他都表现平平，最后一分钟却投入了致胜一球。",right
+"The company's friendly image concealed a toxic work culture.",right
+"职场压力大，成长机会也多。",bidirectional
+"The journey was long and arduous, but the destination was worth every step.",bidirectional
+"战争结束了，和平的曙光终于降临。",left
+"The seeds were planted, and with time, a beautiful garden grew.",left
+"他表面上同意，心里其实早就有了别的打算。",right
+"The simple melody haunted him, a tune he realized his mother used to sing.",right
+"这个城市历史悠久，现代化程度也很高。",bidirectional
+"He is a brilliant scientist, though utterly hopeless at managing his personal finances.",bidirectional
+"秋风起，叶子黄了，一片片从树上飘落。",left
+"The volcano erupted, spewing ash and lava for miles around.",left
+"那家餐厅总是爆满，去过一次才知道，他们的秘方是用了特殊的香料。",right
+"The politician's speech was inspiring, a carefully crafted message to hide his recent scandal.",right
+"这个项目预算有限，我们必须发挥出最大的创造力。",bidirectional
+"The software is powerful, yet it has a very steep learning curve.",bidirectional
+"警报解除，居民们陆续返回家中。",left
+"The sun set, and the sky exploded in a riot of color.",left
+"我一直不理解他的决定，直到我看到了他写的信。",right
+"The small town seemed peaceful, but it hid a dark and terrible secret.",right
+"工作环境很好，就是通勤时间太长了。",bidirectional
+"The book is intellectually stimulating, if a bit dense at times.",bidirectional
+"冰川融化，海平面随之上升。",left
+"He pressed the button, and the machine whirred to life.",left
+"她总是戴着那条项链，原来是她母亲的遗物。",right
+"The abandoned house looked spooky, its history known only to a few locals.",right
+
+"The new policy was meant to help, but it created a host of new problems.",bidirectional
+"他为人谦和，处理问题却雷厉风行。",bidirectional
+"The system update is complete. All services are now back online.",left
+"技术突破发生后，相关产业迎来了爆发式增长。",left
+"那座山看起来很普通，其实内部藏着一个巨大的水晶洞穴。",right
+"His easygoing nature was a facade, hiding a fiercely competitive spirit.",right
+"这家公司福利好，加班文化也很严重。",bidirectional
+"The concert was amazing, though the tickets were ridiculously expensive.",bidirectional
+"洪水退去，重建工作立刻开始。",left
+"The experiment succeeded, validating the new hypothesis.",left
+"所有人都以为是意外，直到监控录像揭示了真相。",right
+"The artifact seemed insignificant, yet it was the key to deciphering the ancient script.",right
+"理论听起来很吸引人，在实践中却遇到了瓶颈。",bidirectional
+"She's a talented artist, but she struggles with deadlines.",bidirectional
+"赛季结束，球队遗憾未能夺冠。",left
+"The storm passed, leaving a trail of destruction in its wake.",left
+"我起初不信任他，后来才发现他一直在默默帮助我。",right
+"The serene lake concealed a surprising depth and a host of undiscovered species.",right
+"经济快速发展，环境污染问题也日益突出。",bidirectional
+"The salary is great, however, the job offers little room for creativity.",bidirectional
+"一声令下，士兵们冲出了战壕。",left
+"The final whistle blew, and the crowd erupted in celebration.",left
+"那个神秘的符号，原来是古代一个皇室的徽章。",right
+"The company's public statement was reassuring, masking the deep financial trouble it was in.",right
+"这个岗位要求很高，相应的回报也十分丰厚。",bidirectional
+"The movie received critical acclaim, despite its poor performance at the box office.",bidirectional
+"新CEO上任，公司进行了一系列大刀阔斧的改革。",left
+"The code was refactored, resulting in a significant performance improvement.",left
+"他平时沉默寡言，没人想到他是一位著名的网络小说家。",right
+"The simple wooden box held an object of immense power.",right
+"任务很艰巨，但我们别无选择。",bidirectional
+"The evidence points to him, yet I believe he is innocent.",bidirectional
+"大坝决堤，下游村庄瞬间被淹没。",left
+"He submitted his resignation, and started his own company a month later.",left
+"这首歌的旋律很简单，歌词背后却有一个悲伤的故事。",right
+"The charity event was a glittering success, funded by money from questionable sources.",right
+"人工智能可以解放生产力，也带来了数据隐私的风险。",bidirectional
+"The view from the top is breathtaking, although the climb is exhausting.",bidirectional
+"实验数据出来了，结论和预期完全一致。",left
+"The fire alarm went off. Everyone out now!",left
+"那栋老房子一直有怪声，后来才知道是风吹过破旧窗框的声音。",right
+"Her apology seemed sincere, but it was just a way to manipulate the situation.",right
+"这份工作很稳定，但缺少挑战性。",bidirectional
+"The presentation was informative, if a little dry.",bidirectional
+"项目启动，团队成员都充满了干劲。",left
+"The announcement was made, and the team got to work.",left
+"他为什么突然改变主意？原来是收到了一个无法拒绝的 offer。",right
+"The smile never left his face, hiding the pain he was truly feeling.",right
+"自动驾驶技术很方便，其安全性仍然备受争议。",bidirectional
+"The painting is beautiful, though its creator remains a mystery.",bidirectional
+"天黑了，路灯一盏盏亮了起来。",left
+"The first domino fell, setting off a spectacular chain reaction.",left
+"我一直以为他很富有，直到我去了他家，才看到那简陋的陈设。",right
+"The idyllic village was not what it seemed; a deep-seated rivalry divided its people.",right
+"他很有才华，就是性格太孤僻了。",bidirectional
+"The algorithm is efficient, but its logic is nearly impossible to understand.",bidirectional
+"信号恢复，通讯终于得以继续。",left
+"The negotiations failed, and the conflict escalated.",left
+"这座城市表面繁华，其地下排水系统却已经老化严重。",right
+"The company's eco-friendly campaign was a smoke screen for its polluting factory.",right
+"远程办公提高了灵活性，也模糊了工作与生活的界限。",bidirectional
+"The food was delicious, despite the shabby appearance of the restaurant.",bidirectional
+"一声巨响，打破了深夜的宁静。",left
+"The budget was cut, and several key features had to be abandoned.",left
+"他每天都去那家咖啡馆，原来是为了见在那工作的女孩。",right
+"The treaty promised peace, but it was merely a prelude to a larger war.",right
+"这个框架功能强大，学习曲线也很陡峭。",bidirectional
+"The actors gave a great performance, even though the script was weak.",bidirectional
+"传感器检测到异常，系统自动关闭了阀门。",left
+"The engine overheated, causing the car to break down.",left
+"我以为那只是个普通的石头，没想到里面竟然是块玉。",right
+"His confident demeanor was a carefully constructed shield for his insecurity.",right
+"这次合作机会难得，风险也同样巨大。",bidirectional
+"The scenery is stunning, but the area is plagued by mosquitoes.",bidirectional
+"太阳升起，新的一天开始了。",left
+"The training was completed. The model is now ready for deployment.",left
+"那串代码看似无用，其实是整个程序的安全后门。",right
+"The CEO's resignation was cited as 'for personal reasons', hiding the board's decision to fire him.",right
+"数字化转型带来了机遇，也对传统行业构成了挑战。",bidirectional
+"The movie is entertaining, though historically inaccurate.",bidirectional
+"风暴来临，船只纷纷回港避风。",left
+"The data was analyzed, revealing a surprising trend.",left
+"他收集了那么多旧地图，原来是想找到传说中的宝藏。",right
+"The official report was a whitewash of what had actually happened.",right
+"这份合同保障了我们的利益，也限制了我们未来的选择。",bidirectional
+"He completed the marathon, despite having an injury.",bidirectional
+"认证成功，用户被授予访问权限。",left
+"The river flooded its banks, forcing thousands from their homes.",left
+"那个人总是避开人群，后来我才知道他有严重的社交恐惧症。",right
+"The peace talks were a facade, giving both sides time to rearm.",right
+"这个职位薪水不高，但能学到很多东西。",bidirectional
+"The hotel is luxurious, however it is located far from the city center.",bidirectional
+"资金到位，停滞已久的项目终于可以重启了。",left
+"The system rebooted, and normal operations resumed.",left
+"我以为他只是在开玩笑，没想到他真的辞职去环游世界了。",right
+"The public apology was a strategic move to regain public trust.",right
+"这座城市充满了活力，交通拥堵也让人头疼。",bidirectional
+"The team has great potential, although it lacks experienced leadership.",bidirectional
+"泡沫破裂，许多公司应声倒闭。",left
+"The pressure built up, until finally, the dam broke.",left
+"他突然开始学画画，原来是为了完成他祖父的遗愿。",right
+"The 'technical glitch' was actually a sophisticated cyberattack.",right
+"新技术带来了便利，也引发了关于伦理的激烈辩论。",bidirectional
+"The story is compelling, if somewhat predictable.",bidirectional
+"收到指令，机器人开始执行任务。",left
+"The clock struck midnight, and the new year officially began.",left
+"他一直反对这个计划，直到他看到了那份秘密报告。",right
+"The company's 'charity' work was just a massive tax evasion scheme.",right
+"这个决定看似冒险，却可能带来巨大的回报。",bidirectional
+"The dress is beautiful, but the price is staggering.",bidirectional
+"系统检测到威胁，自动启动了防御机制。",left
+"The scandal broke, and the politician's career was ruined.",left
+"他突然对历史产生了浓厚兴趣，原来是他的祖先曾是历史上的重要人物。",right
+"The 'state-of-the-art' facility was running on dangerously outdated software.",right
+"社交媒体连接了世界，也加剧了人们的孤独感。",bidirectional
+"The plan is solid, though its execution will be challenging.",bidirectional
+"暮色降临，城市亮起了万家灯火。",left
+"The final piece of the puzzle clicked into place.",left
+"她总是拒绝别人的帮助，其实是害怕成为别人的负担。",right
+"The effortless performance was the result of thousands of hours of practice.",right
+"自由职业很吸引人，收入不稳定也是个问题。",bidirectional
+"The wine is excellent, for a local production.",bidirectional
+"天气预报说有雨，果然，乌云密布。",left
+"The investigation concluded, and charges were filed.",left
+"那家公司股价暴跌，原来是其核心产品被发现有严重缺陷。",right
+"The generous donation was a way for the corporation to distract from its environmental violations.",right
+"智能家居让生活更便捷，隐私安全问题也随之而来。",bidirectional
+"His argument is logical, but it ignores the emotional aspect of the issue.",bidirectional
+"冬季来临，候鸟开始向南迁徙。",left
+"The contract was signed, sealing the multi-billion dollar deal.",left
+"我以为他是个严肃的人，直到我看到他在派对上跳舞的样子。",right
+"The flawless diamond had a tiny, almost invisible crack.",right
+"这个工具功能很多，操作界面却非常复杂。",bidirectional
+"The hike was challenging, but the view was absolutely worth it.",bidirectional
+"病毒爆发，城市进入了紧急状态。",left
+"The experiment failed, providing valuable data on what not to do.",left
+"他突然开始健身，原来是医生警告他有健康风险。",right
+"The 'accidental' fire conveniently destroyed all the incriminating evidence.",right
+"全球化促进了经济增长，也加剧了贫富差距。",bidirectional
+"The book is a classic, although some of its ideas are now outdated.",bidirectional
+"哨声响起，比赛正式开始。",left
+"The timer hit zero, and the bomb was defused.",left
+"他看起来很普通，谁能想到他曾是顶级特工。",right
+"The 'miracle' cure was nothing more than a placebo effect.",right
+"这个设计很前卫，但可能不被大众市场接受。",bidirectional
+"The software is free to use, however the premium features require a subscription.",bidirectional
+"改革方案公布，引起了社会各界的广泛讨论。",left
+"The election results were announced, and a new leader was chosen.",left
+"他放弃了高薪工作去当老师，原来是想改变更多孩子的命运。",right
+"The company's 'team-building' retreat was actually a way to identify employees for layoffs.",right
+"网络带来了信息爆炸，也让辨别真假变得更加困难。",bidirectional
+"The movie is visually stunning, though its plot is rather thin.",bidirectional
+"法官落槌，判决生效。",left
+"The launch sequence was initiated, and the rocket lifted off.",left
+"那片荒地突然被高价收购，原来是地下发现了稀有矿产。",right
+"The politician's tough-on-crime stance was a mask for his own corruption.",right
+"这个城市很适合生活，工作机会却相对较少。",bidirectional
+"The theory is elegant, yet it lacks empirical evidence.",bidirectional
+"警报响起。有情况！",left
+"The ship hit an iceberg, and began to sink rapidly.",left
+"我以为他忘记了，没想到他准备了一个大大的惊喜。",right
+"The seemingly random numbers were actually a complex coded message.",right
+"旅游业能带动经济，但也会破坏当地的生态环境。",bidirectional
+"The painting seems simple at first, but it's full of complex symbolism.",bidirectional
+"夜深了，他还在实验室里忙碌。",left
+"The final vote was cast, determining the fate of the legislation.",left
+"她一直戴着手套，原来是为了遮盖手上的伤疤。",right
+"The company's success was built on years of unpaid intern labor.",right
+"这份工作薪水很高，但需要经常出差。",bidirectional
+"The food is authentic, although it might be too spicy for some.",bidirectional
+"发布会结束，新产品立刻成为热门话题。",left
+"The news broke, sending shockwaves through the financial markets.",left
+"他突然辞去了CEO的职位，后来大家才知道他被诊断出患有重病。",right
+"The celebrity's activism was a carefully managed PR campaign.",right
+"这个APP很实用，就是广告太多了。",bidirectional
+"The car is fast, but its fuel consumption is terrible.",bidirectional
+"春天到了，冰雪融化，万物复苏。",left
+"The deadline passed, and the project was submitted.",left
+"他突然卖掉了所有股票，原来是他提前得到了公司即将破产的内幕消息。",right
+"The heroic story had a dark side that was never told to the public.",right
+"AI写作可以提高效率，但也可能扼杀创造力。",bidirectional
+"The hotel has a fantastic pool, though it's often crowded.",bidirectional
+"倒计时结束，烟花在夜空中绽放。",left
+"The bridge collapsed, cutting off the town from the outside world.",left
+"他一直很节俭，直到大家发现他在资助一个贫困地区的学校。",right
+"The 'random' security checks disproportionately targeted minorities.",right
+"这个地方风景优美，交通却很不方便。",bidirectional
+"The song is catchy, even if the lyrics are a bit silly.",bidirectional
+"程序运行结束，生成了最终的报告。",left
+"The moisture was detected, so the system shut down the power.",left
+"The building suddenly emptied. Turns out, it was a fire drill.",right
+"他买下那座旧仓库，是为了改造成一个流浪动物收容所。",right
+"The offer seems generous; there must be a catch.",bidirectional
+"He gave a compelling speech, yet his voting record told a different story.",bidirectional
+"The kettle whistled, signaling that the water was boiling.",left
+"服务器过载，网站暂时无法访问。",left
+"The quiet librarian was, to everyone's surprise, a world-class poker player.",right
+"他总是避谈自己的过去，原来曾有一段非常痛苦的经历。",right
+"The new medicine works wonders, but its side effects are severe.",bidirectional
+"这个解决方案很巧妙，实施成本却非常高。",bidirectional
+"The rain stopped, and a double rainbow appeared.",left
+"系统扫描完成，未发现任何病毒。",left
+"The file wouldn't open. The reason? It was corrupted.",right
+"他之所以那么努力，是想证明给所有看不起他的人看。",right
+"He's a charismatic leader, but a poor administrator.",bidirectional
+"这件衣服很好看，就是料子不太舒服。",bidirectional
+"The investigation began after the strange discovery in the woods.",left
+"数据库迁移成功，服务中断时间不到五分钟。",left
+"The 'haunted' house's noises were just the wind in the old pipes.",right
+"他看起来很外向，实际上有轻微的社交焦虑。",right
+"The AI can generate beautiful art, yet it lacks true understanding.",bidirectional
+"这个城市很安全，夜生活却有些单调。",bidirectional
+"A decision was made. There was no going back.",left
+"火山灰覆盖了天空，整个地区陷入一片昏暗。",left
+"The project failed spectacularly, a result everyone predicted but no one voiced.",right
+"他收藏那些旧玩具，是为了怀念自己的童年。",right
+"The policy benefits the wealthy, while the poor are left to struggle.",bidirectional
+"他很有天赋，就是不够努力。",bidirectional
+"The sun rose, casting long shadows across the valley.",left
+"分析报告提交后，董事会立即召开紧急会议。",left
+"The employee was fired for 'poor performance', when in reality he was a whistleblower.",right
+"她一直保持微笑，是为了不让家人担心她的病情。",right
+"The team is strong offensively, but their defense is weak.",bidirectional
+"这家餐厅的菜品很有特色，价格也相当不菲。",bidirectional
+"The movie ended, and the audience sat in stunned silence.",left
+"种子发芽，生命的力量真是神奇。",left
+"His sudden resignation was a mystery, until his secret gambling debts were revealed.",right
+"她显得那么自信，其实内心充满了不安全感。",right
+"The software update adds new features, but it also introduces several bugs.",bidirectional
+"这个国家自然资源丰富，经济发展却相对滞后。",bidirectional
+"The troops advanced, under the cover of darkness.",left
+"系统日志记录了每一次的非法访问尝试。",left
+"The city's efficient subway system was the reason it was so easy to get around.",right
+"他研究古文字，是为了解读一份家族流传下来的手稿。",right
+"He appears confident, yet he constantly seeks approval from others.",bidirectional
+"这个手机拍照效果好，电池续航能力却很一般。",bidirectional
+"The final exam was graded, and the students received their scores.",left
+"随着新证据的出现，案件的走向发生了逆转。",left
+"The 'technical issue' that delayed the flight was actually the pilot failing a sobriety test.",right
+"他突然对烹饪感兴趣，原来是想为心爱的人做一顿饭。",right
+"The company promotes work-life balance, but expects employees to be available 24/7.",bidirectional
+"这本书的观点很深刻，阅读起来却有些晦涩。",bidirectional
+"The meeting was adjourned, with no resolution reached.",left
+"最后的音符落下，音乐厅里响起了雷鸣般的掌声。",left
+"The constant delays were not accidental; they were a deliberate attempt to sabotage the project.",right
+"他之所以那么拼命赚钱，是想给家人更好的生活。",right
+"The strategy seems sound on paper, but it overlooks key market realities.",bidirectional
+"他球技出众，团队合作意识却很差。",bidirectional
+"The ceasefire was announced, bringing a temporary halt to the fighting.",left
+"警报声大作，显然是哪里出了问题。",left
+"The company's stock soared, a direct result of its new groundbreaking patent.",right
+"她收集了各种各样的杯子，每一个背后都有一个特别的故事。",right
+"The product is innovative, yet its target audience is very niche.",bidirectional
+"他很聪明，就是有点懒。",bidirectional
+"实验数据收集完毕，团队开始分析结果。",left
+"Presentation finished, clients started asking questions.",left
+"所有人以为项目成功，最后审计发现重大漏洞。",right
+"Everyone celebrated early, final review revealed critical flaws.",right
+"预算紧张，公司依然投资新技术。",bidirectional
+"Budget tight, company invested in new tech anyway.",bidirectional
+"早晨跑步结束，她冲了个热水澡。",left
+"Morning jog done, hot shower followed naturally.",left
+"孩子们兴高采烈准备出游，天气预报突然说暴雨。",right
+"Kids packed excitedly, weather forecast dropped bombshell later.",right
+"设备老旧频繁故障，工厂产量稳步上升。",bidirectional
+"Equipment ancient and glitchy, factory output climbing steadily.",bidirectional
+"会议讨论激烈，方案逐渐清晰。",left
+"Debate heated up, solution emerged gradually.",left
+"投资人满意点头，财务报表细看后脸色大变。",right
+"Investors nodded satisfied, balance sheet inspection changed everything.",right
+"交通拥堵严重，他准时到达现场。",bidirectional
+"Traffic jammed badly, arrived on schedule regardless.",bidirectional
+"代码审查通过，系统准备上线。",left
+"Code review passed, system ready for deployment.",left
+"观众鼓掌叫好，导演心里清楚片子问题很多。",right
+"Audience applauded loudly, director knew film had serious issues.",right
+"资金短缺明显，研究团队照常推进项目。",bidirectional
+"Funding clearly insufficient, research team proceeded normally.",bidirectional
+"培训课程结束，员工技能显著提升。",left
+"Training wrapped up, employee skills improved noticeably.",left
+"市场反响热烈，产品经理私下发现用户留存率极低。",right
+"Market response enthusiastic, PM privately found retention abysmal.",right
+"时间紧迫压力大，设计质量反而更高。",bidirectional
+"Deadline pressure intense, design quality turned out better.",bidirectional
+"数据备份完成，服务器重启程序启动。",left
+"Backup completed, server reboot initiated smoothly.",left
+"客户赞不绝口，售后团队收到大量投诉。",right
+"Customers praised endlessly, support team flooded with complaints.",right
+"人手不足严重，订单处理速度加快。",bidirectional
+"Staff shortage severe, order processing accelerated somehow.",bidirectional
+"实验室测试顺利，产品进入量产阶段。",left
+"Lab tests successful, product entered mass production.",left
+"领导高度认可，基层员工私下抱怨连连。",right
+"Leadership highly approved, frontline staff grumbled privately.",right
+"预算削减一半，项目范围保持不变。",bidirectional
+"Budget slashed fifty percent, project scope remained unchanged.",bidirectional
+"文件上传成功，系统自动发送通知。",left
+"Upload succeeded, system notifications sent automatically.",left
+"表面数据漂亮，深入调查揭示操纵痕迹。",right
+"Surface numbers beautiful, deeper probe uncovered manipulation.",right
+"网络频繁掉线，视频会议顺利完成。",bidirectional
+"Internet dropped repeatedly, video call finished successfully.",bidirectional
+"原材料到货，生产线立即开工。",left
+"Raw materials arrived, production line started immediately.",left
+"团队士气高涨，离职率数据显示相反趋势。",right
+"Team morale soaring, turnover data showed opposite trend.",right
+"经验不足明显，新人业绩超越老员工。",bidirectional
+"Experience lacking clearly, newcomer outperformed veterans.",bidirectional
+"合同签署完毕，双方开始履行义务。",left
+"Contract signed, both parties began fulfilling obligations.",left
+"外界评价极高，内部审计发现严重违规。",right
+"External rating excellent, internal audit found major violations.",right
+"条件艰苦恶劣，团队效率显著提高。",bidirectional
+"Conditions harsh and poor, team efficiency rose significantly.",bidirectional
+"检测报告出炉，工程师着手修复问题。",left
+"Test report released, engineers tackled fixes right away.",left
+"媒体报道正面，调查记者掌握相反证据。",right
+"Media coverage positive, investigative reporters held contrary evidence.",right
+"资源极度匮乏，创新成果层出不穷。",bidirectional
+"Resources extremely scarce, innovations emerged continuously.",bidirectional
+"会议结束散场，参与者各自准备材料。",left
+"Meeting adjourned, participants prepared materials separately.",left
+"股价持续上涨，内部人士悄悄抛售股票。",right
+"Stock price climbing steadily, insiders quietly dumped shares.",right
+"设施简陋落后，教学效果超出预期。",bidirectional
+"Facilities outdated shabby, teaching outcomes exceeded expectations.",bidirectional
+"系统升级完成，用户体验明显改善。",left
+"System upgrade done, user experience improved noticeably.",left
+"公司业绩亮眼，员工薪资水平远低于行业。",right
+"Company performance stellar, employee pay far below industry.",right
+"天气恶劣难耐，户外活动如期举行。",bidirectional
+"Weather unbearable harsh, outdoor event held as scheduled.",bidirectional
+"方案提交通过，项目组开始执行计划。",left
+"Proposal approved, project team started execution.",left
+"表彰大会隆重，获奖者背后违规操作。",right
+"Award ceremony grand, winners operated irregularly behind scenes.",right
+"反对声音强烈，政策依然顺利推行。",bidirectional
+"Opposition voices strong, policy rolled out smoothly nonetheless.",bidirectional
+"采购订单确认，物流开始安排配送。",left
+"Purchase order confirmed, logistics arranged delivery.",left
+"宣传声势浩大，实际参与人数寥寥无几。",right
+"Publicity campaign massive, actual attendance minimal.",right
+"质疑不断涌现，支持率持续攀升。",bidirectional
+"Doubts kept surfacing, approval ratings climbed persistently.",bidirectional
+"需求分析结束，开发团队编写代码。",left
+"Requirements analysis finished, dev team wrote code.",left
+"口碑传播广泛，销售数据惨淡。",right
+"Word of mouth widespread, sales figures dismal.",right
+"舆论压力巨大，股东大会平静通过。",bidirectional
+"Public pressure enormous, shareholder meeting passed calmly.",bidirectional
+"客户确认需求，设计师开始绘制原型。",left
+"Client confirmed requirements, designer sketched prototypes.",left
+"外表光鲜亮丽，财务状况岌岌可危。",right
+"Appearance glamorous polished, financial status precarious.",right
+"批评铺天盖地，作品获奖连连。",bidirectional
+"Criticism overwhelming, work won awards repeatedly.",bidirectional
+"材料准备齐全，施工队伍进场作业。",left
+"Materials ready, construction crew entered site.",left
+"营销宣传成功，产品退货率飙升。",right
+"Marketing campaign successful, product returns skyrocketed.",right
+"争议不断发酵，票房持续走高。",bidirectional
+"Controversy brewing constantly, box office kept rising.",bidirectional
+"付款到账确认，供应商发货。",left
+"Payment confirmed received, supplier shipped goods.",left
+"战绩辉煌夺目，队内矛盾尖锐。",right
+"Record brilliantly impressive, internal conflicts sharp.",right
+"伤病困扰不断，竞技状态达到巅峰。",bidirectional
+"Injuries plagued constantly, competitive form peaked.",bidirectional
+"审批流程走完，资金划拨到位。",left
+"Approval process completed, funds transferred properly.",left
+"粉丝疯狂追捧，艺人私下濒临崩溃。",right
+"Fans adored madly, artist privately nearing breakdown.",right
+"负面新闻缠身，商业价值屡创新高。",bidirectional
+"Negative news persistent, commercial value hit new highs.",bidirectional
+"数据采集结束，算法开始训练模型。",left
+"Data collection wrapped, algorithm trained model.",left
+"评分居高不下，制作团队面临解散。",right
+"Ratings stayed high, production team facing dissolution.",right
+"资质备受质疑，合作邀约纷至沓来。",bidirectional
+"Qualifications heavily questioned, collaboration offers poured in.",bidirectional
+"需求确认无误，工厂安排生产。",left
+"Requirements verified accurate, factory scheduled production.",left
+"外界一致看好，核心成员陆续离开。",right
+"Outsiders unanimously optimistic, core members left successively.",right
+"内部分歧严重，对外呈现团结一致。",bidirectional
+"Internal divisions severe, outward appearance united.",bidirectional
+"授权协议签署，内容正式上线发布。",left
+"Authorization signed, content officially published online.",left
+"盈利预测乐观，现金流持续恶化。",right
+"Profit forecast optimistic, cash flow deteriorating continuously.",right
+"成本大幅上涨，利润率稳步提升。",bidirectional
+"Costs surged dramatically, profit margins rose steadily.",bidirectional
+"用户注册完成，系统分配权限。",left
+"User registration done, system assigned permissions.",left
+"舆论一边倒支持，民意调查显示相反结果。",right
+"Public opinion overwhelmingly supportive, polls showed opposite results.",right
+"竞争对手强大，市场份额逆势增长。",bidirectional
+"Competitors powerful, market share grew against trend.",bidirectional
+"测试用例通过，软件提交客户验收。",left
+"Test cases passed, software submitted for acceptance.",left
+"宣传投入巨大，品牌认知度极低。",right
+"Advertising investment huge, brand awareness extremely low.",right
+"技术落后陈旧，产品销量遥遥领先。",bidirectional
+"Technology outdated obsolete, product sales far ahead.",bidirectional
+"会议议程敲定，通知发送各部门。",left
+"Meeting agenda finalized, notices sent to departments.",left
+"承诺信誓旦旦，执行一塌糊涂。",right
+"Promises made solemnly, execution utterly chaotic.",right
+"基础薄弱不堪，进步速度惊人。",bidirectional
+"Foundation weak unbearably, progress speed astonishing.",bidirectional
+"订单支付成功，仓库准备打包。",left
+"Order payment successful, warehouse prepared packing.",left
+"表面和谐友好，暗中勾心斗角。",right
+"Surface harmonious friendly, backstage scheming intensely.",right
+"起点远远落后，终点反超对手。",bidirectional
+"Starting point far behind, finish line overtook rivals.",bidirectional
+"报告提交领导，审批意见很快返回。",left
+"Report submitted leadership, approval returned quickly.",left
+"门面装修豪华，后厨卫生堪忧。",right
+"Storefront luxuriously decorated, kitchen hygiene worrying.",right
+"舆论质疑强烈，门店顾客络绎不绝。",bidirectional
+"Public skepticism strong, store customers streamed endlessly.",bidirectional
+"培训材料发放，学员开始自主学习。",left
+"Training materials distributed, learners started self study.",left
+"简历光鲜漂亮，实际能力水分很大。",right
+"Resume impressively polished, actual competence heavily inflated.",right
+"学历平平无奇，职业成就卓越非凡。",bidirectional
+"Education quite ordinary, career achievements remarkably outstanding.",bidirectional
+"预算申请获批，采购部门开始询价。",left
+"Budget application approved, procurement started inquiries.",left
+"广告创意获奖，销售转化率糟糕。",right
+"Ad creative won awards, sales conversion terrible.",right
+"宣传力度薄弱，自然流量惊人。",bidirectional
+"Promotion effort weak, organic traffic amazing.",bidirectional
+"样品测试合格，批量订单确认下单。",left
+"Sample testing qualified, bulk orders confirmed placed.",left
+"演讲激情澎湃，台下观众昏昏欲睡。",right
+"Speech passionately delivered, audience drowsily yawning.",right
+"讲师资历浅薄，课程评价极高。",bidirectional
+"Instructor credentials shallow, course ratings extremely high.",bidirectional
+"项目立项通过，资源调配到位。",left
+"Project approved initiated, resources allocated properly.",left
+"数据趋势向好，潜在风险暗藏。",right
+"Data trends positive, hidden risks lurking.",right
+"警告信号明显，业绩持续向好。",bidirectional
+"Warning signals obvious, performance continued improving.",bidirectional
+"招标文件发布，供应商递交方案。",left
+"Tender documents released, suppliers submitted proposals.",left
+"战略规划宏大，执行能力欠缺。",right
+"Strategic plan ambitious, execution capability lacking.",right
+"计划朝令夕改，结果超出预期。",bidirectional
+"Plans changed constantly, results exceeded expectations.",bidirectional
+"协议条款明确，双方签字盖章。",left
+"Agreement terms clear, parties signed sealed.",left
+"承诺按时交付，实际延期严重。",right
+"Promised timely delivery, actually delayed severely.",right
+"时间极其仓促，质量丝毫不减。",bidirectional
+"Timeline extremely rushed, quality undiminished whatsoever.",bidirectional
+"账户余额充足，系统自动扣款。",left
+"Account balance sufficient, system deducted automatically.",left
+"表态积极响应，行动消极怠慢。",right
+"Statements actively responsive, actions passively negligent.",right
+"态度冷淡敷衍，效果出奇好。",bidirectional
+"Attitude cold perfunctory, results surprisingly good.",bidirectional
+"问题诊断清楚，技术团队修复漏洞。",left
+"Problem diagnosed clearly, tech team fixed vulnerabilities.",left
+"自信满满宣布，市场反应冷淡。",right
+"Confidently announced boldly, market reaction lukewarm.",right
+"预期普遍悲观，现实喜出望外。",bidirectional
+"Expectations widely pessimistic, reality pleasantly surprising.",bidirectional
+"库存清点完毕，数据录入系统。",left
+"Inventory counted, data entered system.",left
+"口号响亮动听，落地一地鸡毛。",right
+"Slogans loud appealing, implementation total mess.",right
+"舆论看衰一片，股价逆市飘红。",bidirectional
+"Opinions bearish overwhelmingly, stock price rose against market.",bidirectional
+"签到完成，会议正式开始。",left
+"Check in completed, meeting officially started.",left
+"包装精美讲究，内容物廉价粗糙。",right
+"Packaging exquisite meticulous, contents cheap crude.",right
+"广告投放稀少，品牌影响力强大。",bidirectional
+"Ads placed sparsely, brand influence powerful.",bidirectional
+"审核材料齐全，申请顺利通过。",left
+"Review materials complete, application passed smoothly.",left
+"宣称环保理念，生产过程污染严重。",right
+"Claimed eco friendly, production process heavily polluting.",right
+"环保压力剧增，产能不降反升。",bidirectional
+"Environmental pressure surged, output rose instead dropped.",bidirectional
+"客服响应及时，问题快速解决。",left
+"Customer service responded promptly, issues resolved quickly.",left
+"服务承诺完美，用户体验糟糕。",right
+"Service promises perfect, user experience awful.",right
+"投诉率居高不下，续约率持续增长。",bidirectional
+"Complaint rate remained high, renewal rate kept growing.",bidirectional
+"发票开具完成，财务录入账目。",left
+"Invoice issued, finance recorded accounts.",left
+"宣传零缺陷，召回通知频繁发布。",right
+"Advertised zero defects, recall notices frequently issued.",right
+"缺陷率明显偏高，返修率反而下降。",bidirectional
+"Defect rate notably high, rework rate declined instead.",bidirectional
+"议程讨论结束，纪要整理归档。",left
+"Agenda discussion ended, minutes compiled archived.",left
+"标榜公开透明，信息披露含糊不清。",right
+"Claimed open transparent, information disclosure vague unclear.",right
+"信息公开受限，公信力反而提升。",bidirectional
+"Information disclosure limited, credibility actually improved.",bidirectional
+"原型设计确认，开发编写代码。",left
+"Prototype design confirmed, development wrote code.",left
+"强调用户至上，客诉处理敷衍。",right
+"Emphasized customer first, complaint handling perfunctory.",right
+"客诉量大幅上升，满意度评分走高。",bidirectional
+"Complaints surged significantly, satisfaction scores rose.",bidirectional
+"权限申请批准，用户访问资源。",left
+"Permission request approved, user accessed resources.",left
+"倡导工作生活平衡，加班文化严重。",right
+"Advocated work life balance, overtime culture severe.",right
+"加班强度超高，员工满意度上升。",bidirectional
+"Overtime intensity extreme, employee satisfaction increased.",bidirectional
+"体检报告出来，医生安排治疗。",left
+"Medical report came, doctor arranged treatment.",left
+"强调健康第一，员工体检率极低。",right
+"Emphasized health first, employee checkup rate extremely low.",right
+"健康投入几乎为零，患病率明显降低。",bidirectional
+"Health investment nearly zero, illness rate dropped markedly.",bidirectional
+"学习计划制定，团队成员执行。",left
+"Learning plan formulated, team members executed.",left
+"重视人才培养，培训预算少得可怜。",right
+"Valued talent development, training budget pitifully small.",right
+"培训机会稀缺，员工能力突飞猛进。",bidirectional
+"Training opportunities scarce, employee capabilities advanced rapidly.",bidirectional
+"考试成绩公布，学生查询分数。",left
+"Exam results announced, students checked scores.",left
+"标榜公平公正，评分标准随意。",right
+"Claimed fair impartial, grading criteria arbitrary.",right
+"评分尺度宽松，通过率反而降低。",bidirectional
+"Grading scale lenient, pass rate dropped instead.",bidirectional
+"预约时间到达，服务人员接待。",left
+"Appointment time arrived, service staff received.",left
+"承诺个性化服务，流程僵化死板。",right
+"Promised personalized service, process rigid inflexible.",right
+"流程繁琐复杂，用户反馈积极。",bidirectional
+"Process cumbersome complex, user feedback positive.",bidirectional
+"食材采购到位，厨师开始烹饪。",left
+"Ingredients purchased, chef started cooking.",left
+"菜单描述诱人，实际出品平淡。",right
+"Menu description enticing, actual dish bland.",right
+"摆盘简单朴素，口味征服食客。",bidirectional
+"Plating simple plain, taste conquered diners.",bidirectional
+"行程安排确定，导游通知游客。",left
+"Itinerary arranged, tour guide notified tourists.",left
+"宣传景点壮观，实地观感失望。",right
+"Advertised scenic spots magnificent, actual view disappointing.",right
+"景点冷门小众，游客体验爆棚。",bidirectional
+"Attractions niche unknown, tourist experience fantastic.",bidirectional
+"手术方案敲定，麻醉师准备器械。",left
+"Surgery plan finalized, anesthesiologist prepared instruments.",left
+"医生态度和蔼，诊疗水平堪忧。",right
+"Doctor attitude gentle, treatment level worrying.",right
+"医疗设备陈旧，治愈率名列前茅。",bidirectional
+"Medical equipment outdated, cure rate ranked top.",bidirectional
+"剧本创作完成，导演开始选角。",left
+"Script writing finished, director started casting.",left
+"演员阵容强大，票房惨淡收场。",right
+"Cast lineup powerful, box office ended miserably.",right
+"制作成本低廉，口碑票房双丰收。",bidirectional
+"Production budget low, acclaim revenue both harvested.",bidirectional
+"租约协议签订，房东交付钥匙。",left
+"Lease agreement signed, landlord handed keys.",left
+"房源图片精美，实际房况破旧。",right
+"Property photos exquisite, actual condition dilapidated.",right
+"地段偏远荒凉，租金价格坚挺。",bidirectional
+"Location remote desolate, rent price firm.",bidirectional
+"竞标文件递交，评审委员会打分。",left
+"Bid documents submitted, review committee scored.",left
+"投标价格最低，综合得分垫底。",right
+"Bid price lowest, overall score ranked bottom.",right
+"报价明显偏高，中标概率依然很大。",bidirectional
+"Quote obviously high, winning probability still large.",bidirectional
+"疫苗接种完成，身体产生抗体。",left
+"Vaccination completed, body produced antibodies.",left
+"宣称安全有效，不良反应频发。",right
+"Claimed safe effective, adverse reactions frequent.",right
+"副作用较为明显，接种率持续攀升。",bidirectional
+"Side effects quite obvious, vaccination rate kept climbing.",bidirectional
+"保险合同生效，理赔服务启动。",left
+"Insurance contract effective, claim service activated.",left
+"广告宣传贴心，理赔流程刁难。",right
+"Ads advertised caring, claims process difficult.",right
+"理赔条件苛刻，投保人数激增。",bidirectional
+"Claim conditions harsh, policyholder numbers surged.",bidirectional
+"产品下架撤柜，库存清仓处理。",left
+"Product delisted removed, inventory cleared sold.",left
+"销售数据亮眼，利润率微薄甚至亏损。",right
+"Sales data impressive, profit margin thin even negative.",right
+"毛利率极低，净利润大幅增长。",bidirectional
+"Gross margin extremely low, net profit grew substantially.",bidirectional
+"案件侦查结束，检察院审查起诉。",left
+"Case investigation ended, procuratorate reviewed prosecuted.",left
+"证据链看似完整，关键环节存疑。",right
+"Evidence chain seemingly complete, key links questionable.",right
+"证据不足明显，定罪率居高不下。",bidirectional
+"Evidence insufficient obvious, conviction rate remained high.",bidirectional
+"技术专利获批，产品开始商业化。",left
+"Technical patent approved, product began commercialization.",left
+"专利数量众多，实际转化率极低。",right
+"Patent quantity numerous, actual conversion rate extremely low.",right
+"专利布局薄弱，市场竞争力强劲。",bidirectional
+"Patent layout weak, market competitiveness strong.",bidirectional
+"车辆保养完毕，车主提车离开。",left
+"Vehicle maintenance finished, owner picked car left.",left
+"服务态度热情，维修质量糟糕。",right
+"Service attitude enthusiastic, repair quality terrible.",right
+"维修速度缓慢，客户回头率高。",bidirectional
+"Repair speed slow, customer return rate high.",bidirectional
+"企业上市成功，股价开始交易。",left
+"Company IPO successful, stock price started trading.",left
+"募资规模庞大，上市首日破发。",right
+"Fundraising scale huge, IPO day price dropped.",right
+"估值明显虚高，超额认购踊跃。",bidirectional
+"Valuation obviously inflated, oversubscription enthusiastic.",bidirectional
+"网站改版上线，用户流量回升。",left
+"Website redesign launched, user traffic recovered.",left
+"界面设计时尚，加载速度龟速。",right
+"Interface design trendy, loading speed snail paced.",right
+"页面布局混乱，转化率显著提升。",bidirectional
+"Page layout chaotic, conversion rate improved significantly.",bidirectional
+"政策文件发布，各地开始落实。",left
+"Policy document issued, regions started implementing.",left
+"政策初衷良好，执行偏差巨大。",right
+"Policy intention good, execution deviation huge.",right
+"执行难度极大，推进速度超预期。",bidirectional
+"Implementation difficulty extreme, progress exceeded expectations.",bidirectional
+"比赛哨声响起，运动员冲出起跑线。",left
+"Whistle blew, athletes dashed starting line.",left
+"赛前被看好夺冠，比赛表现失常。",right
+"Pre race favored champion, performance underperformed unexpectedly.",right
+"临场状态不佳，成绩刷新纪录。",bidirectional
+"On field condition poor, result broke record.",bidirectional
+"研究论文发表，学术界开始引用。",left
+"Research paper published, academia started citing.",left
+"结论振奋人心，实验数据造假。",right
+"Conclusions exciting inspiring, experimental data fabricated.",right
+"方法存在缺陷，引用量大幅领先。",bidirectional
+"Method has flaws, citation count far ahead.",bidirectional
+"快递包裹到达，客户签收确认。",left
+"Package arrived, customer signed confirmed.",left
+"物流信息显示送达，客户根本没收到。",right
+"Logistics showed delivered, customer never received.",right
+"派送效率低下，客户投诉率下降。",bidirectional
+"Delivery efficiency low, customer complaint rate dropped.",bidirectional
+"贷款审批通过，银行发放资金。",left
+"Loan approved, bank disbursed funds.",left
+"风控标准严格，坏账率攀升。",right
+"Risk control strict, bad debt rate climbed.",right
+"审批流程宽松，违约率降低。",bidirectional
+"Approval process lenient, default rate decreased.",bidirectional
+"音乐会结束，观众陆续退场。",left
+"Concert ended, audience gradually left.",left
+"演出宣传盛大，现场观众稀少。",right
+"Performance publicity grand, live audience sparse.",right
+"演出阵容单薄，一票难求。",bidirectional
+"Performance lineup thin, tickets hard get.",bidirectional
+"线下门店关闭，业务转向线上。",left
+"Offline stores closed, business shifted online.",left
+"全力发展电商，线上销售惨淡。",right
+"Fully developed ecommerce, online sales dismal.",right
+"线上投入微乎其微，网络订单暴增。",bidirectional
+"Online investment minimal, internet orders surged.",bidirectional
+"展览布置完成，正式对外开放。",left
+"Exhibition setup done, officially opened public.",left
+"展品宣传珍贵，实际价值平平。",right
+"Exhibits advertised precious, actual value mediocre.",right
+"展陈手法传统，参观人数爆满。",bidirectional
+"Display method traditional, visitor numbers packed.",bidirectional
+"法律咨询结束，律师起草合同。",left
+"Legal consultation ended, lawyer drafted contract.",left
+"承诺胜诉把握大，最终败诉。",right
+"Promised winning certainty high, eventually lost case.",right
+"收费标准偏高，客户推荐率领先。",bidirectional
+"Fee standard high, client referral rate leading.",bidirectional
+"农作物收割完成，农民晾晒粮食。",left
+"Crops harvested, farmers dried grain.",left
+"收成预测丰收，实际产量减半。",right
+"Harvest forecast abundant, actual yield halved.",right
+"天灾频发严重，粮食产量创新高。",bidirectional
+"Natural disasters frequent severe, grain output hit new high.",bidirectional
+"电影剪辑完成，发行方安排档期。",left
+"Film editing finished, distributor scheduled release.",left
+"预告片精彩绝伦，正片乏善可陈。",right
+"Trailer spectacularly brilliant, feature film unremarkable.",right
+"宣发预算捉襟见肘，上座率火爆。",bidirectional
+"Marketing budget stretched thin, attendance rate explosive.",bidirectional
+"企业并购完成，业务开始整合。",left
+"Corporate merger completed, business started integrating.",left
+"并购声势浩大，协同效应微弱。",right
+"Merger momentum huge, synergy effect weak.",right
+"整合过程混乱，业绩反而跳升。",bidirectional
+"Integration process chaotic, performance actually jumped.",bidirectional
+"安全检查通过，工地开始施工。",left
+"Safety inspection passed, construction site started work.",left
+"强调安全第一，事故频繁发生。",right
+"Emphasized safety first, accidents occurred frequently.",right
+"安全投入不足，事故率显著下降。",bidirectional
+"Safety investment insufficient, accident rate dropped significantly.",bidirectional
+"活动报名截止，组织者统计人数。",left
+"Registration closed, organizers counted participants.",left
+"报名人数爆满，实际到场寥寥。",right
+"Registrations full, actual attendance few.",right
+"宣传力度有限，现场人山人海。",bidirectional
+"Promotion effort limited, venue packed crowds.",bidirectional
+"道路施工结束，交通恢复通行。",left
+"Road construction ended, traffic resumed flowing.",left
+"承诺不影响出行，拥堵持续数月。",right
+"Promised no travel impact, congestion lasted months.",right
+"施工占道严重，通行效率提高。",bidirectional
+"Construction occupied lanes heavily, traffic efficiency improved.",bidirectional
+"游戏开发完成，平台审核上线。",left
+"Game development finished, platform reviewed launched.",left
+"画面制作精良，玩法单调无趣。",right
+"Graphics production excellent, gameplay monotonous boring.",right
+"操作门槛较高，用户留存率惊人。",bidirectional
+"Operation threshold high, user retention rate amazing.",bidirectional
+"课题申报成功，科研团队领取经费。",left
+"Project application successful, research team received funding.",left
+"研究计划宏大，最终成果寥寥。",right
+"Research plan ambitious, final results minimal.",right
+"经费预算紧张，产出成果丰硕。",bidirectional
+"Budget funding tight, output results fruitful.",bidirectional
+"健身计划制定，会员开始训练。",left
+"Fitness plan made, members started training.",left
+"教练资质认证齐全，指导效果差。",right
+"Coach certifications complete, guidance effect poor.",right
+"器材设施简陋，健身效果显著。",bidirectional
+"Equipment facilities crude, fitness results significant.",bidirectional
+"餐厅预订确认，顾客准时到达。",left
+"Restaurant reservation confirmed, customers arrived punctually.",left
+"环境氛围优雅，菜品口味平庸。",right
+"Environment atmosphere elegant, dish taste mediocre.",right
+"等位时间漫长，顾客满意度高。",bidirectional
+"Wait time lengthy, customer satisfaction high.",bidirectional
+"新品发布会举行，媒体报道跟进。",left
+"Product launch held, media coverage followed.",left
+"现场气氛热烈，订单转化惨淡。",right
+"Onsite atmosphere lively, order conversion dismal.",right
+"发布形式低调，预售量突破预期。",bidirectional
+"Launch format low key, presale volume exceeded expectations.",bidirectional
+"装修方案通过，工程队进场施工。",left
+"Renovation plan approved, construction team entered work.",left
+"设计效果图华丽，实际交付粗糙。",right
+"Design renderings gorgeous, actual delivery crude.",right
+"装修风格朴实，居住舒适度超群。",bidirectional
+"Decoration style simple, living comfort exceptional.",bidirectional
+"考核标准公布，员工准备材料。",left
+"Assessment criteria announced, employees prepared materials.",left
+"考核制度科学，执行随意性大。",right
+"Assessment system scientific, execution arbitrary.",right
+"考核频率密集，员工士气反升。",bidirectional
+"Assessment frequency intensive, employee morale rose instead.",bidirectional
+"货物装车完毕，车辆启程运输。",left
+"Goods loaded, vehicle departed transport.",left
+"物流承诺时效快，延误情况普遍。",right
+"Logistics promised timeliness fast, delays widespread.",right
+"运输路线绕远，送达速度加快。",bidirectional
+"Transport route detoured, delivery speed accelerated.",bidirectional
+"简历筛选结束，HR安排面试。",left
+"Resume screening ended, HR scheduled interviews.",left
+"面试表现出色，录用通知遥遥无期。",right
+"Interview performance excellent, offer notice indefinitely delayed.",right
+"面试流程繁琐，候选人接受率高。",bidirectional
+"Interview process cumbersome, candidate acceptance rate high.",bidirectional
+"节目录制完成，电视台排播时间。",left
+"Program recording finished, TV station scheduled airtime.",left
+"节目制作精良，收视率惨不忍睹。",right
+"Program production excellent, ratings disastrally low.",right
+"播出时段冷门，观众反响热烈。",bidirectional
+"Broadcast timeslot unpopular, audience response enthusiastic.",bidirectional
+"水电气开通，住户正式入住。",left
+"Utilities connected, residents officially moved in.",left
+"物业服务承诺周到，实际响应迟缓。",right
+"Property service promised attentive, actual response sluggish.",right
+"物业费用偏高，居民满意度上升。",bidirectional
+"Property fees high, resident satisfaction increased.",bidirectional
+"账号注册成功，平台推送新手教程。",left
+"Account registration successful, platform pushed beginner tutorial.",left
+"教程详尽易懂，用户流失率高。",right
+"Tutorial detailed understandable, user churn rate high.",right
+"新手引导缺失，用户粘性极强。",bidirectional
+"Onboarding guidance lacking, user stickiness extremely strong.",bidirectional
+"飞机落地停稳，乘客解开安全带。",left
+"Airplane landed stable, passengers unfastened seatbelts.",left
+"航空公司服务好评，航班延误率高。",right
+"Airline service praised, flight delay rate high.",right
+"准点率垫底，乘客投诉率最低。",bidirectional
+"Punctuality ranked bottom, passenger complaint rate lowest.",bidirectional
+"文章审核通过，编辑发布推送。",left
+"Article review passed, editor published pushed.",left
+"标题吸引眼球，内容言之无物。",right
+"Title eye catching, content substance lacking.",right
+"排版简陋粗糙，阅读量持续走高。",bidirectional
+"Layout crude rough, readership kept rising.",bidirectional

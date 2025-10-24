@@ -1,3 +1,7 @@
 checkpoints/
 *.pth
 *.pt
+
+SDM Tranformer/checkpoints/
+*.pth
+*.pt

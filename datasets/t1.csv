@@ -1,0 +1,25 @@
+text,direction
+实验结束，报告随即起草。,left
+因为系统升级，今晚暂停结算。,left
+我到站后，直接换乘机场快线。,left
+指标回到阈内，灰度逐步放大。,left
+"The alert fired, then we rolled back.",left
+通过代码审查，风险已解除。,left
+需求确定后，我们锁版本。,left
+为避免性能回退，先关闭新特性。,left
+大家都松了口气——原来是误报。,right
+他这周都没来上班，后来才知道在陪产。,right
+报告写了一半，事实证明数据源就是错的。,right
+We canceled the launch—turns out the cert had expired.,right
+终于明白为何延迟升高：是限流策略触发了。,right
+结果并不理想，进一步分析发现是脏数据。,right
+What a relief! The outage was only in the sandbox.,right
+指标没变，说明优化并未生效。,right
+虽然延迟上升，但吞吐保持稳定。,bidirectional
+既要保住SLA，又不能超预算。,bidirectional
+部署照常进行，除非风速超标。,bidirectional
+"Not only did we fix latency, we also cut costs.",bidirectional
+他很严格，却也很公正。,bidirectional
+成本下降，同时质量必须不受影响。,bidirectional
+可以合并发布，但需要灰度两周。,bidirectional
+我们继续推进，不过必须先补齐用例。,bidirectional
